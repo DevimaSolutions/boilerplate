@@ -1,0 +1,89 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "node dist/main",
+    "dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "migration:create": "typeorm-ts-node-esm migration:create",
+    "migration:run": "typeorm-ts-node-esm migration:run -d ./src/data-source.ts",
+    "migration:revert": "typeorm-ts-node-esm migration:revert -d ./src/data-source.ts",
+    "migration:show": "typeorm-ts-node-esm migration:show -d ./src/data-source.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.2.7",
+    "@nestjs/config": "^3.1.1",
+    "@nestjs/core": "^10.2.7",
+    "@nestjs/platform-express": "^10.2.7",
+    "@nestjs/swagger": "^7.1.13",
+    "@nestjs/typeorm": "^10.0.0",
+    "aws-sdk": "^2.1473.0",
+    "cls-hooked": "^4.2.2",
+    "dotenv": "^16.3.1",
+    "lint-staged": "^15.0.1",
+    "pg": "^8.11.3",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^5.0.5",
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.17",
+    "typeorm-naming-strategies": "^4.1.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^8.0.0",
+    "@nestjs/schematics": "^8.0.0",
+    "@nestjs/testing": "^8.0.0",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/cls-hooked": "^4.3.6",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.0.1",
+    "@types/multer": "^1.4.8",
+    "@types/node": "^16.0.0",
+    "@types/supertest": "^2.0.11",
+    "eslint-config-custom": "*",
+    "jest": "^27.2.5",
+    "source-map-support": "^0.5.20",
+    "supertest": "^6.1.3",
+    "ts-jest": "^27.0.3",
+    "ts-loader": "^9.2.3",
+    "ts-node": "^10.0.0",
+    "tsconfig": "*",
+    "tsconfig-paths": "^3.10.1",
+    "typescript": "^5.2.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix"
+    ]
+  }
+}

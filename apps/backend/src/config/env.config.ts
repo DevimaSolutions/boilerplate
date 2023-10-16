@@ -1,0 +1,63 @@
+import { registerAs } from '@nestjs/config';
+
+const mapEnvValues = {
+  bool: (envValue: string) => envValue === 'true',
+  number: (envValue: string, defaultValue: number) => {
+    const value = Number(envValue);
+
+    return !envValue || Number.isNaN(value) ? defaultValue : value;
+  },
+  array: (envValue: string, delimiter = ',') => {
+    const values = envValue.split(delimiter).filter(Boolean);
+
+    return values;
+  },
+};
+
+const defaultDbPort = 5432;
+const defaultAppPort = 3001;
+const defaultMailhogPort = 1025;
+
+const envConfig = registerAs('env', () => ({
+  port: mapEnvValues.number(process.env.PORT || '', defaultAppPort),
+  appName: process.env.APP_NAME || '',
+  enableSwagger: mapEnvValues.bool(process.env.ENABLE_SWAGGER || ''),
+  frontendHostUrl: process.env.FRONTEND_HOST_URL || '',
+  allowedOrigins: mapEnvValues.array(process.env.ALLOWED_CORS_ORIGINS || ''),
+  database: {
+    host: process.env.DATABASE_HOST || '',
+    port: mapEnvValues.number(process.env.DATABASE_PORT || '', defaultDbPort),
+    username: process.env.DATABASE_USERNAME || '',
+    password: process.env.DATABASE_PASSWORD || '',
+    database: process.env.DATABASE_DATABASE || '',
+  },
+  auth: {
+    jwtSecret: process.env.JWT_SECRET || '',
+    authTokenDuration: process.env.AUTH_TOKEN_EXPIRATION || '',
+    jwtRefreshSecret: process.env.JWT_REFRESH_SECRET || '',
+    refreshTokenDuration: process.env.REFRESH_TOKEN_EXPIRATION || '',
+    otpJwtSecret: process.env.OTP_JWT_SECRET || '',
+    otpTokenDuration: process.env.OTP_TOKEN_EXPIRATION || '',
+  },
+  aws: {
+    bucketName: process.env.AWS_BUCKET_NAME || '',
+    region: process.env.AWS_REGION || '',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+    cdnDomain: process.env.NEXT_PUBLIC_AWS_CDN_DOMAIN || '',
+  },
+  mailhog: {
+    host: process.env.MAILHOG_HOST || '',
+    port: mapEnvValues.number(process.env.MAILHOG_PORT || '', defaultMailhogPort),
+  },
+  brevo: {
+    host: process.env.BREVO_HOST || '',
+    apiKey: process.env.BREVO_API_KEY || '',
+  },
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID || '',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+  },
+}));
+
+export default envConfig;
