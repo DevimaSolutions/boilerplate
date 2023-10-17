@@ -33,7 +33,7 @@ export const setEntityManager = (
 export const getHookInContext = (
   context: Namespace<TransactionalContext> | undefined,
 ): EventEmitter | null => {
-  return context.get(TYPE_ORM_HOOK_KEY);
+  return context?.get(TYPE_ORM_HOOK_KEY) ?? null;
 };
 
 export const setHookInContext = (
@@ -50,11 +50,11 @@ export const getEntityManager = (
 };
 
 export const getEntityManagerOrTransactionManager = (
-  entityManager: EntityManager,
-): EntityManager => {
+  entityManager: EntityManager | undefined,
+): EntityManager | undefined => {
   const context = getNamespace<TransactionalContext>(NAMESPACE_NAME);
 
-  if (context.active) {
+  if (context?.active) {
     // return entityManager from transaction context if this context exist
     // otherwise return default entity manager
     return getEntityManager(context) || entityManager;

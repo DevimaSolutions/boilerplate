@@ -5,7 +5,9 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "deploy": "turbo run deploy",
+    "docker:local": "turbo run docker:local"
   },
   "devDependencies": {
     "eslint": "^8.51.0",

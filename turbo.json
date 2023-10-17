@@ -8,11 +8,24 @@
     },
     "lint": {},
     "test": {
-      "dependsOn": ["^test"]
+      "dependsOn": ["^test"],
+      "inputs": [
+        "src/**/*.spec.tsx",
+        "src/**/*.test.tsx",
+        "src/**/*.spec.ts",
+        "test/**/*.ts",
+        "test/**/*.json"
+      ]
     },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "deploy": {
+      "dependsOn": ["build", "test"]
+    },
+    "docker:local": {
+      "cache": false
     }
   }
 }

@@ -1,6 +1,6 @@
-const { resolve } = require("node:path");
+const { resolve } = require('node:path');
 
-const project = resolve(process.cwd(), "tsconfig.json");
+const project = resolve(process.cwd(), 'tsconfig.json');
 
 /*
  * This is a base ESLint configuration.
@@ -13,76 +13,68 @@ const project = resolve(process.cwd(), "tsconfig.json");
 
 module.exports = {
   extends: [
-    "prettier",
-    "plugin:prettier/recommended",
-    "plugin:import/recommended",
-    "plugin:import/typescript",
+    'prettier',
+    'plugin:prettier/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
   ],
   parserOptions: {
     project,
   },
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       typescript: {
         project,
       },
     },
   },
-  ignorePatterns: ["node_modules/"],
+  ignorePatterns: ['node_modules/'],
   rules: {
-    "no-restricted-syntax": [
-      "error",
+    'no-console': ["warn", { allow: ["warn", "error"] }],
+    'no-restricted-syntax': [
+      'error',
       {
-        "selector": "TSEnumDeclaration:not([const=true])",
-        "message": "Don't declare non-const enums"
-      }
+        selector: 'TSEnumDeclaration:not([const=true])',
+        message: "Don't declare non-const enums",
+      },
     ],
-    "prettier/prettier": [
-      "error",
+    'prettier/prettier': [
+      'error',
       {
-        endOfLine: "auto",
+        endOfLine: 'auto',
         semi: true,
       },
     ],
-    "import/no-unresolved": "error",
-    "import/named": "error",
-    "import/namespace": "error",
-    "import/default": "error",
-    "import/export": "error",
-    "import/order": [
+    'import/no-unresolved': 'error',
+    'import/named': 'error',
+    'import/namespace': 'error',
+    'import/default': 'error',
+    'import/export': 'error',
+    'import/order': [
       1,
       {
-        groups: [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index",
-          "object",
-          "type",
-        ],
-        "newlines-between": "always",
+        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type'],
+        'newlines-between': 'always',
         alphabetize: {
-          order: "asc",
+          order: 'asc',
           caseInsensitive: true,
         },
         pathGroups: [
           {
-            pattern: "@/**",
-            group: "external",
-            position: "after",
+            pattern: '@/**',
+            group: 'external',
+            position: 'after',
           },
         ],
         pathGroupsExcludedImportTypes: [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index",
-          "object",
-          "type",
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index',
+          'object',
+          'type',
         ],
       },
     ],

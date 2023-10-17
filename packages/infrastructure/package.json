@@ -1,0 +1,17 @@
+{
+  "name": "infrastructure",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "frontend": "*",
+    "backend": "*"
+  },
+  "scripts": {
+    "deploy": "echo 'This command will execute ansible playbook'",
+    "docker:local": "docker compose --file docker-compose.dev.local.yml --env-file ../../apps/backend/.env -p \"postgres-mailhog-local\" up --build -d"
+  }
+}

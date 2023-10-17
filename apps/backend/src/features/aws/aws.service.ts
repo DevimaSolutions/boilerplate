@@ -1,15 +1,11 @@
+import { S3 } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
 import { Inject, Injectable } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import { S3 } from 'aws-sdk';
 
 import envConfig from '../../config/env.config';
 
-import type {
-  ManagedUpload,
-  PutObjectRequest,
-  DeleteObjectRequest,
-  DeleteObjectOutput,
-} from 'aws-sdk/clients/s3';
+import type { PutObjectCommandInput, DeleteObjectCommandInput } from '@aws-sdk/client-s3';
+import type { ConfigType } from '@nestjs/config';
 
 @Injectable()
 export class AwsService {
@@ -22,33 +18,25 @@ export class AwsService {
     this.s3 = new S3({ apiVersion: '2006-03-01' });
   }
 
-  private uploadToS3 = (params: PutObjectRequest) => {
-    return new Promise<string>((resolve, reject) => {
-      this.s3.upload(params, (err: Error | null, data: ManagedUpload.SendData) => {
-        if (err) {
-          reject(err);
-        }
-
-        resolve(data.Location);
-      });
+  private uploadToS3 = async (params: PutObjectCommandInput) => {
+    const uploadAction = new Upload({
+      client: this.s3,
+      params,
     });
+    await uploadAction.done();
+
+    const uploadLocation = `https://${params.Bucket}.s3${this.config.aws.region}.amazonaws.com/${params.Key}`;
+    return uploadLocation;
   };
 
   private removeFile = async (key: string) => {
-    const requestParams: DeleteObjectRequest = {
+    const requestParams: DeleteObjectCommandInput = {
       Bucket: this.config.aws.bucketName,
       Key: key,
     };
 
-    return new Promise<boolean>((resolve, reject) => {
-      this.s3.deleteObject(requestParams, (err: Error | null, data: DeleteObjectOutput) => {
-        if (err) {
-          reject(err);
-        }
-
-        resolve(data.DeleteMarker ? data.DeleteMarker : false);
-      });
-    });
+    const data = await this.s3.deleteObject(requestParams);
+    return data.DeleteMarker ?? false;
   };
 
   private getFileName(file: Express.Multer.File) {

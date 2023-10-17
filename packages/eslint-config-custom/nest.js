@@ -1,6 +1,6 @@
-const { resolve } = require("node:path");
+const { resolve } = require('node:path');
 
-const project = resolve(process.cwd(), "tsconfig.json");
+const project = resolve(process.cwd(), 'tsconfig.json');
 
 /*
  * This is a custom ESLint configuration for use with
@@ -13,9 +13,9 @@ const project = resolve(process.cwd(), "tsconfig.json");
 
 module.exports = {
   extends: [
-    require.resolve("@vercel/style-guide/eslint/node"),
-    require.resolve("@vercel/style-guide/eslint/typescript"),
-    "custom/base",
+    require.resolve('@vercel/style-guide/eslint/node'),
+    require.resolve('@vercel/style-guide/eslint/typescript'),
+    'custom/base',
   ],
   parserOptions: {
     project,
@@ -26,16 +26,18 @@ module.exports = {
     jest: true,
   },
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       typescript: {
         project,
       },
     },
   },
   rules: {
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "import/no-default-export": "off",
-    "@typescript-eslint/no-extraneous-class": "off"
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    'import/no-default-export': 'off',
+    '@typescript-eslint/no-extraneous-class': 'off',
+    'import/no-cycle': ['error', { ignoreExternal: true }],
+    '@typescript-eslint/consistent-type-imports': 'off',
   },
-  ignorePatterns: ["node_modules/", "dist/"],
+  ignorePatterns: ['node_modules/', 'dist/'],
 };

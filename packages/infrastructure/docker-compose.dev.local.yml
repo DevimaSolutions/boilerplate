@@ -1,0 +1,23 @@
+version: '3'
+services:
+  postgres:
+    container_name: 'postgres-local'
+    image: postgres:16-alpine
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - ${DATABASE_PORT}:5432
+
+  mailhog:
+    container_name: 'mailhog-local'
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
+
+volumes:
+  postgres:

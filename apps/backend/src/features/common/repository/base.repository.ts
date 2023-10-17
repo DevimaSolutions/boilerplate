@@ -16,7 +16,10 @@ import type { TransactionalContext } from './transaction.util';
 import type { DataSource, EntityManager, EntityTarget, ObjectLiteral } from 'typeorm';
 
 export class BaseRepository<Entity extends ObjectLiteral> extends Repository<Entity> {
-  constructor(target: EntityTarget<Entity>, protected dataSource: DataSource) {
+  constructor(
+    target: EntityTarget<Entity>,
+    protected dataSource: DataSource,
+  ) {
     super(target, dataSource.createEntityManager());
   }
 
@@ -37,10 +40,10 @@ export class BaseRepository<Entity extends ObjectLiteral> extends Repository<Ent
       );
     }
 
-    const propagation = options.propagation ?? Propagation.Required;
+    const propagation = options?.propagation ?? Propagation.Required;
     // Use default isolation level provided by DB if not specified
-    const isolationLevel = options.isolationLevel;
-    const isCurrentTransactionActive = this.queryRunner.isTransactionActive;
+    const isolationLevel = options?.isolationLevel;
+    const isCurrentTransactionActive = this.queryRunner?.isTransactionActive;
 
     const operationId = String(new Date().getTime());
     const logger = this.dataSource.logger;
@@ -59,7 +62,7 @@ export class BaseRepository<Entity extends ObjectLiteral> extends Repository<Ent
     const runWithNewTransaction = async () => {
       const transactionCallback = async (entityManager: EntityManager) => {
         log(
-          `runWithNewTransaction - set entityManager in context: isCurrentTransactionActive: ${entityManager.queryRunner.isTransactionActive}`,
+          `runWithNewTransaction - set entityManager in context: isCurrentTransactionActive: ${entityManager.queryRunner?.isTransactionActive}`,
         );
         setEntityManager(context, entityManager);
         try {

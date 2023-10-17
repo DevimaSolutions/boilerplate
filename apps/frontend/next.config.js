@@ -1,5 +1,5 @@
 module.exports = {
   reactStrictMode: true,
   // TODO
-  // transpilePackages: ["dto"],
+  // transpilePackages: ["api-client"],
 };
