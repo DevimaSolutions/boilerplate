@@ -21,7 +21,8 @@
     "migration:create": "typeorm-ts-node-esm migration:create",
     "migration:run": "typeorm-ts-node-esm migration:run -d ./src/data-source.ts",
     "migration:revert": "typeorm-ts-node-esm migration:revert -d ./src/data-source.ts",
-    "migration:show": "typeorm-ts-node-esm migration:show -d ./src/data-source.ts"
+    "migration:show": "typeorm-ts-node-esm migration:show -d ./src/data-source.ts",
+    "gen:api-client": "echo 'Swagger gen will be used to generate api-client package'"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.429.0",
@@ -35,7 +36,6 @@
     "class-transformer": "^0.5.1",
     "cls-hooked": "^4.2.2",
     "dotenv": "^16.3.1",
-    "lint-staged": "^15.0.1",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^5.0.5",
@@ -91,8 +91,7 @@
     "testEnvironment": "node"
   },
   "lint-staged": {
-    "*.ts": [
-      "eslint --fix"
-    ]
+    "*.(js|ts|tsx)": "eslint --fix",
+    "*.(md|json)": "prettier --write"
   }
 }

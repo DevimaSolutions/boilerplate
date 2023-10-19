@@ -6,11 +6,20 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "setup:husky": "yarn setup:husky:nvm && rimraf .husky/pre-commit .husky/commit-msg && husky install && husky add .husky/pre-commit 'yarn pre-commit' && npx husky add .husky/commit-msg 'npm run commitlint ${1}'",
+    "setup:husky:nvm": "cp ./.husky/.huskyrc ~/.huskyrc",
     "deploy": "turbo run deploy",
-    "docker:local": "turbo run docker:local"
+    "docker:local": "turbo run docker:local",
+    "gen:api-client": "turbo run gen:api-client",
+    "pre-commit": "yarn gen:api-client && lint-staged",
+    "commitlint": "commitlint --edit"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.8.0",
+    "@commitlint/config-conventional": "^17.8.0",
     "eslint": "^8.51.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.1",
     "prettier": "^3.0.3",
     "tsconfig": "*",
     "turbo": "latest"
@@ -24,5 +33,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "lint-staged": {
+    "*.(md|json)": "prettier --write"
+  }
 }

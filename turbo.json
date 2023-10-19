@@ -26,6 +26,9 @@
     },
     "docker:local": {
       "cache": false
+    },
+    "gen:api-client": {
+      "dependsOn": ["backend#build", "backend#build"]
     }
   }
 }

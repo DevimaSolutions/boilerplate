@@ -21,5 +21,9 @@
     "eslint-config-custom": "*",
     "tsconfig": "*",
     "typescript": "5.1.6"
+  },
+  "lint-staged": {
+    "*.(js|ts|tsx)": "eslint --fix",
+    "*.(md|json|css)": "prettier --write"
   }
 }

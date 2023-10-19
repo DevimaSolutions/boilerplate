@@ -30,7 +30,7 @@ module.exports = {
   },
   ignorePatterns: ['node_modules/'],
   rules: {
-    'no-console': ["warn", { allow: ["warn", "error"] }],
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-restricted-syntax': [
       'error',
       {

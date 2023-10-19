@@ -3,15 +3,8 @@
 ## TODO:
 
 - Add cooke based auth
-- Add `commitlint`
 - Add swagger ts codegen to generate `api-client` package
 - Add documentation to `api-client` package
-
-- Add husky hook to `lint` backend before commit
-- Add husky hook to `build` backend before commit
-- Add husky hook to generate `api-client` before commit
-- Add husky hook to `lint` frontend before commit
-- Add husky hook to `tsc --noEmit` frontend before commit
 
 - Add readme for transactions usage
 - Add PM2 to both frontend and backend production deployment flows
@@ -23,6 +16,7 @@
 - Pricing (Ansible is open-source and free, Terraform Cloud has up tp 5000 resource/hours/month and up to 5 users)
 - Using this deployment approach we'll probably abandon the use of Vercel
 
+- Note that NVM is required to be installed
 - Finish this `readme`
 
 - Add generator script to allow initiate project from boilerplate with selected features included

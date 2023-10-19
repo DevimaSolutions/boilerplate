@@ -13,5 +13,8 @@
   "scripts": {
     "deploy": "echo 'This command will execute ansible playbook'",
     "docker:local": "docker compose --file docker-compose.dev.local.yml --env-file ../../apps/backend/.env -p \"postgres-mailhog-local\" up --build -d"
+  },
+  "lint-staged": {
+    "*.(md|json|yml)": "prettier --write"
   }
 }
