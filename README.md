@@ -15,11 +15,18 @@
 - Add command to deploy main or staging branches using Ansible form local machine
 - Pricing (Ansible is open-source and free, Terraform Cloud has up tp 5000 resource/hours/month and up to 5 users)
 - Using this deployment approach we'll probably abandon the use of Vercel
-
+- add logging
 - Note that NVM is required to be installed
 - Finish this `readme`
+- Add rate limiting to public endpoints (100 req/session/10 min interval)
 
 - Add generator script to allow initiate project from boilerplate with selected features included
+- Add option to use DB logger in production https://docs.nestjs.com/techniques/logger
+- Add DevOps panel to manage
+  - running jobs/queues
+  - see logs
+  - complex health checks https://docs.nestjs.com/recipes/terminus
+  - Set env variables
 
 ## What's inside?
 

@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 
-import { createMockedServiceProvider } from '../../test/mocks/service.mock';
+import { createMockedServiceProvider, mockFactory } from '../../test/mocks';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -15,7 +15,9 @@ describe('AppController', () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
       providers: [createMockedServiceProvider(AppService)],
-    }).compile();
+    })
+      .useMocker(mockFactory)
+      .compile();
 
     appController = app.get<AppController>(AppController);
     appService = app.get<AppService>(AppService);

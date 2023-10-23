@@ -1,7 +1,6 @@
-import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 
-import envConfig from '../../config/env.config';
+import { mockFactory } from '../../../test/mocks';
 
 import { AwsService } from './aws.service';
 
@@ -12,15 +11,10 @@ describe('AwsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          load: [envConfig],
-          cache: true,
-          isGlobal: true,
-        }),
-      ],
       providers: [AwsService],
-    }).compile();
+    })
+      .useMocker(mockFactory)
+      .compile();
 
     service = module.get<AwsService>(AwsService);
   });
