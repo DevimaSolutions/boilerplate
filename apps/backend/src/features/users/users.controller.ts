@@ -1,14 +1,13 @@
 import { Body, Controller, Get, Param, Patch, Req } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 
-// import { JoiValidationPipe } from 'src/pipes';
-
 import { Authorized, UserRole } from '../auth';
 import { RequestWithUser } from '../auth/interfaces';
+import { ZodValidationPipe } from '../common/pipes';
 
 import { UpdateUserDto } from './dto';
 import { UsersService } from './users.service';
-// import { updateUserSchema } from './validations';
+import { updateUserSchema } from './validations';
 
 @ApiTags('Users')
 @Controller('users')
@@ -26,8 +25,7 @@ export class UsersController {
   @Authorized(UserRole.User)
   update(
     @Req() req: RequestWithUser,
-    // @Body(new JoiValidationPipe(updateUserSchema)) updateUserDto: UpdateUserDto,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body(new ZodValidationPipe(updateUserSchema)) updateUserDto: UpdateUserDto,
   ) {
     return this.usersService.update(req.user.id, updateUserDto);
   }

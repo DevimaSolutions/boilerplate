@@ -31,6 +31,9 @@ module.exports = {
         project,
       },
     },
+    // need to exclude parent node modules from import/named rule
+    // https://github.com/import-js/eslint-plugin-import/blob/v2.28.1/docs/rules/named.md#settings
+    'import/ignore': ['node_modules', '../../node_modules'],
   },
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',

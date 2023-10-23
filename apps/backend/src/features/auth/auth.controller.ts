@@ -11,9 +11,6 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-// TODO: add ZodValidationPipe
-// import { JoiValidationPipe } from 'src/pipes';
-
 import { ZodValidationPipe } from '../common/pipes';
 
 import { Authorized } from './decorators';
@@ -21,8 +18,7 @@ import { ForgotPasswordDto, RefreshTokenDto, ResetPasswordDto, SignInDto, SignUp
 import { LocalAuthGuard } from './guards';
 import { RequestWithUser } from './interfaces';
 import { AuthService } from './services';
-import { signUpSchema } from './validations';
-// import { forgotPasswordSchema, resetPasswordSchema, signUpSchema } from './validations';
+import { signUpSchema, forgotPasswordSchema, resetPasswordSchema } from './validations';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -62,16 +58,14 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('forgot-password')
   async forgotPassword(
-    // @Body(new JoiValidationPipe(forgotPasswordSchema)) passwordForgotDto: ForgotPasswordDto,
-    @Body() passwordForgotDto: ForgotPasswordDto,
+    @Body(new ZodValidationPipe(forgotPasswordSchema)) passwordForgotDto: ForgotPasswordDto,
   ) {
     return this.authService.sendForgotEmail(passwordForgotDto.email);
   }
 
   @Put('reset-password')
   async resetPassword(
-    // @Body(new JoiValidationPipe(resetPasswordSchema)) { token, password }: ResetPasswordDto,
-    @Body() { token, password }: ResetPasswordDto,
+    @Body(new ZodValidationPipe(resetPasswordSchema)) { token, password }: ResetPasswordDto,
   ) {
     return this.authService.resetPassword(token, password);
   }
