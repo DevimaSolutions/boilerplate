@@ -1,4 +1,4 @@
-const backendProxyPath = process.env.BACKEND_PROXY_PATH;
+const backendProxyPath = process.env.NEXT_PUBLIC_BACKEND_PROXY_PATH;
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 const backendProxyRewrites = backendProxyPath
   ? [
@@ -8,13 +8,25 @@ const backendProxyRewrites = backendProxyPath
       },
     ]
   : [];
+const backendProxyHeaders = backendProxyPath
+  ? [
+      {
+        source: `${backendProxyPath}/:path*`,
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store',
+          },
+        ],
+      },
+    ]
+  : [];
 
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-  async rewrites() {
-    return [...backendProxyRewrites];
-  },
+  rewrites: async () => [...backendProxyRewrites],
+  headers: () => [...backendProxyHeaders],
   // TODO
   // transpilePackages: ["api-client"],
 };

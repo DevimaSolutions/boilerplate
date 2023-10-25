@@ -40,5 +40,15 @@ module.exports = {
   rules: {
     'import/no-default-export': 'off',
     'turbo/no-undeclared-env-vars': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    'unicorn/filename-case': [
+      'error',
+      {
+        case: 'kebabCase',
+        // react components should be in PascalCase
+        // and react hooks should be in camelCase
+        ignore: ['^use.+\\.ts$', '^.+\\.tsx$'],
+      },
+    ],
   },
 };
