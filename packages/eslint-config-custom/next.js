@@ -41,6 +41,7 @@ module.exports = {
     'import/no-default-export': 'off',
     'turbo/no-undeclared-env-vars': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-misused-promises': 'off',
     'unicorn/filename-case': [
       'error',
       {

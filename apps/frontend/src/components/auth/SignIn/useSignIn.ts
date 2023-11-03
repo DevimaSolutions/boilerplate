@@ -1,31 +1,30 @@
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+
 import type { SignInFormValues } from '../SignInForm';
+import type { FormikHelpers } from 'formik';
 
 export const useSignIn = () => {
-  const onSubmit = (values: SignInFormValues) => {
-    console.log({ values });
-    return Promise.resolve();
+  const router = useRouter();
 
-    // try {
-    //   await authManager.signIn(values);
-    // } catch (error: unknown) {
-    //   if (isAxiosError(error)) {
-    //     const data = error.response?.data as
-    //       | Partial<FormErrorResponse<SignInFormValues>>
-    //       | undefined;
-    //     setErrors({
-    //       email: ' ',
-    //       password: data?.message,
-    //       ...data?.errors,
-    //     });
-    //     return;
-    //   }
-    //   if (error instanceof Error) {
-    //     setErrors({
-    //       password: error.message,
-    //     });
-    //   }
-    //   console.error(error);
-    // }
+  const onSubmit = async (
+    values: SignInFormValues,
+    { setErrors }: FormikHelpers<SignInFormValues>,
+  ) => {
+    // Call NextAuth api route
+    const response = await signIn('credentials', {
+      ...values,
+      redirect: false,
+    });
+    if (!response?.ok) {
+      setErrors({
+        email: ' ',
+        password:
+          'We couldn`t find an account matching the username and password you entered. Please check your username and password and try again',
+      });
+    }
+    // TODO: get redirect url from query
+    router.refresh();
   };
   return { onSubmit };
 };

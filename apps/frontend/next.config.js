@@ -1,12 +1,16 @@
 const backendProxyPath = process.env.NEXT_PUBLIC_BACKEND_PROXY_PATH;
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 const backendProxyRewrites = backendProxyPath
-  ? [
-      {
-        source: `${backendProxyPath}/:path*`,
-        destination: `${backendUrl}/:path*`,
-      },
-    ]
+  ? {
+      // Apply reverse proxy after all dynamic routes are checked
+      // including `/api/auth/[...nextauth]`
+      fallback: [
+        {
+          source: `${backendProxyPath}/:path*`,
+          destination: `${backendUrl}/:path*`,
+        },
+      ],
+    }
   : [];
 const backendProxyHeaders = backendProxyPath
   ? [
@@ -25,8 +29,9 @@ const backendProxyHeaders = backendProxyPath
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-  rewrites: async () => [...backendProxyRewrites],
-  headers: () => [...backendProxyHeaders],
+  poweredByHeader: false,
+  rewrites: async () => backendProxyRewrites,
+  headers: () => backendProxyHeaders,
   // TODO
   // transpilePackages: ["api-client"],
 };

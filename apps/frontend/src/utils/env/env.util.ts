@@ -26,7 +26,10 @@ const mapEnv = () => {
     appName: process.env.NEXT_PUBLIC_APP_NAME || '',
     // use proxy path if set otherwise use absolute backend url
     backendUrl:
-      process.env.NEXT_PUBLIC_BACKEND_PROXY_PATH || process.env.NEXT_PUBLIC_BACKEND_URL || '',
+      (process.env.NEXT_PUBLIC_BACKEND_PROXY_PATH
+        ? process.env.NEXT_PUBLIC_FRONTEND_URL + process.env.NEXT_PUBLIC_BACKEND_PROXY_PATH
+        : process.env.NEXT_PUBLIC_BACKEND_URL) || '',
+    frontendUrl: process.env.NEXT_PUBLIC_FRONTEND_URL || '',
   };
 
   return Object.freeze(parsed);

@@ -1,29 +1,31 @@
 import {
   BadRequestException,
   ForbiddenException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { ConfigType } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { decode } from 'next-auth/jwt';
 
+import envConfig from '../../../config/env.config';
 import { MailingService } from '../../mailing';
 import { User } from '../../users/entities';
 import { UsersService } from '../../users/users.service';
-import { JwtTokens, SignUpDto } from '../dto';
+import { SignUpDto } from '../dto';
 import { UserRole } from '../enums';
-import { IJwtSub, JwtPayload } from '../interfaces';
+import { IJwtSub } from '../interfaces';
 
 import { JwtOtpService } from './jwt-otp.service';
-import { JwtRefreshService } from './jwt-refresh.service';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @Inject(envConfig.KEY)
+    private config: ConfigType<typeof envConfig>,
     private usersService: UsersService,
-    private jwtService: JwtService,
     private jwtOtpService: JwtOtpService,
-    private jwtRefreshService: JwtRefreshService,
     private mailingService: MailingService,
   ) {}
 
@@ -49,29 +51,19 @@ export class AuthService {
     }
   }
 
-  async validateUserPayload(payload: JwtPayload): Promise<User | null> {
+  async validateUserPayload(token: string | undefined): Promise<User | null> {
     try {
+      const payload = await decode({ token, secret: this.config.auth.jwtSecret });
+      if (!payload?.sub) {
+        return null;
+      }
+
       const user = await this.usersService.findOne(payload.sub);
       return user;
     } catch (e) {
-      if (e instanceof NotFoundException) {
-        // User was not found
-        return null;
-      }
-      throw e;
+      // User was not found
+      return null;
     }
-  }
-
-  async createJwtTokenPair(user: User): Promise<JwtTokens> {
-    const payload: JwtPayload = { email: user.email, sub: user.id, role: user.role };
-    return {
-      accessToken: await this.jwtService.signAsync(payload),
-      refreshToken: await this.jwtRefreshService.signAsync({ sub: user.id.toString() }),
-    };
-  }
-
-  async signIn(user: User) {
-    return this.createJwtTokenPair(user);
   }
 
   async createOtpToken(email: string): Promise<string> {
@@ -89,16 +81,6 @@ export class AuthService {
     }
   }
 
-  async refreshAccessToken(refreshToken: string) {
-    try {
-      const { sub } = await this.jwtRefreshService.verifyAsync<IJwtSub>(refreshToken);
-      const user = await this.usersService.findOne(sub);
-      return this.createJwtTokenPair(user);
-    } catch {
-      throw new BadRequestException();
-    }
-  }
-
   async signUp({ email, password }: SignUpDto) {
     const user = await this.usersService.create({
       email,
@@ -108,7 +90,7 @@ export class AuthService {
 
     await this.mailingService.sendWelcomeEmail(user.email, { username: user.email });
 
-    return this.createJwtTokenPair(user);
+    return user;
   }
 
   async sendForgotEmail(email: string) {

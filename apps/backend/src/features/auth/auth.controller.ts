@@ -9,19 +9,21 @@ import {
   Get,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
 import { ZodValidationPipe } from '../common/pipes';
 
 import { Authorized } from './decorators';
-import { ForgotPasswordDto, RefreshTokenDto, ResetPasswordDto, SignInDto, SignUpDto } from './dto';
+import { ForgotPasswordDto, ResetPasswordDto, SignInDto, SignUpDto } from './dto';
 import { LocalAuthGuard } from './guards';
 import { RequestWithUser } from './interfaces';
 import { AuthService } from './services';
 import { signUpSchema, forgotPasswordSchema, resetPasswordSchema } from './validations';
 
+// Authorization is handled by NextAuth package in a frontend application
+// This controller is used only as a proxy to access database securely
 @ApiTags('Auth')
-@Controller('auth')
+@Controller('authorization')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
@@ -30,17 +32,8 @@ export class AuthController {
   @Post('sign-in')
   // _signInDto parameter is declared here to allow Swagger plugin
   // parse endpoint body signature
-  async signIn(@Req() req: RequestWithUser, @Body() _signInDto: SignInDto) {
-    return this.authService.signIn(req.user);
-  }
-
-  @ApiOperation({
-    description: 'Generates new auth token pair using valid refresh token',
-  })
-  @HttpCode(HttpStatus.OK)
-  @Post('refresh')
-  async refreshAccessToken(@Body() refreshTokenDto: RefreshTokenDto) {
-    return this.authService.refreshAccessToken(refreshTokenDto.refreshToken);
+  signIn(@Req() req: RequestWithUser, @Body() _signInDto: SignInDto) {
+    return req.user;
   }
 
   @HttpCode(HttpStatus.OK)

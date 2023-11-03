@@ -1,2 +1,2 @@
-export * from './jwt.strategy';
+export * from './cookie.strategy';
 export * from './local.strategy';

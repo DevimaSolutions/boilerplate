@@ -1,27 +1,26 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Strategy } from 'passport-cookie';
 
 import envConfig from '../../../config/env.config';
-import { JwtPayload } from '../interfaces';
 import { AuthService } from '../services';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class CookieStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(envConfig.KEY)
-    private config: ConfigType<typeof envConfig>,
+    config: ConfigType<typeof envConfig>,
     private authService: AuthService,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: config.auth.jwtSecret,
+      cookieName: 'next-auth.session-token',
+      signed: config.frontendHostUrl.startsWith('https'),
     });
   }
 
-  async validate(payload: JwtPayload) {
-    const user = await this.authService.validateUserPayload(payload);
+  async validate(token: string | undefined) {
+    const user = await this.authService.validateUserPayload(token);
     if (!user) {
       throw new UnauthorizedException();
     }

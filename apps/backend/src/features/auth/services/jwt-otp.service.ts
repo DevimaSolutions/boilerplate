@@ -8,7 +8,7 @@ import envConfig from '../../../config/env.config';
 export class JwtOtpService extends JwtService {
   constructor(
     @Inject(envConfig.KEY)
-    private config: ConfigType<typeof envConfig>,
+    config: ConfigType<typeof envConfig>,
   ) {
     super({
       secret: config.auth.otpJwtSecret,
