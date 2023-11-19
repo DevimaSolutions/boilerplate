@@ -25,7 +25,7 @@
   - yarn workspaces
   - turborepo basics
   - unit testing
-  - git hooks
+  - git hooks (commit lint, eslint)
   - automatic transaction context
   - migrations
   - deployment workflow/pm2
