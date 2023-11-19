@@ -18,5 +18,5 @@ module.exports = {
   reactStrictMode: true,
   poweredByHeader: false,
   rewrites: async () => backendProxyRewrites,
-  // transpilePackages: ['api-client'],
+  transpilePackages: ['api-client'],
 };

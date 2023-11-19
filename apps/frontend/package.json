@@ -9,6 +9,7 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
+    "api-client": "*",
     "formik": "^2.4.5",
     "next": "^13.4.19",
     "next-auth": "^4.24.4",
