@@ -11,6 +11,9 @@
 - Add documentation to `api-client` package
 - update NestJS/swagger to exclude controller names from api endpoint name generation (eg. appControllerGetHealthCheck => getHealthCheck)
 
+- Add error response definition to swagger so api-clinet can handle errors
+- Add index file to `api-client` that instantiate all services and reexport data contracts
+
 - Add readme for transactions usage
 - Add PM2 to both frontend and backend production deployment flows
 - Make is so that the source code is not copied to the production server (build happens locally or in Github action)

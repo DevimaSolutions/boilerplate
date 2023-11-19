@@ -1,9 +1,9 @@
-import { UserRoleValues } from '../enums';
+import { UserRole } from '../enums';
 
 export interface JwtPayload {
   email: string;
   sub: string;
-  role: UserRoleValues;
+  role: UserRole;
 }
 
 export type IJwtSub = Pick<JwtPayload, 'sub'>;

@@ -1,0 +1,17 @@
+<%
+const { routes, utils } = it;
+const { _ } = utils;
+%>
+
+<% if (routes.combined) { %>
+  <% for (const { moduleName } of routes.combined) { %>
+    import { <%~ _.upperFirst(_.camelCase(moduleName)) %> } from './<%~ _.upperFirst(_.camelCase(moduleName)) %>';
+  <% } %>
+
+  <% for (const { moduleName } of routes.combined) { %>
+  export const <%~ _.camelCase(moduleName) %>Api = new <%~ _.upperFirst(_.camelCase(moduleName)) %>();
+  <% } %>
+<% } %>
+
+export * from './data-contracts'
+export * from './http-client'

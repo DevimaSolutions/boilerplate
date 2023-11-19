@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -10,12 +12,15 @@
     "backend": "*"
   },
   "scripts": {
-    "gen:api-client": "rm -rf ./src && openapi-generator-cli generate -i ./swagger-spec.json -g typescript-fetch -o ./src"
+    "gen:api-client:modules": "swagger-typescript-api -p ./swagger-spec.json -o ./src -t ./templates/modular --union-enums --modular --clean-output",
+    "gen:api-client:entry": "swagger-typescript-api -p ./swagger-spec.json -n index.ts -o ./src -t ./templates/default --union-enums",
+    "gen:api-client": "yarn gen:api-client:modules && yarn gen:api-client:entry"
   },
   "lint-staged": {
     "*.(md|json|yml)": "prettier --write"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.7.0"
+    "@openapitools/openapi-generator-cli": "^2.7.0",
+    "swagger-typescript-api": "^13.0.3"
   }
 }

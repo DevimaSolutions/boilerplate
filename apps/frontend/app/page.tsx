@@ -20,7 +20,7 @@ export default async function HomePage() {
         <Link href="/sign-in">Sign In</Link>
       )}
       <div>
-        User:
+        User {user?.role === 'admin' && '(ADMIN)'}:
         <br />
         <code>{JSON.stringify(user, null, 2)}</code>
       </div>
