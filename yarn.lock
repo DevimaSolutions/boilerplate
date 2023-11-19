@@ -8929,7 +8929,7 @@ turbo-windows-arm64@1.10.15:
   resolved "https://registry.yarnpkg.com/turbo-windows-arm64/-/turbo-windows-arm64-1.10.15.tgz#c7b0cf8732b02914b415577593afeda4155219fb"
   integrity sha512-l+7UOBCbfadvPMYsX08hyLD+UIoAkg6ojfH+E8aud3gcA1padpjCJTh9gMpm3QdMbKwZteT5uUM+wyi6Rbbyww==
 
-turbo@latest:
+turbo@^1.10.15:
   version "1.10.15"
   resolved "https://registry.yarnpkg.com/turbo/-/turbo-1.10.15.tgz#356731acb46991b4e337cce2f7ccd3279bc1f1a6"
   integrity sha512-mKKkqsuDAQy1wCCIjCdG+jOCwUflhckDMSRoeBPcIL/CnCl7c5yRDFe7SyaXloUUkt4tUR0rvNIhVCcT7YeQpg==
