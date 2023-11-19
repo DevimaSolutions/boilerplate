@@ -1,6 +1,4 @@
-import { ValueOf } from '../../common/types';
-
-import type { EmailTemplate } from '../enums';
+import type { EmailTemplate, EmailTemplateValues } from '../enums';
 
 export interface WelcomeEmailParams {
   username: string;
@@ -10,7 +8,7 @@ export interface ResetPasswordEmailParams {
   resetLink: string;
 }
 
-export type EmailParams<TEmailType extends ValueOf<EmailTemplate>> =
+export type EmailParams<TEmailType extends EmailTemplateValues> =
   TEmailType extends EmailTemplate['ForgotPassword']
     ? ResetPasswordEmailParams
     : TEmailType extends EmailTemplate['Welcome']

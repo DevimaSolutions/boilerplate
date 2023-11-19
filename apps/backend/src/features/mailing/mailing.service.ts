@@ -2,10 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { stringify } from 'qs';
 
-import envConfig from '../../config/env.config';
-import { ValueOf } from '../common/types';
+import envConfig from 'src/config/env.config';
 
-import { EmailTemplate } from './enums';
+import { EmailTemplate, EmailTemplateValues } from './enums';
 import { EmailParams, WelcomeEmailParams } from './interfaces';
 
 @Injectable()
@@ -16,7 +15,7 @@ export abstract class MailingService {
     this.configuration = config;
   }
 
-  abstract sendEmail<TEmailType extends ValueOf<EmailTemplate>>(
+  abstract sendEmail<TEmailType extends EmailTemplateValues>(
     recipient: string,
     templateId: TEmailType,
     params: EmailParams<TEmailType>,
@@ -32,7 +31,7 @@ export abstract class MailingService {
     await this.sendEmail(recipient, EmailTemplate.Welcome, data);
   }
 
-  static getTemplateTitle: Record<ValueOf<EmailTemplate>, string> = {
+  static getTemplateTitle: Record<EmailTemplateValues, string> = {
     [EmailTemplate.ForgotPassword]: 'Reset password',
     [EmailTemplate.Welcome]: 'Welcome',
   };

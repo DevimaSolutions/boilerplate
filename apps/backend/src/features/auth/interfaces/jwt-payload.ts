@@ -1,10 +1,9 @@
-import { ValueOf } from '../../common/types';
-import { UserRole } from '../enums';
+import { UserRoleValues } from '../enums';
 
 export interface JwtPayload {
   email: string;
   sub: string;
-  role: ValueOf<UserRole>;
+  role: UserRoleValues;
 }
 
 export type IJwtSub = Pick<JwtPayload, 'sub'>;

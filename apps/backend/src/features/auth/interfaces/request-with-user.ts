@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import { User } from '../../users/entities/user.entity';
+import { User } from 'src/features/users/entities/user.entity';
 
 import type { ParamsDictionary } from 'express-serve-static-core';
 import type { ParsedQs } from 'qs';

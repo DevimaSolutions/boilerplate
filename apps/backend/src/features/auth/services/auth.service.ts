@@ -9,12 +9,12 @@ import { ConfigType } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { decode } from 'next-auth/jwt';
 
-import envConfig from '../../../config/env.config';
-import { MailingService } from '../../mailing';
-import { User } from '../../users/entities';
-import { UsersService } from '../../users/users.service';
-import { SignUpDto } from '../dto';
-import { UserRole } from '../enums';
+import envConfig from 'src/config/env.config';
+import { MailingService } from 'src/features/mailing';
+import { User, UsersService } from 'src/features/users';
+
+import { GoogleAccountDto, SignUpDto } from '../dto';
+import { UserRole, UserStatus } from '../enums';
 import { IJwtSub } from '../interfaces';
 
 import { JwtOtpService } from './jwt-otp.service';
@@ -54,15 +54,56 @@ export class AuthService {
   async validateUserPayload(token: string | undefined): Promise<User | null> {
     try {
       const payload = await decode({ token, secret: this.config.auth.jwtSecret });
-      if (!payload?.sub) {
+      if (!payload?.email) {
         return null;
       }
 
-      const user = await this.usersService.findOne(payload.sub);
+      const user = await this.usersService.findActiveByEmail(payload.email);
       return user;
     } catch (e) {
       // User was not found
       return null;
+    }
+  }
+
+  async linkOrCreateByGoogleAccount(googleAccount: GoogleAccountDto) {
+    try {
+      const user = await this.usersService.findByEmail(googleAccount.email);
+      if (user.status !== UserStatus.Active) {
+        throw new NotFoundException();
+      }
+
+      return await this.usersService.updateGoogleAccount(user.id, {
+        googleAccountId: googleAccount.googleAccountId,
+        imageUri: googleAccount.imageUri,
+        isEmailVerified: true,
+      });
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        // user with this email does not exist
+        // create new profile using google account data
+        return this.usersService.createByGoogleAccount(googleAccount);
+      }
+      throw e;
+    }
+  }
+
+  async validateGoogleAccount(googleAccount: GoogleAccountDto) {
+    try {
+      const user = await this.usersService.findByGoogleAccountId(googleAccount.googleAccountId);
+      if (user.status !== UserStatus.Active) {
+        throw new NotFoundException();
+      }
+      // user already exist
+      return user;
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        // user with this google account id does not exist
+        // try to check if user is already signed up by email and attach google account to his profile
+        // or create new profile if email is not taken
+        return this.linkOrCreateByGoogleAccount(googleAccount);
+      }
+      throw e;
     }
   }
 

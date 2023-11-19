@@ -3,10 +3,9 @@ import { ConfigType } from '@nestjs/config';
 import { Transporter, createTransport } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
-import envConfig from '../../config/env.config';
-import { ValueOf } from '../common/types';
+import envConfig from 'src/config/env.config';
 
-import { EmailTemplate } from './enums';
+import { EmailTemplateValues } from './enums';
 import { EmailParams } from './interfaces';
 import { MailingService } from './mailing.service';
 
@@ -26,7 +25,7 @@ export class MailhogService extends MailingService {
     });
   }
 
-  async sendEmail<TEmailType extends ValueOf<EmailTemplate>>(
+  async sendEmail<TEmailType extends EmailTemplateValues>(
     recipient: string,
     templateId: TEmailType,
     params: EmailParams<TEmailType>,

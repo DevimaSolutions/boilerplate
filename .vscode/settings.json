@@ -1,5 +1,4 @@
 {
-  "typescript.preferences.importModuleSpecifier": "project-relative",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "eslint.format.enable": true,
@@ -19,5 +18,7 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.codeActionsOnSave": ["source.fixAll.eslint"]
-  }
+  },
+  // https://github.com/microsoft/vscode-eslint/issues/1377
+  "eslint.workingDirectories": [{ "pattern": "./apps/*" }, { "pattern": "./packages/*" }]
 }

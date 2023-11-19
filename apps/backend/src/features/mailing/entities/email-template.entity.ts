@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity } from 'typeorm';
 
-import { AuditEntity } from '../../common/entities';
+import { AuditEntity } from 'src/features/common/entities/audit.entity';
 
 @Entity({ name: 'email_templates' })
 export class EmailTemplate extends AuditEntity {

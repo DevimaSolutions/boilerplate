@@ -3,10 +3,9 @@ import { ConfigType } from '@nestjs/config';
 import axios from 'axios';
 
 import envConfig from '../../config/env.config';
-import { ValueOf } from '../common/types';
 
 import { EmailTemplatesRepository } from './email-templates.repository';
-import { EmailTemplate } from './enums';
+import { EmailTemplateValues } from './enums';
 import { EmailParams } from './interfaces';
 import { MailingService } from './mailing.service';
 
@@ -30,7 +29,7 @@ export class BrevoService extends MailingService {
     };
   }
 
-  async sendEmail<TEmailType extends ValueOf<EmailTemplate>>(
+  async sendEmail<TEmailType extends EmailTemplateValues>(
     recipient: string,
     templateId: TEmailType,
     params: EmailParams<TEmailType>,

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { fileConstants } from '../../../constants';
-import { UserRole } from '../../auth';
+import { fileConstants } from 'src/constants';
+import { UserRole } from 'src/features/auth';
 
 // TODO: move some basic schemas to common folder
 const multerFileStringFields = ['fieldname', 'originalname', 'encoding', 'mimetype'] as const;

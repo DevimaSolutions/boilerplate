@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 
-import { createMockedServiceProvider, mockFactory } from '../../test/mocks';
+import { createMockedServiceProvider, mockFactory } from 'test/mocks';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';

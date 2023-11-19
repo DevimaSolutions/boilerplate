@@ -1,0 +1,21 @@
+{
+  "name": "api-client",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "backend": "*"
+  },
+  "scripts": {
+    "gen:api-client": "rm -rf ./src && openapi-generator-cli generate -i ./swagger-spec.json -g typescript-fetch -o ./src"
+  },
+  "lint-staged": {
+    "*.(md|json|yml)": "prettier --write"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.7.0"
+  }
+}

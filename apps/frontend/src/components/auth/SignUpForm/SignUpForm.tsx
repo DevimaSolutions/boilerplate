@@ -1,5 +1,3 @@
-'use client';
-
 import { Field, Form, Formik } from 'formik';
 
 import type { SignUpFormProps } from './types';

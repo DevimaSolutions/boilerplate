@@ -1,0 +1,5 @@
+# This file is generated when `backend` app is up and running
+swagger-spec.json
+
+# This folder is generated from swaagger spec file. Run `yarn gen:api-client` to generate it
+src

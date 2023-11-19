@@ -1,14 +1,14 @@
 import type { Env } from './env.type';
-import type { ValueOf } from '../../types';
+import type { ValueOf } from 'src/types';
 
 export const envModes = {
   dev: 'development',
   prod: 'production',
   test: 'test',
-};
+} as const;
 export type EnvModes = typeof envModes;
 
-const processEnvMode = process.env.NODE_ENV.toLowerCase();
+const processEnvMode = process.env.NODE_ENV.toLowerCase() as ValueOf<EnvModes>;
 const envMode = Object.values(envModes).includes(processEnvMode) ? processEnvMode : envModes.dev;
 
 const isEnv = (mode: ValueOf<EnvModes>) => envMode.toLowerCase() === mode;
@@ -30,6 +30,10 @@ const mapEnv = () => {
         ? process.env.NEXT_PUBLIC_FRONTEND_URL + process.env.NEXT_PUBLIC_BACKEND_PROXY_PATH
         : process.env.NEXT_PUBLIC_BACKEND_URL) || '',
     frontendUrl: process.env.NEXT_PUBLIC_FRONTEND_URL || '',
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    },
   };
 
   return Object.freeze(parsed);

@@ -9,6 +9,7 @@ export function Example() {
     const res = await fetch('/api/authorization/profile');
     setData(JSON.stringify(await res.json()));
   };
+
   return (
     <>
       <button onClick={onGetProfile} type="button">

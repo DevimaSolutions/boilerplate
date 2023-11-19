@@ -3,7 +3,8 @@ import { ConfigType } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-cookie';
 
-import envConfig from '../../../config/env.config';
+import envConfig from 'src/config/env.config';
+
 import { AuthService } from '../services';
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { mockFactory } from '../../../../test/mocks';
+import { mockFactory } from 'test/mocks';
 
 import { AuthService } from './auth.service';
 

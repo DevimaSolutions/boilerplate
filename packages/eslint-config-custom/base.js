@@ -1,7 +1,6 @@
 const { resolve } = require('node:path');
 
 const project = resolve(process.cwd(), 'tsconfig.json');
-
 /*
  * This is a base ESLint configuration.
  * All packages should extend it
@@ -27,6 +26,9 @@ module.exports = {
         project,
       },
     },
+    // need to exclude parent node modules from import/named rule
+    // https://github.com/import-js/eslint-plugin-import/blob/v2.28.1/docs/rules/named.md#settings
+    'import/ignore': ['node_modules', '../../node_modules'],
   },
   ignorePatterns: ['node_modules/'],
   rules: {
@@ -50,6 +52,7 @@ module.exports = {
     'import/namespace': 'error',
     'import/default': 'error',
     'import/export': 'error',
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'import/order': [
       1,
       {

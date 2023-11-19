@@ -2,8 +2,9 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy as PassportLocalStrategy } from 'passport-local';
 
-import { errorMessages } from '../../../constants';
-import { User } from '../../users';
+import { errorMessages } from 'src/constants';
+import { User } from 'src/features/users/entities/user.entity';
+
 import { AuthService } from '../services';
 
 // This strategy is responsible for logging in user with email and password

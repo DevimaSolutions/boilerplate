@@ -8,25 +8,39 @@ import {
   HttpStatus,
   Get,
   Put,
+  Param,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { ZodValidationPipe } from '../common/pipes';
+import { ZodValidationPipe } from 'src/features/common/pipes';
+
+import { UsersService } from '../users';
 
 import { Authorized } from './decorators';
-import { ForgotPasswordDto, ResetPasswordDto, SignInDto, SignUpDto } from './dto';
+import { ForgotPasswordDto, ResetPasswordDto, SignInDto, SignUpDto, GoogleAccountDto } from './dto';
 import { LocalAuthGuard } from './guards';
 import { RequestWithUser } from './interfaces';
 import { AuthService } from './services';
-import { signUpSchema, forgotPasswordSchema, resetPasswordSchema } from './validations';
+import {
+  signUpSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+  googleAccountSchema,
+} from './validations';
 
 // Authorization is handled by NextAuth package in a frontend application
 // This controller is used only as a proxy to access database securely
 @ApiTags('Auth')
 @Controller('authorization')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UsersService,
+  ) {}
 
+  /**
+   * TODO: add API key auth
+   */
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
   @Post('sign-in')
@@ -45,7 +59,28 @@ export class AuthController {
   @Authorized()
   @Get('profile')
   getProfile(@Req() req: RequestWithUser) {
+    // TODO: add this user to cookie that expire in 1 min
     return req.user;
+  }
+
+  /**
+   * TODO: add API key auth
+   */
+  @Get('session/:id')
+  getSessionByUserId(@Param('id') id: string) {
+    console.log(`fetch session ${id}`);
+    // TODO: add this user to cookie that expire in 1 min
+    return this.userService.findOne(id);
+  }
+
+  /**
+   * TODO: add API key auth
+   */
+  @Post('google')
+  getProfileByGoogleAccount(
+    @Body(new ZodValidationPipe(googleAccountSchema)) googleAccountDto: GoogleAccountDto,
+  ) {
+    return this.authService.validateGoogleAccount(googleAccountDto);
   }
 
   @HttpCode(HttpStatus.OK)

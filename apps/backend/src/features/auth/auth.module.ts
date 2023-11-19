@@ -3,7 +3,8 @@ import { ConfigType } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-import envConfig from '../../config/env.config';
+import envConfig from 'src/config/env.config';
+
 import { MailingModule } from '../mailing/mailing.module';
 import { UsersModule } from '../users/users.module';
 

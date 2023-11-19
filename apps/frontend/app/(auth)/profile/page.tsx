@@ -1,7 +1,7 @@
 import { RedirectType, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
-import { Example } from '../../../src/components/Example';
+import { Example } from 'src/components/Example';
 
 export default async function ProfilePage() {
   // TODO: use NextAuth App Router guide for caching

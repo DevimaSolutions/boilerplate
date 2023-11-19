@@ -27,6 +27,8 @@ export class UsersController {
     @Req() req: RequestWithUser,
     @Body(new ZodValidationPipe(updateUserSchema)) updateUserDto: UpdateUserDto,
   ) {
+    // TODO: add this user to cookie that expire in 1 min
+    // probably move this to authorization controller
     return this.usersService.update(req.user.id, updateUserDto);
   }
 }

@@ -2,7 +2,7 @@ import { S3 } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { Inject, Injectable } from '@nestjs/common';
 
-import envConfig from '../../config/env.config';
+import envConfig from 'src/config/env.config';
 
 import type { PutObjectCommandInput, DeleteObjectCommandInput } from '@aws-sdk/client-s3';
 import type { ConfigType } from '@nestjs/config';

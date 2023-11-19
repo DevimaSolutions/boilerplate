@@ -22,8 +22,7 @@
     "migration:create": "typeorm-ts-node-esm migration:create",
     "migration:run": "typeorm-ts-node-esm migration:run -d ./src/data-source.ts",
     "migration:revert": "typeorm-ts-node-esm migration:revert -d ./src/data-source.ts",
-    "migration:show": "typeorm-ts-node-esm migration:show -d ./src/data-source.ts",
-    "gen:api-client": "echo 'Swagger gen will be used to generate api-client package'"
+    "migration:show": "typeorm-ts-node-esm migration:show -d ./src/data-source.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.429.0",
@@ -85,6 +84,7 @@
     "typescript": "5.1.6"
   },
   "//resolutions-comments": [
+    "TODO: try to update jest and remove this error",
     "We need to downgrade 'jackspeak' version to 2.1.1 to make Jest run properly. ",
     "See more details here: ",
     "https://github.com/getsentry/sentry-javascript/issues/9036#issuecomment-1723189790"

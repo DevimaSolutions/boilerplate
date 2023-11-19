@@ -1,10 +1,12 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
 
-import { envUtil } from '../src/utils';
+import { envUtil } from 'src/utils';
 
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +20,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <ToastContainer />
+      </body>
     </html>
   );
 }

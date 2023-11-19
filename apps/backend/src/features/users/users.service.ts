@@ -2,7 +2,9 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import * as bcrypt from 'bcrypt';
 import { FindOneOptions } from 'typeorm';
 
-import { errorMessages, s3Folders } from '../../constants';
+import { errorMessages, s3Folders } from 'src/constants';
+
+import { GoogleAccountDto, UpdateGoogleAccountDto } from '../auth/dto';
 import { UserRole, UserStatus } from '../auth/enums';
 import { AwsService } from '../aws';
 
@@ -60,12 +62,32 @@ export class UsersService {
     return entity;
   }
 
+  async findActiveByGoogleAccountId(googleAccountId: string) {
+    const entity = await this.findByGoogleAccountId(googleAccountId);
+
+    if (entity.status !== UserStatus.Active) {
+      throw new NotFoundException();
+    }
+
+    return entity;
+  }
+
   findUser(options: FindOneOptions<User>) {
     return this.usersRepository.findOne(options);
   }
 
   async findByEmail(email: string) {
     const entity = await this.usersRepository.findOne({ where: { email } });
+
+    if (!entity) {
+      throw new NotFoundException();
+    }
+
+    return entity;
+  }
+
+  async findByGoogleAccountId(googleAccountId: string) {
+    const entity = await this.usersRepository.findOne({ where: { googleAccountId } });
 
     if (!entity) {
       throw new NotFoundException();
@@ -90,6 +112,27 @@ export class UsersService {
     await this.usersRepository.update(entity.id, updateUserDto);
 
     return this.findOne(id);
+  }
+
+  async updateGoogleAccount(id: string, googleAccountDto: UpdateGoogleAccountDto) {
+    const entity = await this.findOne(id);
+
+    await this.usersRepository.update(entity.id, googleAccountDto);
+
+    return this.findOne(id);
+  }
+
+  async createByGoogleAccount(googleAccountDto: GoogleAccountDto) {
+    const userExists = await this.doesUserExist(googleAccountDto.email);
+
+    if (userExists) {
+      throw new BadRequestException(errorMessages.userAlreadyExists);
+    }
+
+    const entity = this.usersRepository.create({ ...googleAccountDto, isEmailVerified: true });
+
+    await this.usersRepository.save(entity);
+    return entity;
   }
 
   async updatePassword(id: string, password: string) {

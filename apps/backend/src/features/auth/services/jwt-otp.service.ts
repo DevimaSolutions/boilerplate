@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
-import envConfig from '../../../config/env.config';
+import envConfig from 'src/config/env.config';
 
 @Injectable()
 export class JwtOtpService extends JwtService {

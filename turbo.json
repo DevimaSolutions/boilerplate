@@ -28,7 +28,7 @@
       "cache": false
     },
     "gen:api-client": {
-      "dependsOn": ["backend#build"]
+      "cache": false
     }
   }
 }

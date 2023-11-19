@@ -4,11 +4,11 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-import envConfig from '../config/env.config';
-import { AuthModule } from '../features/auth/auth.module';
-import { AwsModule } from '../features/aws';
-import { MailingModule } from '../features/mailing/mailing.module';
-import { UsersModule } from '../features/users/users.module';
+import envConfig from 'src/config/env.config';
+import { AuthModule } from 'src/features/auth/auth.module';
+import { AwsModule } from 'src/features/aws';
+import { MailingModule } from 'src/features/mailing/mailing.module';
+import { UsersModule } from 'src/features/users/users.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';

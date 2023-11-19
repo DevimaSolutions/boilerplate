@@ -1,3 +1,5 @@
+import { ValueOf } from 'src/features/common/types';
+
 export const UserStatus = {
   Pending: 0,
   Active: 1,
@@ -5,3 +7,4 @@ export const UserStatus = {
 } as const;
 
 export type UserStatus = typeof UserStatus;
+export type UserStatusValues = ValueOf<UserStatus>;

@@ -12,26 +12,11 @@ const backendProxyRewrites = backendProxyPath
       ],
     }
   : [];
-const backendProxyHeaders = backendProxyPath
-  ? [
-      {
-        source: `${backendProxyPath}/:path*`,
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'no-store',
-          },
-        ],
-      },
-    ]
-  : [];
 
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
   poweredByHeader: false,
   rewrites: async () => backendProxyRewrites,
-  headers: () => backendProxyHeaders,
-  // TODO
-  // transpilePackages: ["api-client"],
+  // transpilePackages: ['api-client'],
 };

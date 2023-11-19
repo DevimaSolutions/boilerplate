@@ -2,13 +2,38 @@
 
 ## TODO:
 
-- Add cooke based auth
+- Add cookie based auth
+- Add absolute path imports
 - Add swagger ts codegen to generate `api-client` package
+- Look into codegen configuration https://openapi-generator.tech/docs/generators/typescript-fetch/
+- Test api-client with form data
+- Figure out how caching works in Next (for authorization and other routes) and if it works fine with api-client package
 - Add documentation to `api-client` package
+- update NestJS/swagger to exclude controller names from api endpoint name generation (eg. appControllerGetHealthCheck => getHealthCheck)
 
 - Add readme for transactions usage
 - Add PM2 to both frontend and backend production deployment flows
 - Make is so that the source code is not copied to the production server (build happens locally or in Github action)
+
+- Prepare presentation that cover major changes
+
+  - const enums
+  - remove I and T prefixes when declaring types
+  - absolute project-based imports
+  - shared eslint/ts configs
+  - more strict eslint config
+  - yarn workspaces
+  - turborepo basics
+  - unit testing
+  - git hooks
+  - automatic transaction context
+  - migrations
+  - deployment workflow/pm2
+  - new authorization architecture
+  - next app router / (and it's too aggressive caching)
+  - why we should not use barrel files anymore
+
+# V2 TODO:
 
 - Add `infrastructure` package with Terraform & Ansible configuration
 - Add github action to deploy from main and staging branches using Ansible

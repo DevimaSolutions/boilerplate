@@ -1,4 +1,4 @@
-import { envUtil } from '../../../src/utils';
+import { envUtil } from 'src/utils';
 
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
