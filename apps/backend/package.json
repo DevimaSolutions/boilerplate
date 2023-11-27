@@ -18,11 +18,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migration:generate": "typeorm-ts-node-esm migration:generate -d ./src/data-source.ts",
-    "migration:create": "typeorm-ts-node-esm migration:create",
-    "migration:run": "typeorm-ts-node-esm migration:run -d ./src/data-source.ts",
-    "migration:revert": "typeorm-ts-node-esm migration:revert -d ./src/data-source.ts",
-    "migration:show": "typeorm-ts-node-esm migration:show -d ./src/data-source.ts"
+    "typeorm": "NODE_ENV=migration ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migration:generate": "yarn typeorm migration:generate -d ./src/data-source.ts",
+    "migration:create": "yarn typeorm migration:create",
+    "migration:run": "yarn typeorm migration:run -d ./src/data-source.ts",
+    "migration:revert": "yarn typeorm migration:revert -d ./src/data-source.ts",
+    "migration:show": "yarn typeorm migration:show -d ./src/data-source.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.429.0",
