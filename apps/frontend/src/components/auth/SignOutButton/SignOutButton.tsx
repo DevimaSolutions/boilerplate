@@ -12,7 +12,7 @@ export function SignOutButton() {
   };
 
   return (
-    <button onClick={onSignOut} type="button">
+    <button className="btn btn-primary text-white border-none" onClick={onSignOut} type="button">
       Sign out
     </button>
   );
