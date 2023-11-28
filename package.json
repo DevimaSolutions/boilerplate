@@ -1,4 +1,5 @@
 {
+  "name": "boilerplate-devima-solutions",
   "private": true,
   "scripts": {
     "build": "turbo run build",
@@ -28,7 +29,6 @@
     "node": ">=20.0.0 <21.0.0",
     "yarn": ">=1.22.0 <2.0.0"
   },
-  "name": "binance-trading-tools",
   "packageManager": "yarn@1.22.19",
   "workspaces": [
     "apps/*",

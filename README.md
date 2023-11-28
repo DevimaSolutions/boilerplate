@@ -6,13 +6,17 @@
 - Add absolute path imports
 - Add swagger ts codegen to generate `api-client` package
 - Look into codegen configuration https://openapi-generator.tech/docs/generators/typescript-fetch/
-- Test api-client with form data
-- Figure out how caching works in Next (for authorization and other routes) and if it works fine with api-client package
-- Add documentation to `api-client` package
 - update NestJS/swagger to exclude controller names from api endpoint name generation (eg. appControllerGetHealthCheck => getHealthCheck)
 
+- Add documentation to `api-client` package
+- Figure out how caching works in Next (for authorization and other routes) and if it works fine with api-client package
+- Test api-client with form data
 - Add error response definition to swagger so api-clinet can handle errors
 - Add index file to `api-client` that instantiate all services and reexport data contracts
+
+- Add tailwindcss & daisy ui
+
+- Test S3 service
 
 - Add readme for transactions usage
 - Add PM2 to both frontend and backend production deployment flows
