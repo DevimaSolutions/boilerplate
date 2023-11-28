@@ -30,7 +30,7 @@ const envConfig = registerAs('env', () => ({
     port: mapEnvValues.number(process.env.DATABASE_PORT || '', defaultDbPort),
     username: process.env.DATABASE_USERNAME || '',
     password: process.env.DATABASE_PASSWORD || '',
-    database: process.env.DATABASE_DATABASE || '',
+    database: process.env.DATABASE_NAME || '',
   },
   auth: {
     jwtSecret: process.env.JWT_SECRET || '',
