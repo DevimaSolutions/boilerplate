@@ -6,6 +6,16 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
+    "backend#gen:api-client": {
+      "dependsOn": ["backend#build"]
+    },
+    "api-client#gen:api-client": {
+      "dependsOn": ["backend#gen:api-client"]
+    },
+    "gen:api-client": {},
+    "frontend#build": {
+      "dependsOn": ["api-client#gen:api-client"]
+    },
     "lint": {},
     "test": {
       "dependsOn": ["^test"],
@@ -25,9 +35,6 @@
       "dependsOn": ["build", "test"]
     },
     "docker:local": {
-      "cache": false
-    },
-    "gen:api-client": {
       "cache": false
     }
   }
