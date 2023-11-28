@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from './next-auth-options';
 
 import type { User } from 'api-client';
+import type { DefaultUser } from 'next-auth';
 
 /**
  * Returns currently authorized user.
@@ -13,5 +14,6 @@ import type { User } from 'api-client';
 export const getServerUser = async () => {
   const session = await getServerSession(authOptions);
   const user = session?.user ?? null;
-  return user as User | null;
+
+  return user as DefaultUser | User | null;
 };

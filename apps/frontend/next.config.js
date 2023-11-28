@@ -19,4 +19,14 @@ module.exports = {
   poweredByHeader: false,
   rewrites: async () => backendProxyRewrites,
   transpilePackages: ['api-client'],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/a/**',
+      },
+    ],
+  },
 };
