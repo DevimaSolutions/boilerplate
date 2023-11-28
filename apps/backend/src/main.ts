@@ -12,7 +12,7 @@ async function bootstrap() {
   const { port, enableSwagger, allowedOrigins } = envConfig();
 
   if (enableSwagger) {
-    configureSwagger(app);
+    await configureSwagger(app);
   }
 
   if (allowedOrigins.length > 0) {

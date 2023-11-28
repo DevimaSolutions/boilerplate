@@ -6,12 +6,12 @@ import envConfig from './env.config';
 
 import type { INestApplication } from '@nestjs/common';
 
-const updateSwaggerSpecFile = (document: OpenAPIObject) => {
+const updateSwaggerSpecFile = async (document: OpenAPIObject) => {
   // This is a relative path from the `backend` project root
   const swaggerSpecFileLocation = '../../packages/api-client/swagger-spec.json';
 
   // Just fire and forget this to avoid blocking application bootstrap function
-  void fs.writeFile(swaggerSpecFileLocation, JSON.stringify(document)).catch(() => {
+  await fs.writeFile(swaggerSpecFileLocation, JSON.stringify(document)).catch(() => {
     console.warn('Failed to update "swagger-spec.json"');
   });
   // From here the `gen:api-client` script in `api-client` package
@@ -44,7 +44,7 @@ const configureSwagger = (app: INestApplication) => {
 
   SwaggerModule.setup(swaggerUiRoute, app, document);
 
-  updateSwaggerSpecFile(document);
+  return updateSwaggerSpecFile(document);
 };
 
 export default configureSwagger;

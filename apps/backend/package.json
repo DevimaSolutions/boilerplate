@@ -23,7 +23,8 @@
     "migration:create": "yarn typeorm migration:create",
     "migration:run": "yarn typeorm migration:run -d ./src/data-source.ts",
     "migration:revert": "yarn typeorm migration:revert -d ./src/data-source.ts",
-    "migration:show": "yarn typeorm migration:show -d ./src/data-source.ts"
+    "migration:show": "yarn typeorm migration:show -d ./src/data-source.ts",
+    "gen:api-client": "node dist/generate-api-client.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.429.0",
