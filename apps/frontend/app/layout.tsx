@@ -34,15 +34,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
               <Link className="text-white flex items-center gap-[10px]" href="/profile">
                 <div className="avatar">
                   <div className="w-6 rounded-full">
-                    <Image
-                      alt="Profile picture"
-                      height={24}
-                      src={
-                        //user.image ??
-                        'avatar.svg'
-                      }
-                      width={24}
-                    />
+                    <Image alt="Profile picture" height={24} src="avatar.svg" width={24} />
                   </div>
                 </div>
                 {user.email}
