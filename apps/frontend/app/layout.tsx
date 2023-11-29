@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={`m-0 ${inter.className}`}>
+      <body className={inter.className}>
         <Header />
         {children}
         <ToastContainer />
