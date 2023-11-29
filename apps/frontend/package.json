@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "api-client": "*",
+    "clsx": "^1.2.1",
     "formik": "^2.4.5",
     "next": "^14.0.3",
     "next-auth": "^4.24.4",
