@@ -3,7 +3,6 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from './next-auth-options';
 
 import type { User } from 'api-client';
-import type { DefaultUser } from 'next-auth';
 
 /**
  * Returns currently authorized user.
@@ -15,5 +14,6 @@ export const getServerUser = async () => {
   const session = await getServerSession(authOptions);
   const user = session?.user ?? null;
 
-  return user as DefaultUser | User | null;
+  //TODO: Fix /authorization/session/:id endpoint to work properly with users authorized using Google Account
+  return user as User | null;
 };
