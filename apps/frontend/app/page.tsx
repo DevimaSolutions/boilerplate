@@ -1,6 +1,3 @@
-import Link from 'next/link';
-
-import { Example } from 'src/components/Example';
 import { getServerUser } from 'src/utils/auth/get-server-user';
 
 export default async function HomePage() {
@@ -8,12 +5,11 @@ export default async function HomePage() {
 
   return (
     <main>
-      <h1>Boilerplate - Home page</h1>
-      {!user && <Link href="/sign-in">Sign In</Link>}
-      <div>
-        <code>{JSON.stringify(user, null, 2)}</code>
-      </div>
-      <Example />
+      <h1 className="text-center mt-10">
+        Boilerplate - Home page
+        <br />
+        {user ? `Welcome ${user?.email}!` : 'Please sign in'}
+      </h1>
     </main>
   );
 }
