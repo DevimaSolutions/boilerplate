@@ -25,7 +25,7 @@ export class AwsService {
     });
     await uploadAction.done();
 
-    const uploadLocation = `https://${params.Bucket}.s3${this.config.aws.region}.amazonaws.com/${params.Key}`;
+    const uploadLocation = `https://${params.Bucket}.s3.${this.config.aws.region}.amazonaws.com/${params.Key}`;
     return uploadLocation;
   };
 
@@ -48,6 +48,10 @@ export class AwsService {
     return `${folder}${fileName}`;
   }
 
+  getFileKeyFromUri(fileUri: string) {
+    return fileUri.split('/').slice(3).join('/');
+  }
+
   private getCommonParams(file: Express.Multer.File) {
     return {
       Bucket: this.config.aws.bucketName,
@@ -63,7 +67,7 @@ export class AwsService {
     });
   }
 
-  removeImage(key: string) {
-    return this.removeFile(key);
+  removeImage(imageUri: string) {
+    return this.removeFile(this.getFileKeyFromUri(imageUri));
   }
 }
