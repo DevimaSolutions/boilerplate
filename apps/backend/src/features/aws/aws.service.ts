@@ -49,7 +49,7 @@ export class AwsService {
   }
 
   getFileKeyFromUri(fileUri: string) {
-    return fileUri.split('/').slice(3).join('/');
+    return new URL(fileUri).pathname.substring(1);
   }
 
   private getCommonParams(file: Express.Multer.File) {
