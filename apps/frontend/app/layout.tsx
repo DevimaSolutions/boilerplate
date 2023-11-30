@@ -2,7 +2,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
 
-import Header from 'src/components/header/Header';
+import Header from 'src/components/Header/Header';
 import { envUtil } from 'src/utils';
 
 import type { Metadata } from 'next';
