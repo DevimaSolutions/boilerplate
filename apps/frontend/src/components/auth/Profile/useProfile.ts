@@ -16,9 +16,8 @@ export const useProfile = () => {
         setData(res);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         //TODO: add error handling
-        console.log(err);
         setLoading(false);
       });
   }, []);
