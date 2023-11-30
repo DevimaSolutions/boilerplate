@@ -1,35 +1,30 @@
 import { RedirectType, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
+import { authOptions } from './auth';
 import { getServerUser } from './auth/get-server-user';
 
 import type { UserRole } from './auth/enums';
-import type { Session } from 'next-auth';
+import type { User } from 'next-auth';
 
 export async function requireAuthorizedUser(options?: {
   allowedRoles?: UserRole[];
-}): Promise<Session> {
-  const session = await getServerSession();
+}): Promise<User> {
+  const user = await getServerUser();
 
-  if (!session) {
+  if (!user) {
     redirect('/sign-in', RedirectType.replace);
   }
 
-  const user = await getServerUser();
-
-  if (
-    options?.allowedRoles?.length &&
-    user &&
-    !options.allowedRoles.includes(user.role as UserRole)
-  ) {
+  if (options?.allowedRoles?.length && !options.allowedRoles.includes(user.role as UserRole)) {
     redirect('/', RedirectType.replace);
   }
 
-  return session;
+  return user;
 }
 
 export async function requireUnauthorizedUser(): Promise<void> {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (session) {
     redirect('/', RedirectType.replace);
   }
