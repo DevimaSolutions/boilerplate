@@ -1,5 +1,8 @@
 import { SignUp } from 'src/components/auth/SignUp';
+import { requireUnauthorizedUser } from 'src/utils/authorized-helper.util';
 
-export default function SignUpPage() {
+export default async function SignUpPage() {
+  await requireUnauthorizedUser();
+
   return <SignUp />;
 }

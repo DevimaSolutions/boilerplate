@@ -1,13 +1,8 @@
-import { RedirectType, redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
-
 import { SignIn } from 'src/components/auth/SignIn';
+import { requireUnauthorizedUser } from 'src/utils/authorized-helper.util';
 
 export default async function SignInPage() {
-  const session = await getServerSession();
-  if (session) {
-    redirect('/', RedirectType.replace);
-  }
+  await requireUnauthorizedUser();
 
   return <SignIn />;
 }
