@@ -8,7 +8,7 @@ export default async function HomePage() {
       <h1 className="text-center mt-10">
         Boilerplate - Home page
         <br />
-        {user ? `Welcome ${user?.email}!` : 'Please sign in'}
+        {user ? `Welcome ${user.email}!` : 'Please sign in'}
       </h1>
     </main>
   );
