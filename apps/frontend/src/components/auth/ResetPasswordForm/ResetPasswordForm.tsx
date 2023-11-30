@@ -1,48 +1,27 @@
 'use client';
 
 import { Field, Form, Formik } from 'formik';
-import Link from 'next/link';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 
-import { signInSchema } from './schema';
+import { resetPasswordSchema } from './schema';
 
-import type { SignInFormProps } from './types';
+import type { ResetPasswordFormProps } from './types';
 
 const initialValues = {
-  email: '',
   password: '',
+  confirmPassword: '',
 };
 
-export function SignInForm({ onSubmit }: SignInFormProps) {
+export function ResetPasswordForm({ onSubmit }: ResetPasswordFormProps) {
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
       validateOnMount={false}
-      validationSchema={toFormikValidationSchema(signInSchema)}
+      validationSchema={toFormikValidationSchema(resetPasswordSchema)}
     >
       {({ isSubmitting, errors, touched }) => (
         <Form className="space-y-3">
-          <div>
-            <label className="label p-0" htmlFor="email">
-              {/*TODO: Create components for the form fields that will have label, input, and error nodes encapsulated.*/}
-              Email address
-            </label>
-            <Field
-              className="input input-bordered w-full input-primary mt-2"
-              label="Email address"
-              name="email"
-              placeholder="email"
-              type="email"
-            />
-            {errors.email && touched.email ? (
-              <label className="label p-0 pt-1">
-                <span className="label-text text-error">{errors.email}</span>
-              </label>
-            ) : (
-              <div className="h-6" />
-            )}
-          </div>
           <div>
             <label className="label p-0" htmlFor="password">
               Password
@@ -61,16 +40,30 @@ export function SignInForm({ onSubmit }: SignInFormProps) {
               <div className="h-6" />
             )}
           </div>
-          {/*TODO: add forgot password page to send mail */}
-          <Link className="link link-primary" href="/reset-password">
-            Forgot password?
-          </Link>
+          <div>
+            <label className="label p-0" htmlFor="confirmPassword">
+              Confirm password
+            </label>
+            <Field
+              className="input input-bordered w-full input-primary mt-2"
+              name="confirmPassword"
+              placeholder="confirm password"
+              type="password"
+            />
+            {errors.confirmPassword && touched.confirmPassword ? (
+              <label className="label p-0 pt-1">
+                <span className="label-text text-error">{errors.confirmPassword}</span>
+              </label>
+            ) : (
+              <div className="h-6" />
+            )}
+          </div>
           <button
             className="flex w-full justify-center btn btn-primary"
             disabled={isSubmitting}
             type="submit"
           >
-            Sign in
+            Reset password
           </button>
         </Form>
       )}
