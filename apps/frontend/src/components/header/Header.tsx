@@ -1,5 +1,5 @@
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { getServerUser } from 'src/utils/auth/get-server-user';
@@ -19,9 +19,7 @@ export default async function Header() {
         <>
           <Link className="text-white flex items-center gap-[10px]" href="/profile">
             <div className="avatar">
-              <div className="w-6 rounded-full">
-                <Image alt="Profile picture" height={24} src="avatar.svg" width={24} />
-              </div>
+              <UserCircleIcon className="h-6 w-6 text-white" />
             </div>
             {user.email}
           </Link>

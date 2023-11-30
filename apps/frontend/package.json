@@ -9,6 +9,7 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "api-client": "*",
     "clsx": "^1.2.1",
     "formik": "^2.4.5",
