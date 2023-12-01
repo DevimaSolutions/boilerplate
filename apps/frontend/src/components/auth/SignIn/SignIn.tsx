@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { SignInForm } from '../SignInForm';
 
@@ -22,6 +23,12 @@ export function SignIn() {
         <Image alt="Google icon" height={24} src="google-icon.svg" width={24} />
         Sign in with Google
       </button>
+      <p className="flex w-full justify-center gap-2">
+        Don{`'`}t have an account?{' '}
+        <Link className="link-primary" href="/sign-up">
+          Sign up
+        </Link>
+      </p>
     </main>
   );
 }
