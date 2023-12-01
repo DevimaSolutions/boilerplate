@@ -16,7 +16,7 @@ const fileSchema = z.custom<Express.Multer.File>((file) => {
 
 export const createUserSchema = z.object({
   email: z.string().trim().toLowerCase().email().min(1).max(255),
-  password: z.string().trim().min(8).max(255),
+  password: z.string().min(8).max(255),
   role: z.nativeEnum(UserRole).optional().default(UserRole.User),
   image: fileSchema
     .refine((file) => file.size <= fileConstants.fileSize, `Max file size is 5MB.`)
