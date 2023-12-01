@@ -1,5 +1,5 @@
 import { authorizationApi } from 'api-client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
@@ -9,8 +9,6 @@ import type { ForgotPasswordFormValues } from '../ForgotPasswordForm';
 import type { FormikHelpers } from 'formik';
 
 export const useForgotPassword = () => {
-  const router = useRouter();
-
   const searchParams = useSearchParams();
   const resetError = searchParams.get('error');
 
@@ -34,8 +32,6 @@ export const useForgotPassword = () => {
           'We couldn`t find an account matching the email you entered. Please check your email and try again',
       });
     }
-    // TODO: get redirect url from query
-    router.refresh();
   };
 
   return { onSubmit };
