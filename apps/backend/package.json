@@ -46,6 +46,7 @@
     "nodemailer": "^6.9.6",
     "passport": "^0.6.0",
     "passport-cookie": "^1.0.9",
+    "passport-headerapikey": "^1.2.2",
     "passport-local": "^1.0.0",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",

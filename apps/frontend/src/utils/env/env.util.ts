@@ -24,6 +24,7 @@ export const isTestEnv = () => isEnv(envModes.test);
 const mapEnv = () => {
   const parsed: Env = {
     appName: process.env.NEXT_PUBLIC_APP_NAME || '',
+    apiKey: process.env.API_KEY || '',
     // use proxy path if set otherwise use absolute backend url
     backendUrl:
       (process.env.NEXT_PUBLIC_BACKEND_PROXY_PATH

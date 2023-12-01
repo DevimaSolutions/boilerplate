@@ -21,6 +21,7 @@ const defaultMailhogPort = 1025;
 const envConfig = registerAs('env', () => ({
   port: mapEnvValues.number(process.env.PORT || '', defaultAppPort),
   appName: process.env.APP_NAME || '',
+  apiKey: process.env.API_KEY || '',
   enableSwagger: mapEnvValues.bool(process.env.ENABLE_SWAGGER || ''),
   frontendHostUrl: process.env.FRONTEND_HOST_URL || '',
   frontendProxyPath: process.env.FRONTEND_PROXY_PATH || '',

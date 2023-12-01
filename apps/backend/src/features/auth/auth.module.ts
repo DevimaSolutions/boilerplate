@@ -10,7 +10,7 @@ import { UsersModule } from '../users/users.module';
 
 import { AuthController } from './auth.controller';
 import { AuthService, JwtOtpService, JwtRefreshService } from './services';
-import { CookieStrategy, LocalStrategy } from './strategies';
+import { ApiKeyStrategy, CookieStrategy, LocalStrategy } from './strategies';
 
 export const JwtAsyncModule = JwtModule.registerAsync({
   useFactory: (config: ConfigType<typeof envConfig>) => {
@@ -25,7 +25,14 @@ export const JwtAsyncModule = JwtModule.registerAsync({
 @Module({
   imports: [UsersModule, PassportModule, JwtAsyncModule, MailingModule],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, CookieStrategy, JwtRefreshService, JwtOtpService],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    CookieStrategy,
+    ApiKeyStrategy,
+    JwtRefreshService,
+    JwtOtpService,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

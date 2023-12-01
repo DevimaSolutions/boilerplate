@@ -1,3 +1,5 @@
-import { createUserSchema } from './create-user.schema';
+import { z } from 'zod';
 
-export const updateUserSchema = createUserSchema.omit({ password: true });
+export const updateUserSchema = z.object({
+  email: z.string().trim().toLowerCase().email().min(1).max(255).optional(),
+});
