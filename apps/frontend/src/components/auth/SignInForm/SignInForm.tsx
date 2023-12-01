@@ -61,8 +61,7 @@ export function SignInForm({ onSubmit }: SignInFormProps) {
               <div className="h-6" />
             )}
           </div>
-          {/*TODO: add forgot password page to send mail */}
-          <Link className="link link-primary" href="/reset-password">
+          <Link className="link link-primary" href="/forgot-password">
             Forgot password?
           </Link>
           <button

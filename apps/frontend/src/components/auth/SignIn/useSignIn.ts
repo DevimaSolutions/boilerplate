@@ -34,7 +34,7 @@ export const useSignIn = () => {
       setErrors({
         email: ' ',
         password:
-          'We couldn`t find an account matching the username and password you entered. Please check your username and password and try again',
+          'We couldn`t find an account matching the email and password you entered. Please check your email and password and try again',
       });
     }
     // TODO: get redirect url from query
