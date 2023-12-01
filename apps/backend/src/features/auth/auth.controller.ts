@@ -16,9 +16,10 @@ import { ZodValidationPipe } from 'src/features/common/pipes';
 
 import { UsersService } from '../users';
 
-import { Authorized } from './decorators';
+import { ApiKeyAuthorized, Authorized } from './decorators';
 import { ForgotPasswordDto, ResetPasswordDto, SignInDto, SignUpDto, GoogleAccountDto } from './dto';
-import { LocalAuthGuard } from './guards';
+import { UserRole } from './enums';
+import { ApiKeyAuthGuard, LocalAuthGuard } from './guards';
 import { RequestWithUser } from './interfaces';
 import { AuthService } from './services';
 import {
@@ -38,10 +39,7 @@ export class AuthController {
     private userService: UsersService,
   ) {}
 
-  /**
-   * TODO: add API key auth
-   */
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(ApiKeyAuthGuard, LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
   @Post('sign-in')
   // _signInDto parameter is declared here to allow Swagger plugin
@@ -56,16 +54,14 @@ export class AuthController {
     return this.authService.signUp(signUpDto);
   }
 
-  @Authorized()
+  @Authorized(UserRole.User)
   @Get('profile')
   getProfile(@Req() req: RequestWithUser) {
     // TODO: add this user to cookie that expire in 1 min
     return req.user;
   }
 
-  /**
-   * TODO: add API key auth
-   */
+  @ApiKeyAuthorized(UserRole.User)
   @Get('session/:id')
   getSessionByUserId(@Param('id') id: string) {
     console.log(`fetch session ${id}`);
@@ -73,9 +69,7 @@ export class AuthController {
     return this.userService.findOne(id);
   }
 
-  /**
-   * TODO: add API key auth
-   */
+  @UseGuards(ApiKeyAuthGuard)
   @Post('google')
   getProfileByGoogleAccount(
     @Body(new ZodValidationPipe(googleAccountSchema)) googleAccountDto: GoogleAccountDto,

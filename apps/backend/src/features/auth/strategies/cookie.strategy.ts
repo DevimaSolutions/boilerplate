@@ -22,6 +22,7 @@ export class CookieStrategy extends PassportStrategy(Strategy) {
 
   async validate(token: string | undefined) {
     const user = await this.authService.validateUserPayload(token);
+
     if (!user) {
       throw new UnauthorizedException();
     }

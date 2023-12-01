@@ -2,11 +2,15 @@
 
 import { useState } from 'react';
 
+import { envUtil } from 'src/utils';
+
+const env = envUtil.getEnv();
+
 export function Example() {
   const [data, setData] = useState<string>('');
   const onGetProfile = async () => {
     setData('');
-    const res = await fetch('/api/authorization/profile');
+    const res = await fetch('/api/authorization/profile', { headers: { 'api-key': env.apiKey } });
     setData(JSON.stringify(await res.json()));
   };
 

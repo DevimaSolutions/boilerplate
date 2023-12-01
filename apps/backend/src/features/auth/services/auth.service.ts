@@ -29,6 +29,10 @@ export class AuthService {
     private mailingService: MailingService,
   ) {}
 
+  validateApiKey(apiKey: string) {
+    return this.config.apiKey === apiKey;
+  }
+
   async validateUser(email: string, password: string): Promise<User | null> {
     try {
       const user = await this.usersService.findActiveByEmail(email);
@@ -54,6 +58,7 @@ export class AuthService {
   async validateUserPayload(token: string | undefined): Promise<User | null> {
     try {
       const payload = await decode({ token, secret: this.config.auth.jwtSecret });
+
       if (!payload?.email) {
         return null;
       }
