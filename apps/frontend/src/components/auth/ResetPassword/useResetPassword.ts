@@ -1,4 +1,5 @@
-import { RedirectType, redirect, useSearchParams } from 'next/navigation';
+import { authorizationApi } from 'api-client';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
@@ -8,38 +9,38 @@ import type { ResetPasswordFormValues } from '../ResetPasswordForm';
 import type { FormikHelpers } from 'formik';
 
 export const useResetPassword = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const resetError = searchParams.get('error');
   const token = searchParams.get('token');
 
   useEffect(() => {
+    if (!token?.length) {
+      router.replace('/sign-in');
+      return;
+    }
     if (resetError) {
       const message = resetPasswordErrorMessagesMap[resetError];
       toast.error(message || resetError, { toastId: 'resetError' });
     }
-  }, [resetError]);
+  }, [resetError, router, token?.length]);
 
   const onSubmit = async (
     values: ResetPasswordFormValues,
     { setErrors }: FormikHelpers<ResetPasswordFormValues>,
   ) => {
-    if (!token?.length) {
-      redirect('/sign-in', RedirectType.replace);
-    }
-    const response = await fetch(`api/authorization/reset-password`, {
-      method: 'PUT',
-      body: JSON.stringify({ password: values.password, token }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
+    try {
+      if (token) {
+        await authorizationApi.resetPassword({ password: values.password, token });
+        toast.success('Password has been changed successfully!');
+        router.replace('/sign-in');
+      }
+    } catch (err) {
       setErrors({
         password: '',
         confirmPassword: 'Something went wrong',
       });
     }
-    redirect('/sign-in', RedirectType.replace);
   };
 
   return { onSubmit };
