@@ -1,5 +1,4 @@
-import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { RedirectType, redirect, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
@@ -9,10 +8,9 @@ import type { ResetPasswordFormValues } from '../ResetPasswordForm';
 import type { FormikHelpers } from 'formik';
 
 export const useResetPassword = () => {
-  const router = useRouter();
-
   const searchParams = useSearchParams();
   const resetError = searchParams.get('error');
+  const token = searchParams.get('token');
 
   useEffect(() => {
     if (resetError) {
@@ -25,19 +23,23 @@ export const useResetPassword = () => {
     values: ResetPasswordFormValues,
     { setErrors }: FormikHelpers<ResetPasswordFormValues>,
   ) => {
-    //TODO: change function to reset
-    const response = await signIn('credentials', {
-      ...values,
-      redirect: false,
+    if (!token?.length) {
+      redirect('/sign-in', RedirectType.replace);
+    }
+    const response = await fetch(`api/authorization/reset-password`, {
+      method: 'PUT',
+      body: JSON.stringify({ password: values.password, token }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
-    if (!response?.ok) {
+    if (!response.ok) {
       setErrors({
         password: '',
         confirmPassword: 'Something went wrong',
       });
     }
-    // TODO: get redirect url from query
-    router.refresh();
+    redirect('/sign-in', RedirectType.replace);
   };
 
   return { onSubmit };

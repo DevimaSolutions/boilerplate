@@ -24,7 +24,7 @@ export function ResetPasswordForm({ onSubmit }: ResetPasswordFormProps) {
         <Form className="space-y-3">
           <div>
             <label className="label p-0" htmlFor="password">
-              Password
+              New password
             </label>
             <Field
               className="input input-bordered w-full input-primary mt-2"
@@ -42,7 +42,7 @@ export function ResetPasswordForm({ onSubmit }: ResetPasswordFormProps) {
           </div>
           <div>
             <label className="label p-0" htmlFor="confirmPassword">
-              Confirm password
+              Repeat new password
             </label>
             <Field
               className="input input-bordered w-full input-primary mt-2"
