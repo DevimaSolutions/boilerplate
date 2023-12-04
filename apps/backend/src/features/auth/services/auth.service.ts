@@ -30,7 +30,7 @@ export class AuthService {
   ) {}
 
   validateApiKey(apiKey: string) {
-    return this.config.apiKey === apiKey;
+    return this.config.auth.apiKey === apiKey;
   }
 
   async validateUser(email: string, password: string): Promise<User | null> {

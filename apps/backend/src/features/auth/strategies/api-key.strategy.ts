@@ -5,10 +5,10 @@ import { HeaderAPIKeyStrategy } from 'passport-headerapikey';
 import { AuthService } from '../services';
 
 @Injectable()
-export class ApiKeyStrategy extends PassportStrategy(HeaderAPIKeyStrategy, 'api-key') {
+export class ApiKeyStrategy extends PassportStrategy(HeaderAPIKeyStrategy, 'x-api-key') {
   constructor(private authService: AuthService) {
     super(
-      { header: 'api-key', prefix: '' },
+      { header: 'x-api-key', prefix: '' },
       true,
       (apiKey: string, done: (...params: unknown[]) => void) => {
         const isValidApiKey = this.authService.validateApiKey(apiKey);
