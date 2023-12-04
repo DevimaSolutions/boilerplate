@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
 import { emailSchema } from 'src/features/common/validations';
-import { imageUriSchema } from 'src/features/common/validations/image-uri.schema';
+import { uriSchema } from 'src/features/common/validations/image-uri.schema';
 
 export const googleAccountSchema = z.object({
   googleAccountId: z.string().trim().toLowerCase().min(1).max(255),
   email: emailSchema,
-  imageUri: imageUriSchema,
+  imageUri: uriSchema,
 });

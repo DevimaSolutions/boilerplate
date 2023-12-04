@@ -4,12 +4,12 @@ import {
   imageSchema,
   emailSchema,
   passwordSchema,
-  roleSchema,
+  userRoleSchema,
 } from 'src/features/common/validations';
 
 export const createUserSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
-  role: roleSchema,
+  role: userRoleSchema,
   image: imageSchema,
 });
