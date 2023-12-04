@@ -20,7 +20,6 @@
     "*.(md|json|yml)": "prettier --write"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.7.0",
     "swagger-typescript-api": "^13.0.3"
   }
 }
