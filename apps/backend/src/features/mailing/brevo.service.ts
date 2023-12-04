@@ -1,6 +1,5 @@
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import axios from 'axios';
 
 import envConfig from '../../config/env.config';
 
@@ -46,9 +45,13 @@ export class BrevoService extends MailingService {
       params,
     };
 
-    const { data } = await axios.post<{ messageId: string }>(this.brevoEmailHost, options, {
+    const res = await fetch(this.brevoEmailHost, {
+      method: 'POST',
+      body: JSON.stringify(options),
       headers: this.headers,
     });
+
+    const data = (await res.json()) as { messageId: string };
 
     return data.messageId;
   }

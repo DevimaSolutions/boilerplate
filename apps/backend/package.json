@@ -37,7 +37,6 @@
     "@nestjs/platform-express": "^10.2.7",
     "@nestjs/swagger": "^7.1.13",
     "@nestjs/typeorm": "^10.0.0",
-    "axios": "^1.6.0",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "cls-hooked": "^4.2.2",
