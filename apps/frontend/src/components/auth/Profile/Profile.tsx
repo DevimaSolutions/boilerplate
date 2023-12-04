@@ -29,10 +29,10 @@ export async function Profile() {
           {profile?.imageUri ? (
             <Image
               alt="Profile picture"
-              className="object-cover object-center w-[81%] h-[81%] rounded-full"
-              height={24}
+              className="object-cover object-center rounded-full"
+              height={128}
               src={profile.imageUri}
-              width={24}
+              width={128}
             />
           ) : (
             <UserCircleIcon className="h-full w-full text-gray-500" />

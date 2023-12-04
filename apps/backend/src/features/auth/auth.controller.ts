@@ -11,6 +11,7 @@ import {
   Param,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { version as uuidVersion, validate as uuidValidate } from 'uuid';
 
 import { ZodValidationPipe } from 'src/features/common/pipes';
 
@@ -64,8 +65,11 @@ export class AuthController {
   @Get('session/:id')
   getSessionByUserId(@Param('id') id: string) {
     console.log(`fetch session ${id}`);
+    const isGoogleAccountId = !uuidValidate(id) || uuidVersion(id) !== 4;
     // TODO: add this user to cookie that expire in 1 min
-    return this.userService.findOne(id);
+    return isGoogleAccountId
+      ? this.userService.findActiveByGoogleAccountId(id)
+      : this.userService.findOne(id);
   }
 
   @UseGuards(ApiKeyAuthGuard)

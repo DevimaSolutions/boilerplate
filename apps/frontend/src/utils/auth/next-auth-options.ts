@@ -62,6 +62,7 @@ export const authOptions: AuthOptions = {
     },
     async signIn({ account, profile }) {
       if (account?.provider === 'google' && profile && 'picture' in profile) {
+        // TODO: check if this will work without picture (will it be null?)
         // ensure user is created on a backend from google account info
         const res = await fetch(`${env.backendUrl}/authorization/google`, {
           method: 'POST',

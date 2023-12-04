@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { typeOrmModuleOptions } from 'src/config/db.config';
+import { getTypeOrmModuleOptions } from 'src/config/db.config';
 import envConfig from 'src/config/env.config';
 import { AuthModule } from 'src/features/auth/auth.module';
 import { AwsModule } from 'src/features/aws';
@@ -20,7 +20,7 @@ import { AppService } from './app.service';
       cache: true,
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot(typeOrmModuleOptions),
+    TypeOrmModule.forRoot(getTypeOrmModuleOptions()),
     AwsModule,
     AuthModule,
     UsersModule,
