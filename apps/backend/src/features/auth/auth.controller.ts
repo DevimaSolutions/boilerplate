@@ -16,9 +16,8 @@ import { ZodValidationPipe } from 'src/features/common/pipes';
 
 import { UsersService } from '../users';
 
-import { ApiKeyAuthorized, Authorized } from './decorators';
+import { Authorized } from './decorators';
 import { ForgotPasswordDto, ResetPasswordDto, SignInDto, SignUpDto, GoogleAccountDto } from './dto';
-import { UserRole } from './enums';
 import { ApiKeyAuthGuard, LocalAuthGuard } from './guards';
 import { RequestWithUser } from './interfaces';
 import { AuthService } from './services';
@@ -54,14 +53,14 @@ export class AuthController {
     return this.authService.signUp(signUpDto);
   }
 
-  @Authorized(UserRole.User)
+  @Authorized()
   @Get('profile')
   getProfile(@Req() req: RequestWithUser) {
     // TODO: add this user to cookie that expire in 1 min
     return req.user;
   }
 
-  @ApiKeyAuthorized(UserRole.User)
+  @UseGuards(ApiKeyAuthGuard)
   @Get('session/:id')
   getSessionByUserId(@Param('id') id: string) {
     console.log(`fetch session ${id}`);

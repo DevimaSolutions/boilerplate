@@ -24,7 +24,7 @@ export const authOptions: AuthOptions = {
         const res = await fetch(`${env.backendUrl}/authorization/sign-in`, {
           method: 'POST',
           body: JSON.stringify(credentials),
-          headers: { 'Content-Type': 'application/json', 'api-key': env.apiKey },
+          headers: { 'Content-Type': 'application/json', 'x-api-key': env.apiKey },
         });
         if (!res.ok) {
           return null;
@@ -45,7 +45,7 @@ export const authOptions: AuthOptions = {
 
       // Get session data
       const res = await fetch(`${env.backendUrl}/authorization/session/${token.sub}`, {
-        headers: { 'Content-Type': 'application/json', Authorization: '', 'api-key': env.apiKey },
+        headers: { 'Content-Type': 'application/json', 'x-api-key': env.apiKey },
       });
       if (!res.ok) {
         return session;
@@ -70,7 +70,7 @@ export const authOptions: AuthOptions = {
             email: profile.email,
             imageUri: profile.picture,
           }),
-          headers: { 'Content-Type': 'application/json', 'api-key': env.apiKey },
+          headers: { 'Content-Type': 'application/json', 'x-api-key': env.apiKey },
         });
         // it will throw an error if user is blocked
         return res.ok;
