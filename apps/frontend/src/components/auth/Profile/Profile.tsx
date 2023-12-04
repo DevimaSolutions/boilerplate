@@ -20,7 +20,7 @@ export async function Profile() {
     });
 
   return (
-    <main className="h-full flex flex-col justify-center items-center mt-10 ">
+    <>
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Profile page:
       </h2>
@@ -50,6 +50,6 @@ export async function Profile() {
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 }

@@ -36,6 +36,7 @@ export const useResetPassword = () => {
         router.replace('/sign-in');
       }
     } catch (err) {
+      //TODO: add handling error after api-client fix
       setErrors({
         password: '',
         confirmPassword: 'Something went wrong',

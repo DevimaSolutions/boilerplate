@@ -24,7 +24,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en">
       <body className={inter.className}>
         <Header />
-        {children}
+        <main className="h-full flex flex-col justify-center items-center mt-10 ">{children}</main>
         <ToastContainer />
       </body>
     </html>

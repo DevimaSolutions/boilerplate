@@ -14,12 +14,13 @@ export const useSignUp = () => {
   ) => {
     try {
       await authorizationApi.signUp({ ...values });
-      router.replace(`verify-email?email=${values.email}`);
+      router.replace(`/verify-email?email=${values.email}`);
     } catch (err) {
       setErrors({
         email: '',
         password: '',
       });
+      //TODO: add handling error after api-client fix
       toast.error('Something went wrong');
     }
   };

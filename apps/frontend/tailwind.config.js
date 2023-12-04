@@ -12,7 +12,7 @@ module.exports = {
 
           secondary: '#ffffff',
 
-          accent: '#ffffff',
+          accent: '#d4f8de',
 
           neutral: '#ffffff',
 
@@ -20,7 +20,7 @@ module.exports = {
 
           info: 'lightblue',
 
-          success: 'green',
+          success: '#319060',
 
           warning: 'yellow',
 
