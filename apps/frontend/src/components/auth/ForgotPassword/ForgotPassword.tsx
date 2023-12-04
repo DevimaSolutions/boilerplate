@@ -6,7 +6,7 @@ import { useForgotPassword } from './useForgotPassword';
 export function ForgotPassword() {
   const { onSubmit } = useForgotPassword();
   return (
-    <main className="h-full flex flex-col justify-center mt-10 sm:mx-auto sm:w-full sm:max-w-md px-6 py-12 ">
+    <div className="sm:mx-auto sm:w-full sm:max-w-md px-6 py-12 ">
       <h2 className="mt-10 mb-0 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Reset your password
       </h2>
@@ -15,6 +15,6 @@ export function ForgotPassword() {
         password.
       </p>
       <ForgotPasswordForm onSubmit={onSubmit} />
-    </main>
+    </div>
   );
 }

@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { emailSchema } from 'src/validation-schemas/email.schema';
+
 export const forgotPasswordSchema = z.object({
-  email: z.string().trim().toLowerCase().email().min(1).max(255),
+  email: emailSchema,
 });

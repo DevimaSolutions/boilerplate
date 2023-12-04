@@ -9,7 +9,7 @@ import { useSignUp } from './useSignUp';
 export function SignUp() {
   const { onSubmit } = useSignUp();
   return (
-    <main className="h-full flex flex-col justify-center mt-10 sm:mx-auto sm:w-full sm:max-w-sm px-6 py-12 ">
+    <div className="sm:mx-auto sm:w-full sm:max-w-sm px-6 py-12 ">
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Sign up
       </h2>
@@ -20,6 +20,6 @@ export function SignUp() {
           Sign in
         </Link>
       </p>
-    </main>
+    </div>
   );
 }
