@@ -1,3 +1,10 @@
+const withBundleAnalyzer =
+  process.env.ANALYZE === 'true'
+    ? require('@next/bundle-analyzer')({
+        enabled: true,
+      })
+    : (x) => x;
+
 const backendProxyPath = process.env.NEXT_PUBLIC_BACKEND_PROXY_PATH;
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 const backendProxyRewrites = backendProxyPath
@@ -14,7 +21,7 @@ const backendProxyRewrites = backendProxyPath
   : [];
 
 /** @type {import('next').NextConfig} */
-module.exports = {
+module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   poweredByHeader: false,
   rewrites: async () => backendProxyRewrites,
@@ -30,4 +37,4 @@ module.exports = {
       },
     ],
   },
-};
+});

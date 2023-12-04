@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix"
+    "lint": "next lint --fix",
+    "build:analyze": "ANALYZE=true yarn build"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
@@ -22,6 +23,7 @@
     "zod-formik-adapter": "^1.2.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^14.0.3",
     "@next/eslint-plugin-next": "^14.0.3",
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.22",
