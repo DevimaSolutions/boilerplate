@@ -29,7 +29,13 @@ export class UsersService {
     }
 
     const hashedPass = password ? await this.hashPass(password) : undefined;
-    const entity = this.usersRepository.create({ ...createUserDto, role, password: hashedPass });
+    const entity = this.usersRepository.create({
+      ...createUserDto,
+      role,
+      password: hashedPass,
+      // TODO: remove this line when email verification is implemented
+      isEmailVerified: true,
+    });
 
     await this.usersRepository.save(entity);
     return entity;
