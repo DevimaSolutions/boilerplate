@@ -16,6 +16,9 @@
     "frontend#build": {
       "dependsOn": ["api-client#gen:api-client"]
     },
+    "frontend#build:tsc-only": {
+      "dependsOn": ["api-client#gen:api-client"]
+    },
     "lint": {},
     "test": {
       "dependsOn": ["^test"],

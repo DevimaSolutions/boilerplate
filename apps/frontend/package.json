@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "build:analyze": "ANALYZE=true yarn build"
+    "build:analyze": "ANALYZE=true yarn build",
+    "build:tsc-only": "tsc --noEmit"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
