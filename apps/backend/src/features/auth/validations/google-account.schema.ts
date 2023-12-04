@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
+import { emailSchema } from 'src/features/common/validations';
+import { imageUriSchema } from 'src/features/common/validations/image-uri.schema';
+
 export const googleAccountSchema = z.object({
   googleAccountId: z.string().trim().toLowerCase().min(1).max(255),
-  email: z.string().trim().toLowerCase().email().min(1).max(255),
-  imageUri: z.string().trim().min(1).url().max(1000),
+  email: emailSchema,
+  imageUri: imageUriSchema,
 });

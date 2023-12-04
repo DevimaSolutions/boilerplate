@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
+import { emailSchema, passwordSchema } from 'src/features/common/validations';
+
 export const signUpSchema = z.object({
-  email: z.string().trim().toLowerCase().email().min(1).max(255),
-  password: z.string().min(8).max(255),
+  email: emailSchema,
+  password: passwordSchema,
 });
