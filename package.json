@@ -10,6 +10,7 @@
     "setup:husky": "yarn setup:husky:nvm && rimraf .husky/pre-commit .husky/commit-msg && husky install && husky add .husky/pre-commit 'yarn pre-commit' && npx husky add .husky/commit-msg 'npm run commitlint ${1}'",
     "setup:husky:nvm": "cp ./.husky/.huskyrc ~/.huskyrc",
     "deploy": "turbo run deploy",
+    "build:tsc-only": "turbo run build:tsc-only",
     "docker:local": "turbo run docker:local",
     "gen:api-client": "turbo run gen:api-client",
     "pre-commit": "yarn gen:api-client && lint-staged",
