@@ -7,7 +7,7 @@ import { useVerifyEmail } from './useVerifyEmail';
 export function VerifyEmail() {
   const { email } = useVerifyEmail();
   return (
-    <div className="flex flex-col justify-center items-center sm:mx-auto sm:w-full sm:max-w-md px-6 py-12 ">
+    <>
       <div className="h-[85px] w-[85px] rounded-full flex justify-center items-center bg-accent">
         <EnvelopeIcon className="h-14 w-14 text-success" />
       </div>
@@ -22,6 +22,6 @@ export function VerifyEmail() {
         Just click on the link in the email to complete your sign up. If you don&apos;t see it, you
         may need to <b>check your spam</b> folder.
       </p>
-    </div>
+    </>
   );
 }

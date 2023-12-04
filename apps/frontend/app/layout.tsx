@@ -1,8 +1,6 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
-import { ToastContainer } from 'react-toastify';
 
-import Header from 'src/components/Header/Header';
 import { envUtil } from 'src/utils';
 
 import type { Metadata } from 'next';
@@ -22,11 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        <main className="h-full flex flex-col justify-center items-center mt-10 ">{children}</main>
-        <ToastContainer />
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
