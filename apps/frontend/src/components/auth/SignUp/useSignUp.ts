@@ -1,4 +1,6 @@
+import { authorizationApi } from 'api-client';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 import type { SignUpFormValues } from '../SignUpForm';
 import type { FormikHelpers } from 'formik';
@@ -10,26 +12,16 @@ export const useSignUp = () => {
     values: SignUpFormValues,
     { setErrors }: FormikHelpers<SignUpFormValues>,
   ) => {
-    // TODO: use react query
-    const res = await fetch(`api/authorization/sign-up`, {
-      method: 'POST',
-      body: JSON.stringify(values),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (res.status === 401) {
-      const data = (await res.json()) as { message: string; errors: Record<string, string> };
+    try {
+      await authorizationApi.signUp({ ...values });
+      router.replace(`verify-email?email=${values.email}`);
+    } catch (err) {
       setErrors({
-        email: ' ',
-        password: data.message,
-        ...data.errors,
+        email: '',
+        password: '',
       });
-      return;
+      toast.error('Something went wrong');
     }
-
-    router.refresh();
   };
   return { onSubmit };
 };
