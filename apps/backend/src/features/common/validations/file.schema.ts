@@ -1,12 +1,19 @@
 import { z } from 'zod';
 
-import { fileConstants } from 'src/constants';
+type MulterFileStringFields = 'fieldname' | 'originalname' | 'encoding' | 'mimetype' | 'size';
+
+const multerFileFieldTypes = {
+  fieldname: 'string',
+  originalname: 'string',
+  encoding: 'string',
+  mimetype: 'string',
+  size: 'number',
+};
 
 export const fileSchema = z.custom<Express.Multer.File>((file) => {
   const castedFile = file as Express.Multer.File | undefined;
 
-  const hasStringFields = fileConstants.multerFileStringFields.every(
-    (field) => typeof castedFile?.[field] === 'string',
+  return Object.entries(multerFileFieldTypes).every(
+    ([field, fieldType]) => typeof castedFile?.[field as MulterFileStringFields] === fieldType,
   );
-  return hasStringFields && typeof castedFile?.size === 'number';
 });

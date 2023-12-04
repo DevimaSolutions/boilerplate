@@ -1,3 +1,3 @@
 import { z } from 'zod';
 
-export const imageUriSchema = z.string().trim().min(1).url().max(1000);
+export const uriSchema = z.string().trim().min(1).url().max(1000);
