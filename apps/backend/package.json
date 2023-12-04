@@ -42,7 +42,7 @@
     "cls-hooked": "^4.2.2",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.3.1",
-    "next-auth": "^4.24.4",
+    "next-auth": "^4.24.5",
     "nodemailer": "^6.9.6",
     "passport": "^0.6.0",
     "passport-cookie": "^1.0.9",
