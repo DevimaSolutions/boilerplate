@@ -8,7 +8,7 @@ export function VerifyEmail() {
   const { email } = useVerifyEmail();
   return (
     <>
-      <div className="h-[85px] w-[85px] rounded-full flex justify-center items-center bg-accent">
+      <div className="h-[85px] w-[85px] rounded-full flex justify-center items-center self-center bg-accent">
         <EnvelopeIcon className="h-14 w-14 text-success" />
       </div>
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
