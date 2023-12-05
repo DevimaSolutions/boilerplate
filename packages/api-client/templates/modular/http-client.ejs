@@ -172,7 +172,14 @@ export class HttpClient<SecurityDataType = unknown> {
     }: FullRequestParams): Promise<HttpResponse<T, E>> => {
 <% } %>
         const secureParams = ((typeof secure === 'boolean' ? secure : this.baseApiParams.secure) && this.securityWorker && await this.securityWorker(this.securityData)) || {};
-        const requestParams = this.mergeRequestParams(params, secureParams);
+        const { cookies } = await import('next/headers');
+        const cookiesParams = (typeof window === 'undefined' &&  { headers: {
+            Cookie: cookies()
+              .getAll()
+              .map((c) => `${c.name}=${c.value}`)
+              .join('; '),
+          }}) || {};
+        const requestParams = this.mergeRequestParams(this.mergeRequestParams(params, secureParams),cookiesParams) ;
         const queryString = query && this.toQueryString(query);
         const payloadFormatter = this.contentFormatters[type || ContentType.Json];
         const responseFormat = format || requestParams.format;
