@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { resetPasswordErrorMessagesMap } from './constants';
 
 import type { ResetPasswordFormValues } from '../ResetPasswordForm';
-import type { FormikHelpers } from 'formik';
 
 export const useResetPassword = () => {
   const router = useRouter();
@@ -25,22 +24,16 @@ export const useResetPassword = () => {
     }
   }, [resetError, router, token?.length]);
 
-  const onSubmit = async (
-    values: ResetPasswordFormValues,
-    { setErrors }: FormikHelpers<ResetPasswordFormValues>,
-  ) => {
-    try {
-      if (token) {
-        await authorizationApi.resetPassword({ password: values.password, token });
+  const onSubmit = async (values: ResetPasswordFormValues) => {
+    if (token) {
+      const response = await authorizationApi.resetPassword({ password: values.password, token });
+
+      if (response.ok) {
         toast.success('Password has been changed successfully!');
         router.replace('/sign-in');
+      } else {
+        toast.error(response.error ? (response.error as Error).message : 'Something went wrong');
       }
-    } catch (err) {
-      //TODO: add handling error after api-client fix
-      setErrors({
-        password: '',
-        confirmPassword: 'Something went wrong',
-      });
     }
   };
 

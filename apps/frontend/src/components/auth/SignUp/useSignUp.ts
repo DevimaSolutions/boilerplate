@@ -3,25 +3,17 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 import type { SignUpFormValues } from '../SignUpForm';
-import type { FormikHelpers } from 'formik';
 
 export const useSignUp = () => {
   const router = useRouter();
 
-  const onSubmit = async (
-    values: SignUpFormValues,
-    { setErrors }: FormikHelpers<SignUpFormValues>,
-  ) => {
-    try {
-      await authorizationApi.signUp({ ...values });
+  const onSubmit = async (values: SignUpFormValues) => {
+    const response = await authorizationApi.signUp({ ...values });
+
+    if (response.ok) {
       router.replace(`/verify-email?email=${values.email}`);
-    } catch (err) {
-      setErrors({
-        email: '',
-        password: '',
-      });
-      //TODO: add handling error after api-client fix
-      toast.error('Something went wrong');
+    } else {
+      toast.error(response.error ? (response.error as Error).message : 'Something went wrong');
     }
   };
   return { onSubmit };

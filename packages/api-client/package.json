@@ -12,7 +12,7 @@
     "backend": "*"
   },
   "scripts": {
-    "gen:api-client:modules": "swagger-typescript-api -p ./swagger-spec.json -o ./src -t ./templates/modular --union-enums --modular --clean-output",
+    "gen:api-client:modules": "swagger-typescript-api -p ./swagger-spec.json -o ./src -t ./templates/modular --union-enums --modular --clean-output --disable-throw-on-error",
     "gen:api-client:entry": "swagger-typescript-api -p ./swagger-spec.json -n index.ts -o ./src -t ./templates/default --union-enums",
     "gen:api-client": "yarn gen:api-client:modules && yarn gen:api-client:entry"
   },
