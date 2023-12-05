@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { resetPasswordErrorMessagesMap } from './constants';
 
 import type { ForgotPasswordFormValues } from '../ForgotPasswordForm';
-import type { FormikHelpers } from 'formik';
 
 export const useForgotPassword = () => {
   const searchParams = useSearchParams();
@@ -19,18 +18,13 @@ export const useForgotPassword = () => {
     }
   }, [resetError]);
 
-  const onSubmit = async (
-    values: ForgotPasswordFormValues,
-    { setErrors }: FormikHelpers<ForgotPasswordFormValues>,
-  ) => {
+  const onSubmit = async (values: ForgotPasswordFormValues) => {
     const response = await authorizationApi.forgotPassword(values);
-    toast.info(`Check your inbox, we sent you a reset password e-mail at ${values.email}`);
 
-    if (!response.ok) {
-      setErrors({
-        email:
-          'We couldn`t find an account matching the email you entered. Please check your email and try again',
-      });
+    if (response.ok) {
+      toast.info(`Check your inbox, we sent you a reset password e-mail at ${values.email}`);
+    } else {
+      toast.error((response.error as Error).message);
     }
   };
 
