@@ -24,7 +24,7 @@ export const useForgotPassword = () => {
     if (response.ok) {
       toast.info(`Check your inbox, we sent you a reset password e-mail at ${values.email}`);
     } else {
-      toast.error((response.error as Error).message);
+      toast.error(response.error ? (response.error as Error).message : 'Something went wrong');
     }
   };
 

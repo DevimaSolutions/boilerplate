@@ -1,23 +1,11 @@
+'use client';
 import { EnvelopeIcon, UserCircleIcon } from '@heroicons/react/24/solid';
-import { authorizationApi } from 'api-client';
-import { cookies } from 'next/headers';
 import Image from 'next/image';
 
-export async function Profile() {
-  const profile = await authorizationApi
-    .getProfile({
-      //TODO: fix api-client request
-      headers: {
-        Cookie: cookies()
-          .getAll()
-          .map((c) => `${c.name}=${c.value}`)
-          .join('; '),
-      },
-    })
-    .then((res) => res.data)
-    .catch(() => {
-      //TODO: add handle error
-    });
+import { useProfile } from './useProfile';
+
+export function Profile() {
+  const { profile } = useProfile();
 
   return (
     <>
