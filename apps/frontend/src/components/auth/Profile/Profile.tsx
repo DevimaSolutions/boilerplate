@@ -3,12 +3,11 @@ import { authorizationApi } from 'api-client';
 import Image from 'next/image';
 
 export async function Profile() {
-  const profile = await authorizationApi.getProfile().then((res) => {
-    if (res.ok) {
-      return res.data;
-    }
-    throw new Error(res.error ? (res.error as Error).message : 'Something went wrong.');
-  });
+  const response = await authorizationApi.getProfile();
+  if (!response.ok) {
+    throw new Error(response.error ? (response.error as Error).message : 'Something went wrong.');
+  }
+  const profile = response.data;
 
   return (
     <>
