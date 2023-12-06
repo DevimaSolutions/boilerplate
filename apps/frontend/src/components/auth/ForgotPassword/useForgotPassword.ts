@@ -21,11 +21,12 @@ export const useForgotPassword = () => {
   const onSubmit = async (values: ForgotPasswordFormValues) => {
     const response = await authorizationApi.forgotPassword(values);
 
-    if (response.ok) {
-      toast.info(`Check your inbox, we sent you a reset password e-mail at ${values.email}`);
-    } else {
+    if (!response.ok) {
       toast.error(response.error ? (response.error as Error).message : 'Something went wrong');
+      return;
     }
+
+    toast.info(`Check your inbox, we sent you a reset password e-mail at ${values.email}`);
   };
 
   return { onSubmit };

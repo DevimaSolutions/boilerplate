@@ -25,16 +25,19 @@ export const useResetPassword = () => {
   }, [resetError, router, token?.length]);
 
   const onSubmit = async (values: ResetPasswordFormValues) => {
-    if (token) {
-      const response = await authorizationApi.resetPassword({ password: values.password, token });
-
-      if (response.ok) {
-        toast.success('Password has been changed successfully!');
-        router.replace('/sign-in');
-      } else {
-        toast.error(response.error ? (response.error as Error).message : 'Something went wrong');
-      }
+    if (!token) {
+      return;
     }
+
+    const response = await authorizationApi.resetPassword({ password: values.password, token });
+
+    if (!response.ok) {
+      toast.error(response.error ? (response.error as Error).message : 'Something went wrong');
+      return;
+    }
+
+    toast.success('Password has been changed successfully!');
+    router.replace('/sign-in');
   };
 
   return { onSubmit };

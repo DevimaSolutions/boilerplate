@@ -27,7 +27,7 @@ export default function Error({
       <button
         className="flex w-50 justify-center btn btn-primary"
         onClick={
-          // Attempt to recover by trying to re-render the invoices route
+          // Attempt to recover by trying to re-render the profile route
           () => {
             reset();
           }
