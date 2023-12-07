@@ -28,7 +28,10 @@ export function TextInput({
       />
       <label
         {...errorProps}
-        className={clsx('label label-text text-error p-0 h-6 pt-1', errorProps?.className)}
+        className={clsx(
+          'label label-text text-error p-0 min-h-[24px] h-full pt-1',
+          errorProps?.className,
+        )}
       >
         {touched[field.name] && errors[field.name] ? errors[field.name] : null}
       </label>
