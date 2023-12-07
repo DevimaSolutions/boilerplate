@@ -2,11 +2,9 @@
 
 ## TODO:
 
-- Add cookie based auth
 - Add documentation to `api-client` package
 - Figure out how caching works in Next (for authorization and other routes) and if it works fine with api-client package
 - Test api-client with form data
-- Add error response definition to swagger so `api-client` can handle errors
 - Add function `throwOnError` to automatically optionaliy throw on error responses
 
 - Test S3 service
