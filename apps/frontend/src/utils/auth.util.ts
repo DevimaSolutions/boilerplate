@@ -9,11 +9,12 @@ import type { User } from 'next-auth';
 
 export async function requireAuthorizedUser(options?: {
   allowedRoles?: UserRole[];
+  currentRoute?: string;
 }): Promise<User> {
   const user = await getServerUser();
 
   if (!user) {
-    redirect('/sign-in', RedirectType.replace);
+    redirect(`/sign-in?route=${options?.currentRoute}`, RedirectType.replace);
   }
 
   if (options?.allowedRoles?.length && !options.allowedRoles.includes(user.role as UserRole)) {
