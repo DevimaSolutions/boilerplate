@@ -3,7 +3,7 @@ import { requireAuthorizedUser } from 'src/utils/auth.util';
 
 export default async function ProfilePage() {
   // TODO: use NextAuth App Router guide for caching
-  await requireAuthorizedUser();
+  await requireAuthorizedUser({ currentRoute: '/profile' });
 
   return <Profile />;
 }

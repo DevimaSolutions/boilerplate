@@ -13,6 +13,7 @@ export const useSignIn = () => {
 
   const searchParams = useSearchParams();
   const signInError = searchParams.get('error');
+  const redirectRoute = searchParams.get('route');
 
   useEffect(() => {
     if (signInError) {
@@ -37,7 +38,10 @@ export const useSignIn = () => {
           'We couldn`t find an account matching the email and password you entered. Please check your email and password and try again',
       });
     }
-    // TODO: get redirect url from query
+    if (redirectRoute?.length) {
+      router.replace(redirectRoute);
+      return;
+    }
     router.refresh();
   };
 
