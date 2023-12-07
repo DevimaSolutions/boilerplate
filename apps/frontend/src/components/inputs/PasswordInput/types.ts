@@ -1,5 +1,5 @@
 import type { FieldProps } from 'formik';
-import type { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes, LabelHTMLAttributes } from 'react';
 
 export interface PasswordInputProps<
   V = string,
@@ -7,4 +7,6 @@ export interface PasswordInputProps<
 > extends FieldProps<V, FormValues>,
     Omit<InputHTMLAttributes<HTMLInputElement>, 'form'> {
   label?: string;
+  labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
+  errorProps?: LabelHTMLAttributes<HTMLLabelElement>;
 }

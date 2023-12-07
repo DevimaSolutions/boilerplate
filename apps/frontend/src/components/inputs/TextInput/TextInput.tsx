@@ -9,24 +9,26 @@ export function TextInput({
   label,
   type = 'text',
   className,
+  labelProps,
+  errorProps,
   ...props
 }: TextInputProps) {
   return (
     <div>
-      {label ? <span className="label p-0">{label}</span> : null}
+      {label ? (
+        <label className="label p-0" {...labelProps}>
+          {label}
+        </label>
+      ) : null}
       <input
         type={type}
         {...field}
         {...props}
         className={clsx('input input-bordered w-full input-primary mt-2', className)}
       />
-      {touched[field.name] && errors[field.name] ? (
-        <label className="label p-0 pt-1">
-          <span className="label-text text-error">{errors[field.name]}</span>
-        </label>
-      ) : (
-        <div className="h-6" />
-      )}
+      <label className="label label-text text-error p-0 h-6 pt-1" {...errorProps}>
+        {touched[field.name] && errors[field.name] ? errors[field.name] : null}
+      </label>
     </div>
   );
 }

@@ -11,7 +11,6 @@ import type { ResetPasswordFormProps } from './types';
 
 const initialValues = {
   password: '',
-  confirmPassword: '',
 };
 
 export function ResetPasswordForm({ onSubmit }: ResetPasswordFormProps) {
@@ -29,12 +28,6 @@ export function ResetPasswordForm({ onSubmit }: ResetPasswordFormProps) {
             label="Password"
             name="password"
             placeholder="password"
-          />
-          <Field
-            component={PasswordInput}
-            label="Repeat new password"
-            name="confirmPassword"
-            placeholder="confirm password"
           />
           <button
             className="flex w-full justify-center btn btn-primary"
