@@ -33,7 +33,6 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  debug: true,
   callbacks: {
     async session({ session, token }) {
       if (!token.sub) {

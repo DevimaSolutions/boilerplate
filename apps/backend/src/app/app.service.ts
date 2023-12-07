@@ -12,6 +12,14 @@ export class AppService {
   ) {}
 
   getHealthCheck() {
-    return { app: this.config.appName, isHealthy: true, apiDocsPath: '/docs' };
+    const areDocsEnabled = this.config.enableSwagger;
+    const docsBaseUrl = this.config.frontendProxyPath
+      ? `${this.config.frontendHostUrl}${this.config.frontendProxyPath}`
+      : '';
+
+    const apiDocsPath = areDocsEnabled ? `${docsBaseUrl}/docs` : '';
+
+    // TODO: add database connection check (and other services if any)
+    return { app: this.config.appName, isHealthy: true, apiDocsPath };
   }
 }

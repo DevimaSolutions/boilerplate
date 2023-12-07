@@ -27,12 +27,18 @@ const configureSwagger = (app: INestApplication) => {
     .setVersion('v1')
 
     .addCookieAuth('next-auth.session-token', {
-      type: 'apiKey',
-      scheme: 'basic',
+      type: 'oauth2',
+      flows: {
+        implicit: {
+          authorizationUrl: `${frontendHostUrl}/sign-in?redirect-url=${frontendHostUrl}${frontendProxyPath}/docs`,
+          scopes: {},
+        },
+      },
       name: 'next-auth.session-token',
       description:
         'Cookie-based authentication. </br>' +
-        'Enter your token (without the "Bearer" word) in the text input below.',
+        'Please sign-in using frontend UI to be able to access endpoints protected by cookies.<br/>' +
+        'You can keep the <b>client_id</b> field empty.',
     })
     .addApiKey(
       {
@@ -53,14 +59,7 @@ const configureSwagger = (app: INestApplication) => {
 
   const swaggerUiRoute = 'docs';
 
-  SwaggerModule.setup(swaggerUiRoute, app, document, {
-    swaggerOptions: {
-      requestInterceptor: (req: RequestInit) => {
-        req.credentials = 'include';
-        return req;
-      },
-    },
-  });
+  SwaggerModule.setup(swaggerUiRoute, app, document);
 
   return updateSwaggerSpecFile(document);
 };
