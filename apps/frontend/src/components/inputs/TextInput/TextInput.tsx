@@ -16,7 +16,7 @@ export function TextInput({
   return (
     <div>
       {label ? (
-        <label className="label p-0" {...labelProps}>
+        <label {...labelProps} className={clsx('label p-0', labelProps?.className)}>
           {label}
         </label>
       ) : null}
@@ -26,7 +26,10 @@ export function TextInput({
         {...props}
         className={clsx('input input-bordered w-full input-primary mt-2', className)}
       />
-      <label className="label label-text text-error p-0 h-6 pt-1" {...errorProps}>
+      <label
+        {...errorProps}
+        className={clsx('label label-text text-error p-0 h-6 pt-1', errorProps?.className)}
+      >
         {touched[field.name] && errors[field.name] ? errors[field.name] : null}
       </label>
     </div>
