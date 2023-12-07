@@ -11,7 +11,6 @@ import type { SignUpFormProps } from './types';
 const initialValues = {
   email: '',
   password: '',
-  confirmPassword: '',
 };
 
 export function SignUpForm({ onSubmit }: SignUpFormProps) {
@@ -36,12 +35,6 @@ export function SignUpForm({ onSubmit }: SignUpFormProps) {
             label="Password"
             name="password"
             placeholder="password"
-          />
-          <Field
-            component={PasswordInput}
-            label="Repeat new password"
-            name="confirmPassword"
-            placeholder="confirm password"
           />
           <button
             className="flex w-full justify-center btn btn-primary"
