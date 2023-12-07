@@ -21,8 +21,8 @@ export const useForgotPassword = () => {
   const onSubmit = async (values: ForgotPasswordFormValues) => {
     const response = await authorizationApi.forgotPassword(values);
 
-    if (!response.ok) {
-      toast.error(response.error ? (response.error as Error).message : 'Something went wrong');
+    if (response.error) {
+      toast.error(response.error.message);
       return;
     }
 
