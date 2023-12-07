@@ -1,25 +1,23 @@
+import { Controller, Post, UseGuards, Req, Body, Get, Put, Param } from '@nestjs/common';
 import {
-  Controller,
-  Post,
-  UseGuards,
-  Req,
-  Body,
-  HttpCode,
-  HttpStatus,
-  Get,
-  Put,
-  Param,
-} from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { version as uuidVersion, validate as uuidValidate } from 'uuid';
 
 import { ZodValidationPipe } from 'src/features/common/pipes';
 
+import { SuccessDto } from '../common/dto';
+import { ErrorDto } from '../common/dto/error.dto';
+import { ValidationErrorDto } from '../common/dto/validation-error.dto';
 import { UsersService } from '../users';
 
 import { Authorized } from './decorators';
+import { RequireApiKey } from './decorators/require-api-key.decorator';
 import { ForgotPasswordDto, ResetPasswordDto, SignInDto, SignUpDto, GoogleAccountDto } from './dto';
-import { ApiKeyAuthGuard, LocalAuthGuard } from './guards';
+import { LocalAuthGuard } from './guards';
 import { RequestWithUser } from './interfaces';
 import { AuthService } from './services';
 import {
@@ -39,8 +37,8 @@ export class AuthController {
     private userService: UsersService,
   ) {}
 
-  @UseGuards(ApiKeyAuthGuard, LocalAuthGuard)
-  @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalAuthGuard)
+  @RequireApiKey()
   @Post('sign-in')
   // _signInDto parameter is declared here to allow Swagger plugin
   // parse endpoint body signature
@@ -48,7 +46,7 @@ export class AuthController {
     return req.user;
   }
 
-  @HttpCode(HttpStatus.OK)
+  @ApiBadRequestResponse({ type: () => ValidationErrorDto })
   @Post('sign-up')
   async signUp(@Body(new ZodValidationPipe(signUpSchema)) signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto);
@@ -61,10 +59,10 @@ export class AuthController {
     return req.user;
   }
 
-  @UseGuards(ApiKeyAuthGuard)
+  @RequireApiKey()
+  @ApiNotFoundResponse({ type: () => ErrorDto })
   @Get('session/:id')
   getSessionByUserId(@Param('id') id: string) {
-    console.log(`fetch session ${id}`);
     const isGoogleAccountId = !uuidValidate(id) || uuidVersion(id) !== 4;
     // TODO: add this user to cookie that expire in 1 min
     return isGoogleAccountId
@@ -72,7 +70,8 @@ export class AuthController {
       : this.userService.findOne(id);
   }
 
-  @UseGuards(ApiKeyAuthGuard)
+  @RequireApiKey()
+  @ApiBadRequestResponse({ type: () => ValidationErrorDto })
   @Post('google')
   getProfileByGoogleAccount(
     @Body(new ZodValidationPipe(googleAccountSchema)) googleAccountDto: GoogleAccountDto,
@@ -80,7 +79,8 @@ export class AuthController {
     return this.authService.validateGoogleAccount(googleAccountDto);
   }
 
-  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: () => SuccessDto })
+  @ApiBadRequestResponse({ type: () => ValidationErrorDto })
   @Post('forgot-password')
   async forgotPassword(
     @Body(new ZodValidationPipe(forgotPasswordSchema)) passwordForgotDto: ForgotPasswordDto,
@@ -88,6 +88,8 @@ export class AuthController {
     return this.authService.sendForgotEmail(passwordForgotDto.email);
   }
 
+  @ApiOkResponse({ type: () => SuccessDto })
+  @ApiBadRequestResponse({ type: () => ValidationErrorDto })
   @Put('reset-password')
   async resetPassword(
     @Body(new ZodValidationPipe(resetPasswordSchema)) { token, password }: ResetPasswordDto,

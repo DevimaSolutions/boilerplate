@@ -34,10 +34,17 @@ export interface ApiConfig<SecurityDataType = unknown> {
     customFetch?: typeof fetch;
 }
 
-export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
-    data: D;
-    error: E;
-}
+export type HttpResponse<D extends unknown, E extends unknown = unknown> = Response &
+    (
+        | {
+            data: D;
+            error: null;
+            }
+        | {
+            data: null;
+            error: E;
+          }
+    );
 
 type CancelToken = Symbol | string | number;
 

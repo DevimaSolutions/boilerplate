@@ -26,12 +26,23 @@ const configureSwagger = (app: INestApplication) => {
     .setDescription(`The ${appName} app API description`)
     .setVersion('v1')
 
-    .addBearerAuth({
-      type: 'http',
+    .addCookieAuth('next-auth.session-token', {
+      type: 'apiKey',
+      scheme: 'basic',
+      name: 'next-auth.session-token',
       description:
-        'JWT Authorization header using the Bearer scheme. </br>' +
+        'Cookie-based authentication. </br>' +
         'Enter your token (without the "Bearer" word) in the text input below.',
-    });
+    })
+    .addApiKey(
+      {
+        type: 'apiKey',
+        name: 'x-api-key',
+        description: 'API key to access the server-to-server API',
+        in: 'header',
+      },
+      'x-api-key',
+    );
 
   if (frontendProxyPath) {
     builder.addServer(`${frontendHostUrl}${frontendProxyPath}`);
@@ -42,7 +53,14 @@ const configureSwagger = (app: INestApplication) => {
 
   const swaggerUiRoute = 'docs';
 
-  SwaggerModule.setup(swaggerUiRoute, app, document);
+  SwaggerModule.setup(swaggerUiRoute, app, document, {
+    swaggerOptions: {
+      requestInterceptor: (req: RequestInit) => {
+        req.credentials = 'include';
+        return req;
+      },
+    },
+  });
 
   return updateSwaggerSpecFile(document);
 };

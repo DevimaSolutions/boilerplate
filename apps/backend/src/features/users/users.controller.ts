@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Param, Patch, Req } from '@nestjs/common';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiNotFoundResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { Authorized, UserRole } from '../auth';
 import { RequestWithUser } from '../auth/interfaces';
+import { ErrorDto } from '../common/dto/error.dto';
+import { ValidationErrorDto } from '../common/dto/validation-error.dto';
 import { ZodValidationPipe } from '../common/pipes';
 
 import { UpdateUserDto } from './dto';
@@ -14,6 +16,7 @@ import { updateUserSchema } from './validations';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiNotFoundResponse({ type: () => ErrorDto })
   @Get(':id')
   @Authorized(UserRole.Admin)
   @ApiParam({ name: 'id', type: 'string' })
@@ -21,6 +24,7 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
+  @ApiBadRequestResponse({ type: () => ValidationErrorDto })
   @Patch('/profile')
   @Authorized(UserRole.User)
   update(
