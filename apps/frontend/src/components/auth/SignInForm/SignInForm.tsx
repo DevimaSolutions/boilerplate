@@ -4,6 +4,9 @@ import { Field, Form, Formik } from 'formik';
 import Link from 'next/link';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 
+import PasswordInput from 'src/components/inputs/PasswordInput';
+import TextInput from 'src/components/inputs/TextInput';
+
 import { signInSchema } from './schema';
 
 import type { SignInFormProps } from './types';
@@ -21,46 +24,21 @@ export function SignInForm({ onSubmit }: SignInFormProps) {
       validateOnMount={false}
       validationSchema={toFormikValidationSchema(signInSchema)}
     >
-      {({ isSubmitting, errors, touched }) => (
+      {({ isSubmitting }) => (
         <Form className="space-y-3">
-          <div>
-            <label className="label p-0" htmlFor="email">
-              {/*TODO: Create components for the form fields that will have label, input, and error nodes encapsulated.*/}
-              Email address
-            </label>
-            <Field
-              className="input input-bordered w-full input-primary mt-2"
-              label="Email address"
-              name="email"
-              placeholder="email"
-              type="email"
-            />
-            {errors.email && touched.email ? (
-              <label className="label p-0 pt-1">
-                <span className="label-text text-error">{errors.email}</span>
-              </label>
-            ) : (
-              <div className="h-6" />
-            )}
-          </div>
-          <div>
-            <label className="label p-0" htmlFor="password">
-              Password
-            </label>
-            <Field
-              className="input input-bordered w-full input-primary mt-2"
-              name="password"
-              placeholder="password"
-              type="password"
-            />
-            {errors.password && touched.password ? (
-              <label className="label p-0 pt-1">
-                <span className="label-text text-error">{errors.password}</span>
-              </label>
-            ) : (
-              <div className="h-6" />
-            )}
-          </div>
+          <Field
+            component={TextInput}
+            label="Email address"
+            name="email"
+            placeholder="email"
+            type="email"
+          />
+          <Field
+            component={PasswordInput}
+            label="Password"
+            name="password"
+            placeholder="password"
+          />
           <Link className="link link-primary" href="/forgot-password">
             Forgot password?
           </Link>

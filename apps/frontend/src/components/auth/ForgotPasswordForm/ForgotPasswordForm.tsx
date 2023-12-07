@@ -3,6 +3,8 @@
 import { Field, Form, Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 
+import TextInput from 'src/components/inputs/TextInput';
+
 import { forgotPasswordSchema } from './schema';
 
 import type { ForgotPasswordFormProps } from './types';
@@ -19,28 +21,15 @@ export function ForgotPasswordForm({ onSubmit }: ForgotPasswordFormProps) {
       validateOnMount={false}
       validationSchema={toFormikValidationSchema(forgotPasswordSchema)}
     >
-      {({ isSubmitting, errors, touched }) => (
+      {({ isSubmitting }) => (
         <Form className="space-y-3">
-          <div>
-            <label className="label p-0" htmlFor="email">
-              {/*TODO: Create components for the form fields that will have label, input, and error nodes encapsulated.*/}
-              Email address
-            </label>
-            <Field
-              className="input input-bordered w-full input-primary mt-2"
-              label="Email address"
-              name="email"
-              placeholder="email"
-              type="email"
-            />
-            {errors.email && touched.email ? (
-              <label className="label p-0 pt-1">
-                <span className="label-text text-error">{errors.email}</span>
-              </label>
-            ) : (
-              <div className="h-6" />
-            )}
-          </div>
+          <Field
+            component={TextInput}
+            label="Email address"
+            name="email"
+            placeholder="email"
+            type="email"
+          />
           <button
             className="flex w-full justify-center btn btn-primary"
             disabled={isSubmitting}
