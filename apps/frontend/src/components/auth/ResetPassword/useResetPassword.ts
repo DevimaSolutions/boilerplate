@@ -31,8 +31,8 @@ export const useResetPassword = () => {
 
     const response = await authorizationApi.resetPassword({ password: values.password, token });
 
-    if (!response.ok) {
-      toast.error(response.error ? (response.error as Error).message : 'Something went wrong');
+    if (response.error) {
+      toast.error(response.error.message);
       return;
     }
 

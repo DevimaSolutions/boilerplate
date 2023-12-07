@@ -4,8 +4,8 @@ import Image from 'next/image';
 
 export async function Profile() {
   const response = await authorizationApi.getProfile();
-  if (!response.ok) {
-    throw new Error(response.error ? (response.error as Error).message : 'Something went wrong.');
+  if (response.error) {
+    throw new Error(response.error.message);
   }
   const profile = response.data;
 
