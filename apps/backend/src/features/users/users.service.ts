@@ -115,7 +115,8 @@ export class UsersService {
   async update(id: string, updateUserDto: UpdateUserDto) {
     const entity = await this.findOne(id);
 
-    await this.usersRepository.update(entity.id, updateUserDto);
+    // TODO: add image update functionality
+    await this.usersRepository.update(entity.id, { email: updateUserDto.email });
 
     return this.findOne(id);
   }
