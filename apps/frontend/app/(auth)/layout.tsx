@@ -1,6 +1,6 @@
 import { ToastContainer } from 'react-toastify';
 
-import AuthHeader from 'src/components/headers/AuthHeader/AuthHeader';
+import AuthHeader from 'src/components/headers/AuthHeader';
 
 import type { PropsWithChildren } from 'react';
 

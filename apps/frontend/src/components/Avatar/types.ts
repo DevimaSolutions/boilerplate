@@ -1,4 +1,4 @@
 export interface AvatarProps {
-  imageUri: string | null;
+  imageUri?: string;
   size: number;
 }
