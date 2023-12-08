@@ -2,6 +2,7 @@ import { UserCircleIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import Avatar from 'src/components/Avatar/Avatar';
 import { getServerUser } from 'src/utils/auth/get-server-user';
 
 import { SignOutButton } from '../../auth/SignOutButton';
@@ -17,17 +18,7 @@ export default async function Header() {
       {user ? (
         <div className="dropdown dropdown-bottom dropdown-end ">
           <div className="btn m-1 bg-white hover:bg-slate-100 w-14" role="button" tabIndex={0}>
-            {user.imageUri ? (
-              <Image
-                alt="Profile picture"
-                className="object-cover object-center rounded-full"
-                height={32}
-                src={user.imageUri}
-                width={32}
-              />
-            ) : (
-              <UserCircleIcon className="h-8 w-8 " />
-            )}
+            <Avatar imageUri={user.imageUri} size={32} />
           </div>
           <ul className="dropdown-content z-[1] mt-1 menu p-2 shadow rounded-box w-52">
             <li>
