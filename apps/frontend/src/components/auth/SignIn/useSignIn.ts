@@ -11,7 +11,7 @@ import type { FormikHelpers } from 'formik';
 export const useSignIn = () => {
   const searchParams = useSearchParams();
   const signInError = searchParams.get('error');
-  const redirectRoute = searchParams.get('route');
+  const redirectUri = searchParams.get('redirectUri');
 
   useEffect(() => {
     if (signInError) {
@@ -27,7 +27,7 @@ export const useSignIn = () => {
     // Call NextAuth api route
     const response = await signIn('credentials', {
       ...values,
-      callbackUrl: redirectRoute ?? '/',
+      callbackUrl: redirectUri ?? '/',
     });
     if (!response?.ok) {
       setErrors({
