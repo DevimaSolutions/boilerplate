@@ -28,7 +28,8 @@ module.exports = withBundleAnalyzer({
   transpilePackages: ['api-client'],
   images: {
     remotePatterns: [
-      //TODO: Save google account images to S3 to rely only on application bucket hostname
+      //TODO: Save google account images to S3 (or disk storage) so need
+      // to rely only on application bucket hostname (should be loaded from env)
       {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',

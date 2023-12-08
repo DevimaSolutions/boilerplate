@@ -23,14 +23,18 @@ import { singleImageUploadLimits } from 'src/constants/files';
 
 import { Authorized, UserRole } from '../auth';
 import { RequestWithUser } from '../auth/interfaces';
+import { IncludeFileUpload } from '../common/decorators/include-file-upload.decorator';
+import { SuccessDto } from '../common/dto';
 import { ErrorDto } from '../common/dto/error.dto';
 import { ValidationErrorDto } from '../common/dto/validation-error.dto';
 import { ValidationBadRequestException } from '../common/exceptions';
 import { ZodValidationPipe } from '../common/pipes';
 
 import { UpdateUserDto } from './dto';
+import { UploadUserFiles } from './dto/upload-user-files.dto';
 import { UsersService } from './users.service';
 import { updateUserSchema } from './validations';
+import { uploadUserFilesSchema } from './validations/upload-user-files.schema';
 
 @ApiTags('Users')
 @Controller('users')
@@ -79,5 +83,18 @@ export class UsersController {
     // TODO: add this user to cookie that expire in 1 min
     // probably move this to authorization controller
     return this.usersService.update(req.user.id, updateUserDto);
+  }
+
+  @ApiBadRequestResponse({ type: () => ValidationErrorDto })
+  @Patch('/gallery')
+  @Authorized()
+  @IncludeFileUpload(UploadUserFiles)
+  updateMultipleFile(
+    @Body(new ZodValidationPipe(uploadUserFilesSchema)) uploadUserFilesDto: UploadUserFiles,
+  ) {
+    // TODO: create s3 file streaming
+    // and use this endpoint to set files to "user gallery"
+    console.log(uploadUserFilesDto);
+    return new SuccessDto();
   }
 }

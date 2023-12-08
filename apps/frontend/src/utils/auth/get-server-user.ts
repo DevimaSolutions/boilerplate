@@ -14,6 +14,5 @@ export const getServerUser = async () => {
   const session = await getServerSession(authOptions);
   const user = session?.user ?? null;
 
-  //TODO: Fix /authorization/session/:id endpoint to work properly with users authorized using Google Account
   return user as User | null;
 };
