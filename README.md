@@ -5,9 +5,13 @@
 - Add documentation to `api-client` package
 - Figure out how caching works in Next (for authorization and other routes) and if it works fine with api-client package
 - Test api-client with form data
-- Add function `throwOnError` to automatically optionaliy throw on error responses
+- Add function `throwOnError` to automatically optionally throw on error responses
 
 - Test S3 service
+- Probably upload files directly to S3 using streaming?
+- Add global interceptor to add @ApiBadRequestResponse({ type: () => ValidationErrorDto })
+  to endpoints that has ZodValidationPipe assigned to params
+- Add global interceptor to transform endpoints with files in a body DTO into form data and put files back into body DTO
 
 - Add readme for transactions usage
 - Add PM2 to both frontend and backend production deployment flows

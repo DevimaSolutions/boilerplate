@@ -6,6 +6,14 @@ import envConfig from './env.config';
 
 import type { INestApplication } from '@nestjs/common';
 
+export const getSwaggerDocsUrl = () => {
+  const { frontendHostUrl, frontendProxyPath, enableSwagger } = envConfig();
+
+  const areDocsEnabled = enableSwagger;
+  const docsBaseUrl = frontendProxyPath ? `${frontendHostUrl}${frontendProxyPath}` : '';
+
+  return areDocsEnabled ? `${docsBaseUrl}/docs` : '';
+};
 const updateSwaggerSpecFile = async (document: OpenAPIObject) => {
   // This is a relative path from the `backend` project root
   const swaggerSpecFileLocation = '../../packages/api-client/swagger-spec.json';
@@ -30,7 +38,7 @@ const configureSwagger = (app: INestApplication) => {
       type: 'oauth2',
       flows: {
         implicit: {
-          authorizationUrl: `${frontendHostUrl}/sign-in?redirect-url=${frontendHostUrl}${frontendProxyPath}/docs`,
+          authorizationUrl: `${frontendHostUrl}/sign-in?redirect-url=${getSwaggerDocsUrl()}`,
           scopes: {},
         },
       },
