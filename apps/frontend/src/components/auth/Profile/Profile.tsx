@@ -17,7 +17,7 @@ export async function Profile() {
       </h2>
       <div className="w-content p-8 sm:flex sm:space-x-6 shadow-xl rounded-lg">
         <div className="flex-shrink-0 flex justify-center items-center w-full mb-6 h-44 sm:h-32 sm:w-32 sm:mb-0">
-          <Avatar imageUri={profile.imageUri} size={128} />
+          <Avatar imageUri={profile.imageUri ?? ''} size={128} />
         </div>
         <div className="flex flex-col space-y-4">
           <h2 className="text-2xl font-semibold mb-0">
