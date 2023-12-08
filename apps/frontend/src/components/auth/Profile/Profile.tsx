@@ -1,6 +1,7 @@
-import { EnvelopeIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { EnvelopeIcon } from '@heroicons/react/24/outline';
 import { authorizationApi } from 'api-client';
-import Image from 'next/image';
+
+import Avatar from 'src/components/Avatar/Avatar';
 
 export async function Profile() {
   const response = await authorizationApi.getProfile();
@@ -16,17 +17,7 @@ export async function Profile() {
       </h2>
       <div className="w-content p-8 sm:flex sm:space-x-6 shadow-xl rounded-lg">
         <div className="flex-shrink-0 flex justify-center items-center w-full mb-6 h-44 sm:h-32 sm:w-32 sm:mb-0">
-          {profile.imageUri ? (
-            <Image
-              alt="Profile picture"
-              className="object-cover object-center rounded-full"
-              height={128}
-              src={profile.imageUri}
-              width={128}
-            />
-          ) : (
-            <UserCircleIcon className="h-full w-full text-black" />
-          )}
+          <Avatar imageUri={profile.imageUri} size={128} />
         </div>
         <div className="flex flex-col space-y-4">
           <h2 className="text-2xl font-semibold mb-0">
