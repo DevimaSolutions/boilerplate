@@ -5,7 +5,7 @@ const multerFileFieldTypes = {
   originalname: 'string',
   encoding: 'string',
   mimetype: 'string',
-  // size: 'number',
+  size: 'number',
 } as const;
 
 type MulterFileStringFields = keyof typeof multerFileFieldTypes;
