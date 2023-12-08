@@ -14,7 +14,10 @@ export async function requireAuthorizedUser(options?: {
   const user = await getServerUser();
 
   if (!user) {
-    redirect(`/sign-in?route=${options?.currentRoute}`, RedirectType.replace);
+    redirect(
+      `/sign-in?redirectUri=${encodeURIComponent(options?.currentRoute ?? '')}`,
+      RedirectType.replace,
+    );
   }
 
   if (options?.allowedRoles?.length && !options.allowedRoles.includes(user.role as UserRole)) {
