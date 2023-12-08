@@ -1,3 +1,4 @@
+import { headers } from 'next/headers';
 import { RedirectType, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
@@ -9,13 +10,14 @@ import type { User } from 'next-auth';
 
 export async function requireAuthorizedUser(options?: {
   allowedRoles?: UserRole[];
-  currentRoute?: string;
 }): Promise<User> {
   const user = await getServerUser();
 
   if (!user) {
+    const headersList = headers();
+    const pathname = headersList.get('x-pathname');
     redirect(
-      `/sign-in?redirectUri=${encodeURIComponent(options?.currentRoute ?? '')}`,
+      `/sign-in${pathname && `?redirectUri=${encodeURIComponent(pathname)}`}`,
       RedirectType.replace,
     );
   }
