@@ -1,4 +1,4 @@
-import { EnvelopeIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { EnvelopeIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { authorizationApi } from 'api-client';
 import Image from 'next/image';
 
@@ -25,7 +25,7 @@ export async function Profile() {
               width={128}
             />
           ) : (
-            <UserCircleIcon className="h-full w-full text-gray-500" />
+            <UserCircleIcon className="h-full w-full text-black" />
           )}
         </div>
         <div className="flex flex-col space-y-4">
