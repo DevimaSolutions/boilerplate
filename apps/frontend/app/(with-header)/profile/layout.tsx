@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
-    <main className="flex flex-col justify-center align-center mt-10 sm:mx-auto sm:w-full sm:max-w-lg px-6 py-12">
+    <main className="flex flex-col justify-center items-center mt-10 sm:mx-auto sm:w-full sm:max-w-lg px-6 py-12">
       {children}
     </main>
   );
