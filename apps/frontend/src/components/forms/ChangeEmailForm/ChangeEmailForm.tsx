@@ -5,13 +5,12 @@ import { toFormikValidationSchema } from 'zod-formik-adapter';
 
 import TextInput from 'src/components/inputs/TextInput';
 
-import { signInSchema } from './schema';
+import { changeEmailSchema } from './schema';
 
 import type { ChangeEmailFormProps } from './types';
 
 const initialValues = {
   email: '',
-  password: '',
 };
 
 export default function ChangeEmailForm({ onSubmit }: ChangeEmailFormProps) {
@@ -20,7 +19,7 @@ export default function ChangeEmailForm({ onSubmit }: ChangeEmailFormProps) {
       initialValues={initialValues}
       onSubmit={onSubmit}
       validateOnMount={false}
-      validationSchema={toFormikValidationSchema(signInSchema)}
+      validationSchema={toFormikValidationSchema(changeEmailSchema)}
     >
       {({ isSubmitting }) => (
         <Form className="space-y-3">
