@@ -1,21 +1,22 @@
-// import type { FormikHelpers } from 'formik';
-// import type { ChangeEmailFormValues } from 'src/components/forms/ChangeEmailForm/types';
+import { toast } from 'react-toastify';
+
+import type { ChangeEmailFormValues } from 'src/components/forms/ChangeEmailForm/types';
 
 export const useChangeEmailModal = () => {
-  const onSubmit = async () =>
-    // values: ChangeEmailFormValues,
-    // { setErrors }: FormikHelpers<ChangeEmailFormValues>,
-    {
-      // Call NextAuth api route
-      // TODO: add patch request
-      // const response = await signIn({
-      //   ...values,
-      // });
-      // if (!response?.ok) {
-      //   setErrors({
-      //     email: ' ',
-      //   });
-      // }
-    };
+  const onSubmit = async (values: ChangeEmailFormValues) => {
+    // Call NextAuth api route
+    const response = await fetch('/api/users/profile', {
+      method: 'PATCH',
+      body: JSON.stringify({
+        email: values.email,
+      }),
+    });
+    if (!response.ok) {
+      toast.error(response.statusText);
+      return;
+    }
+
+    toast.success('Email updated successfully!');
+  };
   return { onSubmit };
 };
