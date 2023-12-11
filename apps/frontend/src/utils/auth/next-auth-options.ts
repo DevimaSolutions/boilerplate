@@ -83,7 +83,6 @@ export const authOptions: AuthOptions = {
     sessionToken: {
       name: 'session-token',
       options: {
-        httpOnly: true,
         path: '/',
         secure: true,
       },
@@ -98,7 +97,6 @@ export const authOptions: AuthOptions = {
     csrfToken: {
       name: 'csrf-token',
       options: {
-        httpOnly: true,
         path: '/',
         secure: true,
       },
