@@ -79,4 +79,29 @@ export const authOptions: AuthOptions = {
     error: '/sign-in',
     signIn: '/sign-in',
   },
+  cookies: {
+    sessionToken: {
+      name: 'session-token',
+      options: {
+        httpOnly: true,
+        path: '/',
+        secure: true,
+      },
+    },
+    callbackUrl: {
+      name: 'callback-url',
+      options: {
+        path: '/',
+        secure: true,
+      },
+    },
+    csrfToken: {
+      name: 'csrf-token',
+      options: {
+        httpOnly: true,
+        path: '/',
+        secure: true,
+      },
+    },
+  },
 };

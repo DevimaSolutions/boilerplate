@@ -34,7 +34,7 @@ const configureSwagger = (app: INestApplication) => {
     .setDescription(`The ${appName} app API description`)
     .setVersion('v1')
 
-    .addCookieAuth('next-auth.session-token', {
+    .addCookieAuth('session-token', {
       type: 'oauth2',
       flows: {
         implicit: {
@@ -42,7 +42,7 @@ const configureSwagger = (app: INestApplication) => {
           scopes: {},
         },
       },
-      name: 'next-auth.session-token',
+      name: 'session-token',
       description:
         'Cookie-based authentication. </br>' +
         'Please sign-in using frontend UI to be able to access endpoints protected by cookies.<br/>' +

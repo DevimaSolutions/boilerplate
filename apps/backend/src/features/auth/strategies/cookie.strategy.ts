@@ -15,7 +15,7 @@ export class CookieStrategy extends PassportStrategy(Strategy) {
     private authService: AuthService,
   ) {
     super({
-      cookieName: 'next-auth.session-token',
+      cookieName: 'session-token',
       signed: config.frontendHostUrl.startsWith('https'),
     });
   }
