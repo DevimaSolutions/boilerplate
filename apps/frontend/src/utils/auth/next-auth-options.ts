@@ -84,21 +84,18 @@ export const authOptions: AuthOptions = {
       name: 'session-token',
       options: {
         path: '/',
-        secure: true,
       },
     },
     callbackUrl: {
       name: 'callback-url',
       options: {
         path: '/',
-        secure: true,
       },
     },
     csrfToken: {
       name: 'csrf-token',
       options: {
         path: '/',
-        secure: true,
       },
     },
   },
