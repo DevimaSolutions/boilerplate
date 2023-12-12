@@ -1,7 +1,7 @@
 import type { FormikHelpers } from 'formik';
 
 export interface GeneralSettingsFormValues {
-  thumbnail: File | null;
+  thumbnail: File[];
   images: File[];
   someField: string;
   anyNumber: number;
