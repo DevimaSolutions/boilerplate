@@ -13,7 +13,7 @@ export default function CheckboxInput({
 }: CheckboxInputProps) {
   return (
     <div>
-      <label {...labelProps} className="label justify-normal gap-3 cursor-pointer">
+      <label {...labelProps} className="label p-0 justify-normal gap-3 cursor-pointer">
         <input
           checked={Boolean(values[field.name])}
           onChange={() => setFieldValue(field.name, !values[field.name])}

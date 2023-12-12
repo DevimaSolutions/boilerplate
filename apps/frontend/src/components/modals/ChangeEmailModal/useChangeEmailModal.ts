@@ -5,7 +5,6 @@ import type { ChangeEmailFormValues } from 'src/components/forms/ChangeEmailForm
 
 export const useChangeEmailModal = () => {
   const onSubmit = async (values: ChangeEmailFormValues) => {
-    // Call NextAuth api route
     const response = await usersApi.update({ email: values.email });
 
     if (response.error) {
