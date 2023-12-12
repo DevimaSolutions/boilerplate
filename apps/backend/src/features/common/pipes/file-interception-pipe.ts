@@ -26,15 +26,18 @@ export class FileInterceptionPipe implements PipeTransform {
       return value;
     }
     if ('files' in this.request && this.request.files) {
-      const files = this.request.files as Record<string, Express.Multer.File[]>;
+      const files = this.request.files as Record<string, Express.Multer.File[] | undefined>;
       return {
         ...value,
         ...Object.fromEntries(
-          fieldMetadata.map(({ name, maxCount }) => [
-            name,
-            // unwrap from array files that are single
-            maxCount === 1 ? files[name][0] : files[name],
-          ]),
+          fieldMetadata.map(({ name, maxCount }) => {
+            const fileOrArray = files[name];
+            return [
+              name,
+              // unwrap from array files that are single
+              maxCount === 1 && fileOrArray ? fileOrArray[0] : fileOrArray,
+            ];
+          }),
         ),
       };
     }

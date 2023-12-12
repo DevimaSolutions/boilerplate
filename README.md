@@ -9,12 +9,12 @@
 - Add Recapcha to public endpoints
 - CredentialsSignIn error toast is shown when invalid credentials are entered. Need to hide it.
   (It is probably there because {redirect: false} signIn option was removed)
+- Add react-query examples
 
+- Add license, contribution guide etc
 - Test S3 service
-- Probably upload files directly to S3 using streaming?
 - Add global interceptor to add @ApiBadRequestResponse({ type: () => ValidationErrorDto })
   to endpoints that has ZodValidationPipe assigned to params
-- Add global interceptor to transform endpoints with files in a body DTO into form data and put files back into body DTO
 
 - Add readme for transactions usage
 - Add PM2 to both frontend and backend production deployment flows
@@ -37,6 +37,8 @@
   - new authorization architecture
   - next app router / (and it's too aggressive caching)
   - why we should not use barrel files anymore
+  - rate limiting
+  - how file uploads work (temporary memory storage)
 
 # V2 TODO:
 
