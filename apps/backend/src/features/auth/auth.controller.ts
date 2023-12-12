@@ -47,6 +47,7 @@ export class AuthController {
   }
 
   @ApiBadRequestResponse({ type: () => ValidationErrorDto })
+  // Add rate limiter
   @Post('sign-up')
   async signUp(@Body(new ZodValidationPipe(signUpSchema)) signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto);

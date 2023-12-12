@@ -11,6 +11,7 @@ export class AppController {
   @Get()
   @ApiOperation({ description: 'Check if the app is healthy' })
   @ApiTags('Health')
+  // TODO add rate limiter
   getHealthCheck(): HealthCheckDto {
     return this.appService.getHealthCheck();
   }
