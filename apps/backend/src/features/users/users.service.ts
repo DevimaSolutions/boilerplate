@@ -2,11 +2,12 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import * as bcrypt from 'bcrypt';
 import { FindOneOptions } from 'typeorm';
 
-import { errorMessages, s3Folders } from 'src/constants';
+import { errorMessages } from 'src/constants';
 
 import { GoogleAccountDto, UpdateGoogleAccountDto } from '../auth/dto';
 import { UserRole, UserStatus } from '../auth/enums';
-import { AwsService } from '../aws';
+import { FileUploadService } from '../file-upload';
+import fileFolders from '../file-upload/file-folders';
 
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './entities';
@@ -16,7 +17,7 @@ import { UsersRepository } from './users.repository';
 export class UsersService {
   constructor(
     private usersRepository: UsersRepository,
-    private awsService: AwsService,
+    private fileUploadService: FileUploadService,
   ) {}
 
   private hashPass = async (password: string) => bcrypt.hash(password, await bcrypt.genSalt());
@@ -115,8 +116,14 @@ export class UsersService {
   async update(id: string, updateUserDto: UpdateUserDto) {
     const entity = await this.findOne(id);
 
-    // TODO: add image update functionality
-    await this.usersRepository.update(entity.id, { email: updateUserDto.email });
+    if (updateUserDto.image) {
+      const imageUri = await this.uploadAvatar(id, updateUserDto.image);
+      await this.usersRepository.update(entity.id, { imageUri });
+    }
+
+    if (updateUserDto.email) {
+      await this.usersRepository.update(entity.id, { email: updateUserDto.email });
+    }
 
     return this.findOne(id);
   }
@@ -158,10 +165,14 @@ export class UsersService {
     const user = await this.findOne(id);
 
     if (user.imageUri) {
-      void this.awsService.removeImage(user.imageUri);
+      const imageKey = this.fileUploadService.getFileKeyFromUri(user.imageUri);
+      void this.fileUploadService.removeFile(imageKey);
     }
 
-    const imageUri = await this.awsService.uploadImage(image, s3Folders.userAvatarFolder(id));
+    const imageUri = await this.fileUploadService.uploadFile(
+      image,
+      fileFolders.userAvatarFolder(id),
+    );
 
     user.imageUri = imageUri;
     await user.save();

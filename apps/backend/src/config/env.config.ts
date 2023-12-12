@@ -46,7 +46,7 @@ const envConfig = registerAs('env', () => ({
     region: process.env.AWS_REGION || '',
     accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
-    cdnDomain: process.env.NEXT_PUBLIC_AWS_CDN_DOMAIN || '',
+    cdnDomain: process.env.AWS_CDN_DOMAIN || '',
   },
   mailhog: {
     host: process.env.MAILHOG_HOST || '',

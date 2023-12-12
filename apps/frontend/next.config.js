@@ -20,6 +20,22 @@ const backendProxyRewrites = backendProxyPath
     }
   : [];
 
+const getCdnImagePattern = () => {
+  try {
+    const url = new URL(process.env.CDN_BASE_URL);
+    return [
+      {
+        protocol: url.protocol.replace(':', ''),
+        hostname: url.hostname,
+        port: url.port,
+        pathname: `${url.pathname}/**`,
+      },
+    ];
+  } catch {
+    return [];
+  }
+};
+
 /** @type {import('next').NextConfig} */
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
@@ -28,6 +44,7 @@ module.exports = withBundleAnalyzer({
   transpilePackages: ['api-client'],
   images: {
     remotePatterns: [
+      ...getCdnImagePattern(),
       //TODO: Save google account images to S3 (or disk storage) so need
       // to rely only on application bucket hostname (should be loaded from env)
       {

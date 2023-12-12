@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Req, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Req } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiForbiddenResponse,
@@ -42,11 +42,8 @@ export class UsersController {
   update(
     @Req() req: RequestWithUser,
     @Body(new ZodValidationPipe(updateUserSchema)) updateUserDto: UpdateUserDto,
-    @UploadedFile() image?: Express.Multer.File,
   ) {
-    if (image) {
-      updateUserDto.image = image;
-    }
+    console.log(updateUserDto);
     // TODO: add this user to cookie that expire in 1 min
     // probably move this to authorization controller
     return this.usersService.update(req.user.id, updateUserDto);

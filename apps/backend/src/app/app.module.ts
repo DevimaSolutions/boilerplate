@@ -7,8 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmModuleOptions } from 'src/config/db.config';
 import envConfig from 'src/config/env.config';
 import { AuthModule } from 'src/features/auth/auth.module';
-import { AwsModule } from 'src/features/aws';
-import { MailingModule } from 'src/features/mailing/mailing.module';
+import { FileUploadModule } from 'src/features/file-upload/file-upload.module';
 import { UsersModule } from 'src/features/users/users.module';
 
 import { AppController } from './app.controller';
@@ -32,10 +31,9 @@ import { AppService } from './app.service';
       ],
     }),
     TypeOrmModule.forRoot(getTypeOrmModuleOptions()),
-    AwsModule,
+    FileUploadModule.forRoot(),
     AuthModule,
     UsersModule,
-    MailingModule,
   ],
   controllers: [AppController],
   providers: [
