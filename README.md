@@ -6,6 +6,7 @@
 - Figure out how caching works in Next (for authorization and other routes) and if it works fine with api-client package
 - Test api-client with form data
 - Add function `throwOnError` to automatically optionally throw on error responses
+- Add Recapcha to public endpoints
 
 - Test S3 service
 - Probably upload files directly to S3 using streaming?
