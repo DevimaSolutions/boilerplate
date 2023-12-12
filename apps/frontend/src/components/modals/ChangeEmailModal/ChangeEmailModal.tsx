@@ -15,7 +15,7 @@ export default function ChangeEmailModal(props: ChangeEmailModalProps) {
   const { onSubmit } = useChangeEmailModal();
   return (
     <BaseModal {...props}>
-      <h2>Enter new email</h2>
+      <h2 className="mt-0">Enter new email</h2>
       <ChangeEmailForm onSubmit={onSubmit} />
     </BaseModal>
   );
