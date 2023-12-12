@@ -5,6 +5,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import { version as uuidVersion, validate as uuidValidate } from 'uuid';
 
 import { ZodValidationPipe } from 'src/features/common/pipes';
@@ -47,7 +48,7 @@ export class AuthController {
   }
 
   @ApiBadRequestResponse({ type: () => ValidationErrorDto })
-  // Add rate limiter
+  @UseGuards(ThrottlerGuard)
   @Post('sign-up')
   async signUp(@Body(new ZodValidationPipe(signUpSchema)) signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto);

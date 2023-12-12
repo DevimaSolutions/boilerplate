@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 import { AppService } from './app.service';
 import { HealthCheckDto } from './dto/health-check.dto';
@@ -8,10 +9,10 @@ import { HealthCheckDto } from './dto/health-check.dto';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  @ApiOperation({ description: 'Check if the app is healthy' })
+  @UseGuards(ThrottlerGuard)
   @ApiTags('Health')
-  // TODO add rate limiter
+  @ApiOperation({ description: 'Check if the app is healthy' })
+  @Get()
   getHealthCheck(): HealthCheckDto {
     return this.appService.getHealthCheck();
   }

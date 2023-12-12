@@ -7,6 +7,8 @@
 - Test api-client with form data
 - Add function `throwOnError` to automatically optionally throw on error responses
 - Add Recapcha to public endpoints
+- CredentialsSignIn error toast is shown when invalid credentials are entered. Need to hide it.
+  (It is probably there because {redirect: false} signIn option was removed)
 
 - Test S3 service
 - Probably upload files directly to S3 using streaming?
