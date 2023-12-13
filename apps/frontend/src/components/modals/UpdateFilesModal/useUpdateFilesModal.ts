@@ -12,7 +12,7 @@ export const useUpdateFilesModal = ({ onClose }: UpdateFilesModalProps) => {
     values: UpdateFilesFormValues,
     { resetForm, setErrors }: FormikHelpers<UpdateFilesFormValues>,
   ) => {
-    const checkResult = updateFilesSchema.safeParse(values);
+    const checkResult = await updateFilesSchema.safeParseAsync(values);
     if (!checkResult.success) {
       toast.error(checkResult.error.message);
       return;
