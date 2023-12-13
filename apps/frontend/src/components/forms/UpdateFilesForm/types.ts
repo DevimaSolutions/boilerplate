@@ -1,7 +1,7 @@
 import type { FormikHelpers } from 'formik';
 
 export interface UpdateFilesFormValues {
-  thumbnail: File | null;
+  thumbnail: File | undefined;
   images: File[];
   someField: string;
   anyNumber: number;

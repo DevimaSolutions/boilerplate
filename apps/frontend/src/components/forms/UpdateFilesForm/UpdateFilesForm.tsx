@@ -14,7 +14,7 @@ import { updateFilesSchema } from './schema';
 import type { UpdateFilesFormProps } from './types';
 
 const initialValues = {
-  thumbnail: null,
+  thumbnail: undefined,
   images: [],
   someField: '',
   anyNumber: 0,
