@@ -14,7 +14,7 @@ import { updateFilesSchema } from './schema';
 import type { UpdateFilesFormProps } from './types';
 
 const initialValues = {
-  thumbnail: {} as File,
+  thumbnail: undefined,
   images: [],
   someField: '',
   anyNumber: 0,
@@ -46,7 +46,7 @@ export default function UpdateFilesForm({ onSubmit }: UpdateFilesFormProps) {
             label="Choose your thumbnail"
             name="thumbnail"
           />
-          {values.thumbnail.name ? <ImageFileCard file={values.thumbnail} /> : null}
+          {values.thumbnail ? <ImageFileCard file={values.thumbnail} /> : null}
           <Field
             accept={fileConstants.imageMimeTypes}
             component={FileInput}
