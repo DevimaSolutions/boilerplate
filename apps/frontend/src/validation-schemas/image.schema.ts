@@ -1,10 +1,16 @@
+import { z } from 'zod';
+
 import fileConstants, { singleImageUploadLimits } from 'src/constants/file-limits';
 
-import { fileSchema } from './file.schema';
-
-export const imageSchema = fileSchema
-  .refine((file) => file.size <= singleImageUploadLimits.fileSize, `Max file size is 5MB.`)
+export const imageSchema = z
+  .any()
+  .refine((files: File | undefined) => Boolean(files), 'Image is required.')
   .refine(
-    (file) => fileConstants.imageMimeTypes.includes(file.mimetype),
-    '.jpg, .jpeg, .png and .webp files are accepted.',
+    (files: File | undefined) =>
+      files?.size ? files.size <= singleImageUploadLimits.fileSize : false,
+    `Max file size is 5MB.`,
+  )
+  .refine(
+    (files: File | undefined) => fileConstants.imageMimeTypes.includes(files?.type ?? ''),
+    '.jpg, .jpeg, .png, .gif and .webp files are accepted.',
   );
