@@ -1,15 +1,7 @@
-import { z } from 'zod';
-
 import fileConstants, { singleImageUploadLimits } from 'src/constants/file-limits';
 import bytesParser from 'src/utils/bytes-parser.util';
 
-// TODO: move to a separate file
-export const fileSchema = z.custom<Blob>(
-  (file) => {
-    return file instanceof Blob;
-  },
-  { message: 'File is required.' },
-);
+import { fileSchema } from './file.schema';
 
 export const imageSchema = fileSchema
   .refine(
