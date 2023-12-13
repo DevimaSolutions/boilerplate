@@ -20,10 +20,10 @@ export default function ProfileSettings() {
         Change email
       </button>
       <ChangeEmailModal
+        isOpen={isChangeEmailOpen}
         onClose={() => {
           setIsChangeEmailOpen(false);
         }}
-        open={isChangeEmailOpen}
       />
       <button
         className="btn"
@@ -35,10 +35,10 @@ export default function ProfileSettings() {
         Update files
       </button>
       <UpdateFilesModal
+        isOpen={isUpdateFilesOpen}
         onClose={() => {
           setIsUpdateFilesOpen(false);
         }}
-        open={isUpdateFilesOpen}
       />
     </div>
   );

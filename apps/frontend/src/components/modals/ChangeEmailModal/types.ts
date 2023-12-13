@@ -1,4 +1,4 @@
 export interface ChangeEmailModalProps {
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
 }

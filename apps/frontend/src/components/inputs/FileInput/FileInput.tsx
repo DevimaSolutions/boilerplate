@@ -36,7 +36,7 @@ export function FileInput({
             return;
           }
           if (multiple) {
-            await setFieldValue(field.name, [...Array.from(event.target.files)]);
+            await setFieldValue(field.name, Array.from(event.target.files));
             return;
           }
           await setFieldValue(field.name, event.target.files[0]);

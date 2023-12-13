@@ -1,4 +1,4 @@
 export interface UpdateFilesModalProps {
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
 }
