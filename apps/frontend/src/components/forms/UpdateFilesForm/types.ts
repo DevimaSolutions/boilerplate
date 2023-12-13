@@ -1,13 +1,12 @@
 import type { FormikHelpers } from 'formik';
 
 export interface UpdateFilesFormValues {
-  thumbnail: File | undefined;
+  thumbnail: File;
   images: File[];
   someField: string;
   anyNumber: number;
   flag: boolean;
 }
-
 export interface UpdateFilesFormProps {
   onSubmit: (
     values: UpdateFilesFormValues,

@@ -16,7 +16,7 @@ export default function CheckboxInput({
       <label {...labelProps} className="label p-0 justify-normal gap-3 cursor-pointer">
         <input
           checked={Boolean(values[field.name])}
-          onChange={() => setFieldValue(field.name, !values[field.name])}
+          onChange={(e) => setFieldValue(field.name, e.target.checked)}
           type="checkbox"
           {...props}
           className={clsx(

@@ -115,7 +115,11 @@ export class HttpClient<SecurityDataType = unknown> {
             Object.keys(input || {}).reduce((formData, key) => {
                 const property = input[key];
                 Array.isArray(property)?
-                property.forEach((item) => formData.append(key, item))
+                property.forEach((item) => formData.append(key, item instanceof Blob
+                ? item
+                : typeof item === 'object' && item !== null
+                ? JSON.stringify(item)
+                : `${item}`))
                 : formData.append(
                   key,
                   property instanceof Blob

@@ -10,7 +10,7 @@ export const useChangeEmailModal = ({ onClose }: ChangeEmailModalProps) => {
     values: ChangeEmailFormValues,
     { resetForm }: FormikHelpers<ChangeEmailFormValues>,
   ) => {
-    const response = await usersApi.update({ email: values.email });
+    const response = await usersApi.update(values);
 
     if (response.error) {
       toast.error(response.error.message);

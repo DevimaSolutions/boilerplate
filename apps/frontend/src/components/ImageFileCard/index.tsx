@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Image from 'next/image';
 
-import { bytesParser } from 'src/utils';
+import bytesParser from 'src/utils/bytes-parser.util';
 
 import type { HTMLAttributes } from 'react';
 
@@ -18,11 +18,11 @@ export default function ImageFileCard({ file, className, ...props }: ImageFileCa
       {...props}
     >
       <Image
-        alt=""
+        alt={file.name}
+        className="max-w-[100px] w-full h-full"
         height={0}
         sizes="100vw"
         src={URL.createObjectURL(file)}
-        style={{ maxWidth: '100px', width: '100%', height: '100%' }}
         width={0}
       />
 
