@@ -3,11 +3,11 @@
 import { useState } from 'react';
 
 import { ChangeEmailModal } from '../modals/ChangeEmailModal';
-import { GeneralSettingsModal } from '../modals/GeneralSettingsModal';
+import { UpdateFilesModal } from '../modals/UpdateFilesModal';
 
 export default function ProfileSettings() {
   const [isChangeEmailOpen, setIsChangeEmailOpen] = useState<boolean>(false);
-  const [isGeneralSettingsOpen, setIsGeneralSettingsOpen] = useState<boolean>(false);
+  const [isUpdateFilesOpen, setIsUpdateFilesOpen] = useState<boolean>(false);
   return (
     <div className="flex justify-center items-center gap-2 w-full ml-0">
       <button
@@ -28,17 +28,17 @@ export default function ProfileSettings() {
       <button
         className="btn"
         onClick={() => {
-          setIsGeneralSettingsOpen((val) => !val);
+          setIsUpdateFilesOpen((val) => !val);
         }}
         type="button"
       >
-        General settings
+        Update files
       </button>
-      <GeneralSettingsModal
+      <UpdateFilesModal
         onClose={() => {
-          setIsGeneralSettingsOpen(false);
+          setIsUpdateFilesOpen(false);
         }}
-        open={isGeneralSettingsOpen}
+        open={isUpdateFilesOpen}
       />
     </div>
   );

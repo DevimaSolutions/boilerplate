@@ -6,13 +6,10 @@ import { BaseModal } from '../BaseModal';
 
 import { useChangeEmailModal } from './useChangeEmailModal';
 
-interface ChangeEmailModalProps {
-  open: boolean;
-  onClose: () => void;
-}
+import type { ChangeEmailModalProps } from './types';
 
 export default function ChangeEmailModal(props: ChangeEmailModalProps) {
-  const { onSubmit } = useChangeEmailModal();
+  const { onSubmit } = useChangeEmailModal(props);
   return (
     <BaseModal {...props}>
       <h2 className="mt-0">Enter new email</h2>

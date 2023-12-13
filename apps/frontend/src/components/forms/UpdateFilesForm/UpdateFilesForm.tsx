@@ -9,30 +9,28 @@ import FileInput from 'src/components/inputs/FileInput';
 import TextInput from 'src/components/inputs/TextInput';
 import { fileConstants } from 'src/constants';
 
-import { generalSettingsSchema } from './schema';
+import { updateFilesSchema } from './schema';
 
-import type { GeneralSettingsFormProps } from './types';
+import type { UpdateFilesFormProps } from './types';
 
 const initialValues = {
-  thumbnail: [],
+  thumbnail: null,
   images: [],
   someField: '',
   anyNumber: 0,
   flag: false,
 };
 
-export default function GeneralSettingsForm({ onSubmit }: GeneralSettingsFormProps) {
+export default function UpdateFilesForm({ onSubmit }: UpdateFilesFormProps) {
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
       validateOnMount={false}
-      validationSchema={toFormikValidationSchema(generalSettingsSchema)}
+      validationSchema={toFormikValidationSchema(updateFilesSchema)}
     >
-      {({ isSubmitting, values, errors }) => (
+      {({ isSubmitting, values }) => (
         <Form className="space-y-3">
-          {console.log(values)}
-          {console.log(errors)}
           <Field component={TextInput} label="Some text" name="someField" placeholder="Type text" />
           <Field
             component={TextInput}
@@ -48,7 +46,7 @@ export default function GeneralSettingsForm({ onSubmit }: GeneralSettingsFormPro
             label="Choose your thumbnail"
             name="thumbnail"
           />
-          {values.thumbnail[0] ? <ImageFileCard file={values.thumbnail[0]} /> : null}
+          {values.thumbnail ? <ImageFileCard file={values.thumbnail} /> : null}
           <Field
             accept={fileConstants.imageMimeTypes}
             component={FileInput}

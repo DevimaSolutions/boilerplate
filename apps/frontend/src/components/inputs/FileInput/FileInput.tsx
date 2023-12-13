@@ -10,8 +10,11 @@ export function FileInput({
   className,
   labelProps,
   errorProps,
+  multiple,
   ...props
 }: FiletInputProps) {
+  //TODO: reset file input value on resetForm
+
   return (
     <div>
       {label ? (
@@ -20,6 +23,7 @@ export function FileInput({
         </label>
       ) : null}
       <input
+        multiple
         type="file"
         {...field}
         {...props}
@@ -31,12 +35,11 @@ export function FileInput({
           if (!event.target.files?.length) {
             return;
           }
-          if (props.multiple) {
+          if (multiple) {
             await setFieldValue(field.name, [...Array.from(event.target.files)]);
             return;
           }
-          console.log('event target', event.target.files);
-          await setFieldValue(field.name, event.target.files);
+          await setFieldValue(field.name, event.target.files[0]);
         }}
         value={undefined}
       />
