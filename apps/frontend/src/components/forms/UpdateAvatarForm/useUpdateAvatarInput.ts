@@ -1,12 +1,12 @@
 import { usersApi } from 'api-client';
 import { useCallback, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { ZodError } from 'zod';
 
 import { imageSchema } from 'src/validation-schemas/image.schema';
 
 import type { UpdateAvatarInputProps } from './types';
 import type { ChangeEvent } from 'react';
-import type { ZodError } from 'zod';
 
 const useUpdateAvatarInput = ({ imageUri: initImage }: UpdateAvatarInputProps) => {
   const [imageUri, setImageUri] = useState(initImage);
@@ -35,8 +35,15 @@ const useUpdateAvatarInput = ({ imageUri: initImage }: UpdateAvatarInputProps) =
       toast.success('Avatar updated successfully!');
       setImageUri(response.data.imageUri ?? '');
     } catch (error) {
-      const zodError = error as ZodError;
-      toast.error(Array.isArray(zodError.issues) ? zodError.issues[0].message : zodError.message);
+      if (error instanceof ZodError) {
+        toast(Array.isArray(error.issues) ? error.issues[0].message : error.message);
+        return;
+      }
+      if (error instanceof Error) {
+        toast(error.message);
+        return;
+      }
+      throw error;
     }
   }, []);
 
