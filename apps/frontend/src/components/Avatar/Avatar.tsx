@@ -7,12 +7,13 @@ export default function Avatar({ imageUri, size, onEdit }: AvatarProps) {
   return (
     <div className="relative">
       {onEdit ? (
-        <PencilSquareIcon
-          className="absolute top-[10%] right-[10%] bg-white p-[3%] rounded-full"
-          height={size / 4.5}
+        <button
+          className="absolute w-8 h-8 top-2 right-2 border-none bg-white p-1 rounded-full"
           onClick={onEdit}
-          width={size / 4.5}
-        />
+          type="button"
+        >
+          <PencilSquareIcon />
+        </button>
       ) : null}
       {imageUri ? (
         <Image
