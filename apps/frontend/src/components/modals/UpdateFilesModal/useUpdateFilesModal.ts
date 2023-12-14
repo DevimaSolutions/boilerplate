@@ -14,7 +14,11 @@ export const useUpdateFilesModal = ({ onClose }: UpdateFilesModalProps) => {
   ) => {
     const checkResult = await updateFilesSchema.safeParseAsync(values);
     if (!checkResult.success) {
-      toast.error(checkResult.error.message);
+      toast.error(
+        Array.isArray(checkResult.error.issues)
+          ? checkResult.error.issues[0].message
+          : checkResult.error.message,
+      );
       return;
     }
     const response = await usersApi.updateMultipleFile(checkResult.data);

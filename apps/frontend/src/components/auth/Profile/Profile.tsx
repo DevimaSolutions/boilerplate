@@ -1,7 +1,7 @@
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
 import { authorizationApi } from 'api-client';
 
-import Avatar from 'src/components/Avatar/Avatar';
+import { UpdateAvatarInput } from 'src/components/forms/UpdateAvatarForm';
 import { ProfileSettings } from 'src/components/ProfileSettings';
 
 export async function Profile() {
@@ -19,7 +19,7 @@ export async function Profile() {
       <div className="w-fit p-8 flex flex-col gap-6 shadow-xl rounded-lg">
         <div className="w-fit sm:flex sm:space-x-6 ">
           <div className="flex-shrink-0 flex justify-center items-center w-full mb-6 h-44 sm:h-32 sm:w-32 sm:mb-0">
-            <Avatar imageUri={profile.imageUri ?? ''} size={128} />
+            <UpdateAvatarInput imageUri={profile.imageUri ?? ''} size={128} />
           </div>
           <div className="flex flex-col space-y-4">
             <h2 className="text-2xl font-semibold mb-0">
