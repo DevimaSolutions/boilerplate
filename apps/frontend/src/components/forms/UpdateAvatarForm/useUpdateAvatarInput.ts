@@ -6,39 +6,38 @@ import { imageSchema } from 'src/validation-schemas/image.schema';
 
 import type { UpdateAvatarInputProps } from './types';
 import type { ChangeEvent } from 'react';
+import type { ZodError } from 'zod';
 
 const useUpdateAvatarInput = ({ imageUri: initImage }: UpdateAvatarInputProps) => {
-  const [imageUri, setImageUri] = useState<string>(initImage);
+  const [imageUri, setImageUri] = useState(initImage);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleInputClick = useCallback(() => {
     if (inputRef.current) {
       inputRef.current.click();
     }
-  }, [inputRef]);
+  }, []);
 
   const handleChange = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.currentTarget.files?.[0]) {
       return;
     }
-    const checkedImage = await imageSchema.safeParseAsync(e.currentTarget.files[0]);
+    try {
+      const checkedImage = await imageSchema.parseAsync(e.currentTarget.files[0]);
 
-    if (!checkedImage.success) {
-      toast.error(
-        Array.isArray(checkedImage.error.issues)
-          ? checkedImage.error.issues[0].message
-          : checkedImage.error.message,
-      );
-      return;
-    }
-    const response = await usersApi.update({ image: checkedImage.data });
+      const response = await usersApi.update({ image: checkedImage });
 
-    if (response.error) {
-      toast.error(response.error.message);
-      return;
+      if (response.error) {
+        toast.error(response.error.message);
+        return;
+      }
+
+      toast.success('Avatar updated successfully!');
+      setImageUri(response.data.imageUri ?? '');
+    } catch (error) {
+      const zodError = error as ZodError;
+      toast.error(Array.isArray(zodError.issues) ? zodError.issues[0].message : zodError.message);
     }
-    toast.success('Avatar updated successfully!');
-    setImageUri(response.data.imageUri ?? '');
   }, []);
 
   return { imageUri, inputRef, handleInputClick, handleChange };
