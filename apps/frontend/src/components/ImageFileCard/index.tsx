@@ -26,7 +26,7 @@ export default function ImageFileCard({ file, className, ...props }: ImageFileCa
         width={0}
       />
 
-      <p className="m-0">
+      <p className="m-0 break-all	">
         {file.name}
         <br /> {bytesParser(file.size, 1)}
       </p>
