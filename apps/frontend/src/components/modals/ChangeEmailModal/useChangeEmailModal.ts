@@ -2,14 +2,10 @@ import { usersApi } from 'api-client';
 import { toast } from 'react-toastify';
 
 import type { ChangeEmailModalProps } from './types';
-import type { FormikHelpers } from 'formik';
 import type { ChangeEmailFormValues } from 'src/components/forms/ChangeEmailForm/types';
 
-export const useChangeEmailModal = ({ email, onClose }: ChangeEmailModalProps) => {
-  const onSubmit = async (
-    values: ChangeEmailFormValues,
-    { resetForm }: FormikHelpers<ChangeEmailFormValues>,
-  ) => {
+export const useChangeEmailModal = (onClose: ChangeEmailModalProps['onClose']) => {
+  const onSubmit = async (values: ChangeEmailFormValues) => {
     const response = await usersApi.update(values);
 
     if (response.error) {
@@ -17,9 +13,8 @@ export const useChangeEmailModal = ({ email, onClose }: ChangeEmailModalProps) =
       return;
     }
     toast.success('Email updated successfully!');
-    resetForm();
     onClose();
     //TODO: investigate sign out after email change
   };
-  return { onSubmit, email };
+  return { onSubmit };
 };

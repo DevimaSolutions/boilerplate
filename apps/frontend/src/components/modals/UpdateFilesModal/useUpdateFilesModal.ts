@@ -10,7 +10,7 @@ import type { UpdateFilesFormValues } from 'src/components/forms/UpdateFilesForm
 export const useUpdateFilesModal = ({ onClose }: UpdateFilesModalProps) => {
   const onSubmit = async (
     values: UpdateFilesFormValues,
-    { resetForm, setErrors }: FormikHelpers<UpdateFilesFormValues>,
+    { setErrors }: FormikHelpers<UpdateFilesFormValues>,
   ) => {
     const checkResult = await updateFilesSchema.safeParseAsync(values);
     if (!checkResult.success) {
@@ -31,7 +31,6 @@ export const useUpdateFilesModal = ({ onClose }: UpdateFilesModalProps) => {
       return;
     }
     toast.success('Files updated successfully!');
-    resetForm();
     onClose();
   };
   return { onSubmit };
