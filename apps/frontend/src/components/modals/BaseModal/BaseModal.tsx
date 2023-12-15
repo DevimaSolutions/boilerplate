@@ -1,13 +1,10 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
 
 import type { BaseModalProps } from './types';
 
 export default function BaseModal({ children, isOpen, onClose }: BaseModalProps) {
-  return (
-    <dialog
-      className={clsx('modal modal-middle sm:modal-middle border-none', isOpen && 'modal-open')}
-    >
+  return isOpen ? (
+    <dialog className="modal modal-middle sm:modal-middle border-none modal-open">
       <div className="modal-box">
         {children}
         <XMarkIcon
@@ -21,5 +18,5 @@ export default function BaseModal({ children, isOpen, onClose }: BaseModalProps)
         </button>
       </form>
     </dialog>
-  );
+  ) : null;
 }

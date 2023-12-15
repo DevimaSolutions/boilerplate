@@ -8,8 +8,8 @@ import { useChangeEmailModal } from './useChangeEmailModal';
 
 import type { ChangeEmailModalProps } from './types';
 
-export default function ChangeEmailModal(props: ChangeEmailModalProps) {
-  const { onSubmit, email } = useChangeEmailModal(props);
+export default function ChangeEmailModal({ email, ...props }: ChangeEmailModalProps) {
+  const { onSubmit } = useChangeEmailModal(props.onClose);
   return (
     <BaseModal {...props}>
       <h2 className="mt-0">Enter new email</h2>
