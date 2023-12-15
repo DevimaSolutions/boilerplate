@@ -5,6 +5,7 @@ export interface ChangeEmailFormValues {
 }
 
 export interface ChangeEmailFormProps {
+  email: string;
   onSubmit: (
     values: ChangeEmailFormValues,
     helpers: FormikHelpers<ChangeEmailFormValues>,

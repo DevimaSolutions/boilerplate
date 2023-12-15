@@ -33,7 +33,7 @@ export async function Profile() {
             </div>
           </div>
         </div>
-        <ProfileSettings />
+        <ProfileSettings email={profile.email} />
       </div>
     </>
   );
