@@ -5,7 +5,9 @@ import { useState } from 'react';
 import { ChangeEmailModal } from '../modals/ChangeEmailModal';
 import { UpdateFilesModal } from '../modals/UpdateFilesModal';
 
-export default function ProfileSettings() {
+import type { ProfileSettingsProps } from './types';
+
+export default function ProfileSettings({ email }: ProfileSettingsProps) {
   const [isChangeEmailOpen, setIsChangeEmailOpen] = useState<boolean>(false);
   const [isUpdateFilesOpen, setIsUpdateFilesOpen] = useState<boolean>(false);
   return (
@@ -20,6 +22,7 @@ export default function ProfileSettings() {
         Change email
       </button>
       <ChangeEmailModal
+        email={email}
         isOpen={isChangeEmailOpen}
         onClose={() => {
           setIsChangeEmailOpen(false);

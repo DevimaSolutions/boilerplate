@@ -43,14 +43,14 @@ export default function UpdateFilesForm({ onSubmit }: UpdateFilesFormProps) {
           <Field
             accept={fileConstants.imageMimeTypes}
             component={FileInput}
-            label="Choose your thumbnail"
+            label="Add your thumbnail"
             name="thumbnail"
           />
           {values.thumbnail ? <ImageFileCard file={values.thumbnail} /> : null}
           <Field
             accept={fileConstants.imageMimeTypes}
             component={FileInput}
-            label="Choose multiple images"
+            label="Add multiple images"
             multiple
             name="images"
           />

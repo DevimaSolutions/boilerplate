@@ -5,7 +5,7 @@ import type { ChangeEmailModalProps } from './types';
 import type { FormikHelpers } from 'formik';
 import type { ChangeEmailFormValues } from 'src/components/forms/ChangeEmailForm/types';
 
-export const useChangeEmailModal = ({ onClose }: ChangeEmailModalProps) => {
+export const useChangeEmailModal = ({ email, onClose }: ChangeEmailModalProps) => {
   const onSubmit = async (
     values: ChangeEmailFormValues,
     { resetForm }: FormikHelpers<ChangeEmailFormValues>,
@@ -21,5 +21,5 @@ export const useChangeEmailModal = ({ onClose }: ChangeEmailModalProps) => {
     onClose();
     //TODO: investigate sign out after email change
   };
-  return { onSubmit };
+  return { onSubmit, email };
 };

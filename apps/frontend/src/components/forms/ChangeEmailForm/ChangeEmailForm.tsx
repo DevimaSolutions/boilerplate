@@ -9,14 +9,10 @@ import { changeEmailSchema } from './schema';
 
 import type { ChangeEmailFormProps } from './types';
 
-const initialValues = {
-  email: '',
-};
-
-export default function ChangeEmailForm({ onSubmit }: ChangeEmailFormProps) {
+export default function ChangeEmailForm({ email, onSubmit }: ChangeEmailFormProps) {
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{ email }}
       onSubmit={onSubmit}
       validateOnMount={false}
       validationSchema={toFormikValidationSchema(changeEmailSchema)}
