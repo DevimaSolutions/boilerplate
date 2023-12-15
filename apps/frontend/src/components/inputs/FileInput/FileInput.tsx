@@ -15,7 +15,7 @@ export function FileInput({
   multiple,
   ...props
 }: FiletInputProps) {
-  const { inputRef, handleInputClick, handleChange } = useFileInput({
+  const { handleChange } = useFileInput({
     field,
     multiple,
     form: { touched, errors, ...form },
@@ -28,9 +28,7 @@ export function FileInput({
         </label>
       ) : null}
       <input
-        hidden
         multiple
-        ref={inputRef}
         type="file"
         {...field}
         {...props}
@@ -39,15 +37,8 @@ export function FileInput({
           className,
         )}
         onChange={handleChange}
-        value=""
+        value={undefined}
       />
-      <button
-        className="w-full border-solid border-primary border-[1px] bg-white p-4 text-sm rounded-btn mt-2 hover:cursor-pointer"
-        onClick={handleInputClick}
-        type="button"
-      >
-        Choose files
-      </button>
       <label
         {...errorProps}
         className={clsx(
