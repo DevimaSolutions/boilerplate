@@ -1,11 +1,13 @@
 import clsx from 'clsx';
 import React from 'react';
 
+import useFileInput from './useFileInput';
+
 import type { FiletInputProps } from './types';
 
 export function FileInput({
   field,
-  form: { touched, errors, setFieldValue },
+  form: { touched, errors, ...form },
   label,
   className,
   labelProps,
@@ -13,8 +15,11 @@ export function FileInput({
   multiple,
   ...props
 }: FiletInputProps) {
-  //TODO: reset file input value on resetForm
-
+  const { inputRef, handleInputClick, handleChange } = useFileInput({
+    field,
+    multiple,
+    form: { touched, errors, ...form },
+  });
   return (
     <div>
       {label ? (
@@ -23,7 +28,9 @@ export function FileInput({
         </label>
       ) : null}
       <input
+        hidden
         multiple
+        ref={inputRef}
         type="file"
         {...field}
         {...props}
@@ -31,18 +38,16 @@ export function FileInput({
           'file-input file-input-bordered border-solid w-full file-input-primary mt-2',
           className,
         )}
-        onChange={async (event) => {
-          if (!event.target.files?.length) {
-            return;
-          }
-          if (multiple) {
-            await setFieldValue(field.name, Array.from(event.target.files));
-            return;
-          }
-          await setFieldValue(field.name, event.target.files[0]);
-        }}
-        value={undefined}
+        onChange={handleChange}
+        value=""
       />
+      <button
+        className="w-full border-solid border-primary border-[1px] bg-white p-4 text-sm rounded-btn mt-2 hover:cursor-pointer"
+        onClick={handleInputClick}
+        type="button"
+      >
+        Choose files
+      </button>
       <label
         {...errorProps}
         className={clsx(
