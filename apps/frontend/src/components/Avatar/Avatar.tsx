@@ -8,7 +8,7 @@ export default function Avatar({ imageUri, size, onEdit }: AvatarProps) {
     <div className="relative">
       {onEdit ? (
         <button
-          className="absolute w-8 h-8 top-2 right-2 border-none bg-white p-1 rounded-full"
+          className="absolute w-8 h-8 top-2 right-2 border-none bg-white p-1 rounded-full hover:cursor-pointer"
           onClick={onEdit}
           type="button"
         >
