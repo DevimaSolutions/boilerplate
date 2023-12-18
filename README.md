@@ -4,8 +4,6 @@
 
 - Add documentation to `api-client` package
 - Figure out how caching works in Next (for authorization and other routes) and if it works fine with api-client package
-- Test api-client with form data
-- Add function `throwOnError` to automatically optionally throw on error responses
 - Add Recapcha to public endpoints
 - CredentialsSignIn error toast is shown when invalid credentials are entered. Need to hide it.
   (It is probably there because {redirect: false} signIn option was removed)
