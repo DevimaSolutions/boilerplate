@@ -1,15 +1,15 @@
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
-import { authorizationApi } from 'api-client';
+import { authorizationApi, HttpClient } from 'api-client';
 
 import { UpdateAvatarInput } from 'src/components/forms/UpdateAvatarForm';
 import { ProfileSettings } from 'src/components/ProfileSettings';
 
+import type { ErrorDto, User } from 'api-client';
+
 export async function Profile() {
-  const response = await authorizationApi.getProfile();
-  if (response.error) {
-    throw new Error(response.error.message);
-  }
-  const profile = response.data;
+  const profile: User = HttpClient.throwOnError<User, ErrorDto>(
+    await authorizationApi.getProfile(),
+  );
 
   return (
     <>

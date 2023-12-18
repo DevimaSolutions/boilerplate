@@ -168,7 +168,15 @@ export class HttpClient<SecurityDataType = unknown> {
             this.abortControllers.delete(cancelToken);
         }
     }
-
+    
+    static throwOnError<T = any, E extends {message: string} = any>( response: HttpResponse<T, E>): T | never{
+        if(response.data){
+          return response.data
+        }
+    
+        throw new Error(response.error?.message ?? 'Something went wrong!')
+      }
+      
     public request = async <T = any, E = any>({
         body,
         secure,
