@@ -23,7 +23,7 @@ export default function Error({
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Oh no, something went wrong!
       </h2>
-      <p className="w-full text-center">{error.message}</p>
+      <p className="w-full text-center mt-0">{error.message}</p>
       <button
         className="flex w-50 justify-center btn btn-primary"
         onClick={

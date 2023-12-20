@@ -34,6 +34,10 @@ export interface ApiConfig<SecurityDataType = unknown> {
     customFetch?: typeof fetch;
 }
 
+export type ThrowableResponse<T,E> = Promise<HttpResponse<T,E>> & {
+    throwOnError: () => Promise<T>
+}
+
 export type HttpResponse<D extends unknown, E extends unknown = unknown> = Response &
     (
         | {
@@ -168,16 +172,8 @@ export class HttpClient<SecurityDataType = unknown> {
             this.abortControllers.delete(cancelToken);
         }
     }
-    
-    static throwOnError<T = any, E extends {message: string} = any>( response: HttpResponse<T, E>): T | never{
-        if(response.data){
-          return response.data
-        }
-    
-        throw new Error(response.error?.message ?? 'Something went wrong!')
-      }
       
-    public request = async <T = any, E = any>({
+    public request = <T = any, E extends {message: string} = any>({
         body,
         secure,
         path,
@@ -190,8 +186,9 @@ export class HttpClient<SecurityDataType = unknown> {
 <% if (config.unwrapResponseData) { %>
     }: FullRequestParams): Promise<T> => {
 <% } else { %>
-    }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+    }: FullRequestParams):  ThrowableResponse<T,E> => {
 <% } %>
+        const promise = new Promise<HttpResponse<T,E>>(async (resolve) => {
         const secureParams = ((typeof secure === 'boolean' ? secure : this.baseApiParams.secure) && this.securityWorker && await this.securityWorker(this.securityData)) || {};
         let requestParams = this.mergeRequestParams(params, secureParams);
      
@@ -213,7 +210,7 @@ export class HttpClient<SecurityDataType = unknown> {
         const payloadFormatter = this.contentFormatters[type || ContentType.Json];
         const responseFormat = format || requestParams.format;
 
-        return this.customFetch(
+        const response = await this.customFetch(
         `${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`,
         {
             ...requestParams,
@@ -224,7 +221,7 @@ export class HttpClient<SecurityDataType = unknown> {
             signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
             body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
         }
-        ).then(async (response) => {
+        );
             const r = response as HttpResponse<T, E>;
             r.data = (null as unknown) as T;
             r.error = (null as unknown) as E;
@@ -247,14 +244,26 @@ export class HttpClient<SecurityDataType = unknown> {
                 this.abortControllers.delete(cancelToken);
             }
 
+            resolve(data);
+        });
+        Object.assign(promise, {
+            throwOnError: async () => {
+              const res = await promise;
+              if (res.error) {
+                throw new Error(res.error.message);
+              }
+              return res.data;
+            }
+          })
 <% if (!config.disableThrowOnError) { %>
             if (!response.ok) throw data;
 <% } %>
 <% if (config.unwrapResponseData) { %>
             return data.data;
 <% } else { %>
-            return data;
+            
+          return promise as ThrowableResponse<T,E>;
 <% } %>
-        });
+        };
     };
-}
+
