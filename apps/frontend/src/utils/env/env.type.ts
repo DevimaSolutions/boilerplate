@@ -7,4 +7,9 @@ export interface Env {
     clientId: string;
     clientSecret: string;
   };
+  azureAD: {
+    clientId: string;
+    clientSecret: string;
+    tenantId: string;
+  };
 }

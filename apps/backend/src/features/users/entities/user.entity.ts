@@ -28,6 +28,10 @@ export class User extends AuditEntity {
   @Column({ nullable: true })
   googleAccountId?: string;
 
+  @ApiProperty()
+  @Column({ nullable: true })
+  azureAdAccountId?: string;
+
   @ApiProperty({ type: 'UserRole' })
   @Column({ type: 'enum', enum: Object.values(UserRole), default: UserRole.User })
   role: UserRole;

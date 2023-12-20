@@ -2,6 +2,6 @@ import { PartialType, PickType } from '@nestjs/swagger';
 
 import { User } from 'src/features/users/entities/user.entity';
 
-export class UpdateGoogleAccountDto extends PartialType(
-  PickType(User, ['googleAccountId', 'imageUri', 'isEmailVerified']),
+export class UpdateAzureAdAccountDto extends PartialType(
+  PickType(User, ['azureAdAccountId', 'isEmailVerified']),
 ) {}

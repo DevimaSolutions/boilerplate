@@ -18,6 +18,7 @@ import { UsersService } from '../users';
 import { Authorized } from './decorators';
 import { RequireApiKey } from './decorators/require-api-key.decorator';
 import { ForgotPasswordDto, ResetPasswordDto, SignInDto, SignUpDto, GoogleAccountDto } from './dto';
+import { AzureAdAccountDto } from './dto/azure-ad-account.dto';
 import { LocalAuthGuard } from './guards';
 import { RequestWithUser } from './interfaces';
 import { AuthService } from './services';
@@ -26,6 +27,7 @@ import {
   forgotPasswordSchema,
   resetPasswordSchema,
   googleAccountSchema,
+  azureAdAccountSchema,
 } from './validations';
 
 // Authorization is handled by NextAuth package in a frontend application
@@ -79,6 +81,15 @@ export class AuthController {
     @Body(new ZodValidationPipe(googleAccountSchema)) googleAccountDto: GoogleAccountDto,
   ) {
     return this.authService.validateGoogleAccount(googleAccountDto);
+  }
+
+  @RequireApiKey()
+  @ApiBadRequestResponse({ type: () => ValidationErrorDto })
+  @Post('azure-ad')
+  getProfileByAzureAdAccount(
+    @Body(new ZodValidationPipe(azureAdAccountSchema)) azureAdAccountDto: AzureAdAccountDto,
+  ) {
+    return this.authService.validateAzureAdAccount(azureAdAccountDto);
   }
 
   @ApiOkResponse({ type: () => SuccessDto })
