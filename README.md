@@ -42,7 +42,9 @@
 
 # V2 TODO:
 
+- Add robots.tsx and sitemap.tsx like on [Vercel commerce](https://github.dev/vercel/commerce)
 - Add `infrastructure` package with Terraform & Ansible configuration
+- comply with Vercel [Production Checklist](https://vercel.com/docs/production-checklist)
 - Add github action to deploy from main and staging branches using Ansible
 - Add command to deploy main or staging branches using Ansible form local machine
 - Pricing (Ansible is open-source and free, Terraform Cloud has up tp 5000 resource/hours/month and up to 5 users)

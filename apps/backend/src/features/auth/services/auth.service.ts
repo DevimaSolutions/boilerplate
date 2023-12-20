@@ -14,6 +14,7 @@ import { MailingService } from 'src/features/mailing';
 import { User, UsersService } from 'src/features/users';
 
 import { GoogleAccountDto, SignUpDto } from '../dto';
+import { AzureAdAccountDto } from '../dto/azure-ad-account.dto';
 import { UserRole, UserStatus } from '../enums';
 import { IJwtSub } from '../interfaces';
 
@@ -63,6 +64,9 @@ export class AuthService {
         return null;
       }
 
+      // TODO: after email update token becomes invalid
+      // since it can't be matched with existing user by email
+      // Update it to match by user id (make sure googleAccountId is also supported)
       const user = await this.usersService.findActiveByEmail(payload.email);
       return user;
     } catch (e) {
@@ -79,7 +83,7 @@ export class AuthService {
       }
 
       return await this.usersService.updateGoogleAccount(user.id, {
-        googleAccountId: googleAccount.googleAccountId,
+        googleAccountId: googleAccount.accountId,
         imageUri: googleAccount.imageUri,
         isEmailVerified: true,
       });
@@ -93,9 +97,30 @@ export class AuthService {
     }
   }
 
+  async linkOrCreateByAzureAdAccount(azureAdAccount: AzureAdAccountDto) {
+    try {
+      const user = await this.usersService.findByEmail(azureAdAccount.email);
+      if (user.status !== UserStatus.Active) {
+        throw new NotFoundException();
+      }
+
+      return await this.usersService.updateByAzureAdAccount(user.id, {
+        azureAdAccountId: azureAdAccount.accountId,
+        isEmailVerified: true,
+      });
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        // user with this email does not exist
+        // create new profile using google account data
+        return this.usersService.createByAzureAdAccount(azureAdAccount);
+      }
+      throw e;
+    }
+  }
+
   async validateGoogleAccount(googleAccount: GoogleAccountDto) {
     try {
-      const user = await this.usersService.findByGoogleAccountId(googleAccount.googleAccountId);
+      const user = await this.usersService.findByGoogleAccountId(googleAccount.accountId);
       if (user.status !== UserStatus.Active) {
         throw new NotFoundException();
       }
@@ -107,6 +132,25 @@ export class AuthService {
         // try to check if user is already signed up by email and attach google account to his profile
         // or create new profile if email is not taken
         return this.linkOrCreateByGoogleAccount(googleAccount);
+      }
+      throw e;
+    }
+  }
+
+  async validateAzureAdAccount(azureAdAccount: AzureAdAccountDto) {
+    try {
+      const user = await this.usersService.findByAzureAdAccountId(azureAdAccount.accountId);
+      if (user.status !== UserStatus.Active) {
+        throw new NotFoundException();
+      }
+      // user already exist
+      return user;
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        // user with this google account id does not exist
+        // try to check if user is already signed up by email and attach google account to his profile
+        // or create new profile if email is not taken
+        return this.linkOrCreateByAzureAdAccount(azureAdAccount);
       }
       throw e;
     }

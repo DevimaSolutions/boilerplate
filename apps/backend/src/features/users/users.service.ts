@@ -5,6 +5,8 @@ import { FindOneOptions } from 'typeorm';
 import { errorMessages } from 'src/constants';
 
 import { GoogleAccountDto, UpdateGoogleAccountDto } from '../auth/dto';
+import { AzureAdAccountDto } from '../auth/dto/azure-ad-account.dto';
+import { UpdateAzureAdAccountDto } from '../auth/dto/update-azure-ad-account.dto';
 import { UserRole, UserStatus } from '../auth/enums';
 import { FileUploadService } from '../file-upload';
 import fileFolders from '../file-upload/file-folders';
@@ -103,6 +105,16 @@ export class UsersService {
     return entity;
   }
 
+  async findByAzureAdAccountId(azureAdAccountId: string) {
+    const entity = await this.usersRepository.findOne({ where: { azureAdAccountId } });
+
+    if (!entity) {
+      throw new NotFoundException();
+    }
+
+    return entity;
+  }
+
   findUsersCount() {
     return this.usersRepository.count();
   }
@@ -136,6 +148,14 @@ export class UsersService {
     return this.findOne(id);
   }
 
+  async updateByAzureAdAccount(id: string, azureAdAccountDto: UpdateAzureAdAccountDto) {
+    const entity = await this.findOne(id);
+
+    await this.usersRepository.update(entity.id, azureAdAccountDto);
+
+    return this.findOne(id);
+  }
+
   async createByGoogleAccount(googleAccountDto: GoogleAccountDto) {
     const userExists = await this.doesUserExist(googleAccountDto.email);
 
@@ -143,7 +163,29 @@ export class UsersService {
       throw new BadRequestException(errorMessages.userAlreadyExists);
     }
 
-    const entity = this.usersRepository.create({ ...googleAccountDto, isEmailVerified: true });
+    const entity = this.usersRepository.create({
+      email: googleAccountDto.email,
+      imageUri: googleAccountDto.imageUri,
+      googleAccountId: googleAccountDto.accountId,
+      isEmailVerified: true,
+    });
+
+    await this.usersRepository.save(entity);
+    return entity;
+  }
+
+  async createByAzureAdAccount(azureAdAccountDto: AzureAdAccountDto) {
+    const userExists = await this.doesUserExist(azureAdAccountDto.email);
+
+    if (userExists) {
+      throw new BadRequestException(errorMessages.userAlreadyExists);
+    }
+
+    const entity = this.usersRepository.create({
+      email: azureAdAccountDto.email,
+      azureAdAccountId: azureAdAccountDto.accountId,
+      isEmailVerified: true,
+    });
 
     await this.usersRepository.save(entity);
     return entity;

@@ -42,5 +42,9 @@ export const useSignIn = () => {
     await signIn('google');
   };
 
-  return { onSubmit, onGoogleSignIn };
+  const onOutlookSignIn = async () => {
+    await signIn('azure-ad', undefined, { prompt: 'login' });
+  };
+
+  return { onSubmit, onGoogleSignIn, onOutlookSignIn };
 };

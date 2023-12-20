@@ -1,3 +1,4 @@
+import AzureADProvider from 'next-auth/providers/azure-ad';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 
@@ -10,6 +11,7 @@ const env = envUtil.getEnv();
 export const authOptions: AuthOptions = {
   providers: [
     Google(env.google),
+    AzureADProvider(env.azureAD),
     Credentials({
       // The name to display on the sign in form (e.g. 'Sign in with...')
       name: 'Credentials',
@@ -57,21 +59,22 @@ export const authOptions: AuthOptions = {
       return session;
     },
     async signIn({ account, profile }) {
-      if (account?.provider === 'google' && profile && 'picture' in profile) {
+      if (profile && account && ['google', 'azure-ad'].includes(account.provider)) {
         // TODO: check if this will work without picture (will it be null?)
         // ensure user is created on a backend from google account info
-        const res = await fetch(`${env.backendUrl}/authorization/google`, {
+        const res = await fetch(`${env.backendUrl}/authorization/${account.provider}`, {
           method: 'POST',
           body: JSON.stringify({
-            googleAccountId: account.providerAccountId,
+            accountId: account.providerAccountId,
             email: profile.email,
-            imageUri: profile.picture,
+            imageUri: 'picture' in profile ? profile.picture : undefined,
           }),
           headers: { 'Content-Type': 'application/json', 'x-api-key': env.apiKey },
         });
         // it will throw an error if user is blocked
         return res.ok;
       }
+
       return true;
     },
   },

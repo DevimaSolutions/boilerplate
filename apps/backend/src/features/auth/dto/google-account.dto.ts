@@ -1,5 +1,5 @@
 export class GoogleAccountDto {
-  googleAccountId: string;
+  accountId: string;
   email: string;
-  imageUri: string;
+  imageUri?: string;
 }
