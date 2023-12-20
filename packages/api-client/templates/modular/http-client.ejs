@@ -35,6 +35,10 @@ export interface ApiConfig<SecurityDataType = unknown> {
 }
 
 export type ThrowableResponse<T,E> = Promise<HttpResponse<T,E>> & {
+  /**
+  * Throw an error if HttpResponse has error else returns data of type T
+  * @returns returns Promise with T generic type
+  */
     throwOnError: () => Promise<T>
 }
 
