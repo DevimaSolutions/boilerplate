@@ -1,4 +1,4 @@
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -12,6 +12,7 @@ export const useSignIn = () => {
   const searchParams = useSearchParams();
   const signInError = searchParams.get('error');
   const redirectUri = searchParams.get('redirectUri');
+  const router = useRouter();
 
   useEffect(() => {
     if (signInError) {
@@ -27,7 +28,7 @@ export const useSignIn = () => {
     // Call NextAuth api route
     const response = await signIn('credentials', {
       ...values,
-      callbackUrl: redirectUri ?? '/',
+      redirect: false,
     });
     if (!response?.ok) {
       setErrors({
@@ -35,7 +36,10 @@ export const useSignIn = () => {
         password:
           'We couldn`t find an account matching the email and password you entered. Please check your email and password and try again',
       });
+      return;
     }
+    router.replace(redirectUri ?? '/');
+    router.refresh();
   };
 
   const onGoogleSignIn = async () => {
