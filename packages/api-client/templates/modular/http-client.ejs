@@ -34,11 +34,20 @@ export interface ApiConfig<SecurityDataType = unknown> {
     customFetch?: typeof fetch;
 }
 
+export class ResponseError<T> extends Error{
+    constructor(message: string, data: T) {
+      super(message);
+      this.data = data;
+  }
+  data: T;
+}
+
 export type ThrowableResponse<T,E> = Promise<HttpResponse<T,E>> & {
-  /**
-  * Throw an error if HttpResponse has error else returns data of type T
-  * @returns returns Promise with T generic type
-  */
+    /**
+    * Throws an error if HttpResponse has error else returns data of type T
+    * @returns Promise with T generic type
+    * @throws ResponseError with data type of error
+    */
     throwOnError: () => Promise<T>
 }
 
@@ -254,7 +263,7 @@ export class HttpClient<SecurityDataType = unknown> {
             throwOnError: async () => {
               const res = await promise;
               if (res.error) {
-                throw new Error(res.error.message);
+                throw new ResponseError(res.error.message, res.error);
               }
               return res.data;
             }
