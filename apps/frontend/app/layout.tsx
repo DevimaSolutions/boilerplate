@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 
 import { envUtil } from 'src/utils';
 
+import GoogleCaptchaWrapper from './google-captcha-wrapper';
+
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
 
@@ -20,7 +22,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <GoogleCaptchaWrapper>{children}</GoogleCaptchaWrapper>
+      </body>
     </html>
   );
 }

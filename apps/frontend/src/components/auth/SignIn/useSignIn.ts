@@ -1,7 +1,11 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { toast } from 'react-toastify';
+
+import { envUtil } from 'src/utils';
+import { checkRecaptchaToken } from 'src/utils/auth/check-recaptcha-token';
 
 import { signInErrorMessagesMap } from './constants';
 
@@ -13,6 +17,17 @@ export const useSignIn = () => {
   const signInError = searchParams.get('error');
   const redirectUri = searchParams.get('redirectUri');
   const router = useRouter();
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
+  const handleReCaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      console.log('Execute recaptcha not yet available');
+      return;
+    }
+
+    const token = await executeRecaptcha('signIn');
+    await checkRecaptchaToken(token);
+  }, [executeRecaptcha]);
 
   useEffect(() => {
     if (signInError) {
@@ -25,8 +40,9 @@ export const useSignIn = () => {
     values: SignInFormValues,
     { setErrors }: FormikHelpers<SignInFormValues>,
   ) => {
+    await handleReCaptchaVerify();
     // Call NextAuth api route
-    const response = await signIn('credentials', {
+    /* const response = await signIn('credentials', {
       ...values,
       redirect: false,
     });
@@ -39,7 +55,7 @@ export const useSignIn = () => {
       return;
     }
     router.replace(redirectUri ?? '/');
-    router.refresh();
+    router.refresh();*/
   };
 
   const onGoogleSignIn = async () => {
