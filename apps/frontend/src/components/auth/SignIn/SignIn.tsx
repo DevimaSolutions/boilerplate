@@ -9,6 +9,7 @@ import { useSignIn } from './useSignIn';
 
 export function SignIn() {
   const { onSubmit, onGoogleSignIn, onOutlookSignIn } = useSignIn();
+
   return (
     <>
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
