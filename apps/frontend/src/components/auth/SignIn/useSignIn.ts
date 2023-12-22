@@ -1,10 +1,8 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useCallback, useEffect } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { toast } from 'react-toastify';
 
-import { envUtil } from 'src/utils';
 import { checkRecaptchaToken } from 'src/utils/auth/check-recaptcha-token';
 
 import { signInErrorMessagesMap } from './constants';
