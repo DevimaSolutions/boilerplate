@@ -1,29 +1,20 @@
 'use server';
-
+const recaptchaSecretKey = process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
 export async function checkRecaptchaToken(token: string) {
-  const recaptchaSecretKey = process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
-  await fetch('https://www.google.com/recaptcha/api/siteverify', {
+  return fetch('https://www.google.com/recaptcha/api/siteverify', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json', //
+      'Content-Type': 'application/x-www-form-urlencoded', //
     },
-    body: JSON.stringify({ secret: recaptchaSecretKey, response: token }),
-    //`https://www.google.com/recaptcha/api/siteverify?secret=6LdxdzgpAAAAAM91BOAuPw7fJXLcKkWFwcI7-a_H&response=${token}`,
-    //`secret=${recaptchaKey}&response=${token}`,
+    body: `secret=${recaptchaSecretKey}&response=${token}`,
   })
     .then((reCaptchaRes) => reCaptchaRes.json())
     .then((reCaptchaRes) => {
       console.log(reCaptchaRes, 'Response from Google reCatpcha verification API');
-      if (reCaptchaRes?.score > 0.5) {
-        // Save data to the database from here
-        console.log('success');
-      } else {
-        console.log('failure');
-      }
+      return reCaptchaRes.score as number;
     })
     .catch((err: any) => {
       console.log(err);
+      return 0;
     });
-
-  console.log(token);
 }
