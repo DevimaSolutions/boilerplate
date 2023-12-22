@@ -17,17 +17,20 @@ export const useSignIn = () => {
   const signInError = searchParams.get('error');
   const redirectUri = searchParams.get('redirectUri');
   const router = useRouter();
-  const { executeRecaptcha } = useGoogleReCaptcha();
 
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const handleReCaptchaVerify = useCallback(async () => {
-    if (!executeRecaptcha) {
-      console.log('Execute recaptcha not yet available');
-      return;
-    }
-
-    const token = await executeRecaptcha('signIn');
-    await checkRecaptchaToken(token);
-  }, [executeRecaptcha]);
+    window.grecaptcha.ready(async function () {
+      const token = await window.grecaptcha
+        .execute(recaptchaSiteKey, { action: 'submit' })
+        .then(function (token) {
+          return token;
+        });
+      const score = await checkRecaptchaToken(token);
+      return score;
+      //TODO: check score
+    });
+  }, [recaptchaSiteKey]);
 
   useEffect(() => {
     if (signInError) {
