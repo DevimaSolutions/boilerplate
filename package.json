@@ -7,6 +7,8 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "setup": "yarn setup:husky && yarn setup:env && yarn docker:local",
+    "setup:env": "cp ./apps/backend/example.env ./apps/backend/.env && cp ./apps/frontend/example.env ./apps/frontend/.env",
     "setup:husky": "yarn setup:husky:nvm && rimraf .husky/pre-commit .husky/commit-msg && husky install && husky add .husky/pre-commit 'yarn pre-commit' && npx husky add .husky/commit-msg 'npm run commitlint ${1}'",
     "setup:husky:nvm": "cp ./.husky/.huskyrc ~/.huskyrc",
     "deploy": "turbo run deploy",
