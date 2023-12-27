@@ -60,8 +60,6 @@ export const authOptions: AuthOptions = {
     },
     async signIn({ account, profile }) {
       if (profile && account && ['google', 'azure-ad'].includes(account.provider)) {
-        // TODO: check if this will work without picture (will it be null?)
-        // ensure user is created on a backend from google account info
         const res = await fetch(`${env.backendUrl}/authorization/${account.provider}`, {
           method: 'POST',
           body: JSON.stringify({
