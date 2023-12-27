@@ -6,7 +6,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ThrottlerGuard } from '@nestjs/throttler';
-import { version as uuidVersion, validate as uuidValidate } from 'uuid';
 
 import { ZodValidationPipe } from 'src/features/common/pipes';
 
@@ -59,7 +58,6 @@ export class AuthController {
   @Authorized()
   @Get('profile')
   getProfile(@Req() req: RequestWithUser) {
-    // TODO: add this user to cookie that expire in 1 min
     return req.user;
   }
 
@@ -67,11 +65,7 @@ export class AuthController {
   @ApiNotFoundResponse({ type: () => ErrorDto })
   @Get('session/:id')
   getSessionByUserId(@Param('id') id: string) {
-    const isGoogleAccountId = !uuidValidate(id) || uuidVersion(id) !== 4;
-    // TODO: add this user to cookie that expire in 1 min
-    return isGoogleAccountId
-      ? this.userService.findActiveByGoogleAccountId(id)
-      : this.userService.findOne(id);
+    return this.userService.findBySessionId(id);
   }
 
   @RequireApiKey()

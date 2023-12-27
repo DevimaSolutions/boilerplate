@@ -1,4 +1,4 @@
-# {{Put your app name here}}
+# boilerplate-devima-solutions
 
 ## What's inside?
 
