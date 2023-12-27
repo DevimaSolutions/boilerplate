@@ -43,12 +43,13 @@ export class UsersController {
     @Req() req: RequestWithUser,
     @Body(new ZodValidationPipe(updateUserSchema)) updateUserDto: UpdateUserDto,
   ) {
-    console.log(updateUserDto);
-    // TODO: add this user to cookie that expire in 1 min
-    // probably move this to authorization controller
     return this.usersService.update(req.user.id, updateUserDto);
   }
 
+  // This endpoint is for showcase purposes only
+  // It demonstrates how file upload functionality works
+  // using @IncludeFileUpload(UploadUserFiles) decorator
+  // Remove this endpoint if it is not used in real project
   @ApiBadRequestResponse({ type: () => ValidationErrorDto })
   @IncludeFileUpload(UploadUserFiles)
   @Authorized()

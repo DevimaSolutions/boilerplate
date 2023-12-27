@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { FindOneOptions } from 'typeorm';
+import { version as uuidVersion, validate as uuidValidate } from 'uuid';
 
 import { errorMessages } from 'src/constants';
 
@@ -42,6 +43,20 @@ export class UsersService {
 
     await this.usersRepository.save(entity);
     return entity;
+  }
+
+  findBySessionId(sessionId: string) {
+    const isUserId = uuidValidate(sessionId) && uuidVersion(sessionId) === 4;
+    if (isUserId) {
+      return this.findOne(sessionId);
+    }
+
+    const isGoogleAccountId = !isNaN(Number(sessionId));
+    if (isGoogleAccountId) {
+      return this.findActiveByGoogleAccountId(sessionId);
+    }
+
+    return this.findByAzureAdAccountId(sessionId);
   }
 
   findAll() {
@@ -107,7 +122,6 @@ export class UsersService {
 
   async findByAzureAdAccountId(azureAdAccountId: string) {
     const entity = await this.usersRepository.findOne({ where: { azureAdAccountId } });
-
     if (!entity) {
       throw new NotFoundException();
     }

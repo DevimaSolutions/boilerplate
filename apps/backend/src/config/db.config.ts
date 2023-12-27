@@ -20,6 +20,7 @@ const getTypeOrmDefaultModuleOptions = (): TypeOrmModuleOptions => ({
   migrations: [`${__dirname}/migrations/*.{ts,js}`],
   namingStrategy: new SnakeNamingStrategy(),
   migrationsTransactionMode: 'each',
+  logging: ['query', 'error'],
   ...envConfig().database,
 });
 

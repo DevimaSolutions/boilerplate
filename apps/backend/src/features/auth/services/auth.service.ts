@@ -60,14 +60,11 @@ export class AuthService {
     try {
       const payload = await decode({ token, secret: this.config.auth.jwtSecret });
 
-      if (!payload?.email) {
+      if (!payload?.sub) {
         return null;
       }
 
-      // TODO: after email update token becomes invalid
-      // since it can't be matched with existing user by email
-      // Update it to match by user id (make sure googleAccountId is also supported)
-      const user = await this.usersService.findActiveByEmail(payload.email);
+      const user = await this.usersService.findBySessionId(payload.sub);
       return user;
     } catch (e) {
       // User was not found

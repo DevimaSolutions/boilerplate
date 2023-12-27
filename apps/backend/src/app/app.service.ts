@@ -13,7 +13,6 @@ export class AppService {
   ) {}
 
   getHealthCheck() {
-    // TODO: add database connection check (and other services if any)
     return { app: this.config.appName, isHealthy: true, apiDocsPath: getSwaggerDocsUrl() };
   }
 }
