@@ -14,7 +14,6 @@ export const useChangeEmailModal = (onClose: ChangeEmailModalProps['onClose']) =
     }
     toast.success('Email updated successfully!');
     onClose();
-    //TODO: investigate sign out after email change
   };
   return { onSubmit };
 };
