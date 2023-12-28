@@ -2,6 +2,7 @@ import type { EmailTemplate, EmailTemplateValues } from '../enums';
 
 export interface WelcomeEmailParams {
   username: string;
+  confirmationLink: string;
 }
 
 export interface ResetPasswordEmailParams {
@@ -11,6 +12,6 @@ export interface ResetPasswordEmailParams {
 export type EmailParams<TEmailType extends EmailTemplateValues> =
   TEmailType extends EmailTemplate['ForgotPassword']
     ? ResetPasswordEmailParams
-    : TEmailType extends EmailTemplate['Welcome']
+    : TEmailType extends EmailTemplate['ConfirmEmail']
     ? WelcomeEmailParams
     : never;

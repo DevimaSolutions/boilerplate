@@ -35,9 +35,6 @@ const envConfig = registerAs('env', () => ({
   auth: {
     apiKey: process.env.API_KEY || '',
     jwtSecret: process.env.JWT_SECRET || '',
-    authTokenDuration: process.env.AUTH_TOKEN_EXPIRATION || '',
-    jwtRefreshSecret: process.env.JWT_REFRESH_SECRET || '',
-    refreshTokenDuration: process.env.REFRESH_TOKEN_EXPIRATION || '',
     otpJwtSecret: process.env.OTP_JWT_SECRET || '',
     otpTokenDuration: process.env.OTP_TOKEN_EXPIRATION || '',
   },

@@ -1,7 +1,7 @@
 import { ValueOf } from 'src/features/common/types';
 
 export const EmailTemplate = {
-  Welcome: 1,
+  ConfirmEmail: 1,
   ForgotPassword: 2,
 } as const;
 

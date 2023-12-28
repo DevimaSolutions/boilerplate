@@ -1,38 +1,18 @@
 import { Module } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-import envConfig from 'src/config/env.config';
-
+import { LoggerModule } from '../logger/logger.module';
 import { MailingModule } from '../mailing/mailing.module';
 import { UsersModule } from '../users/users.module';
 
 import { AuthController } from './auth.controller';
-import { AuthService, JwtOtpService, JwtRefreshService } from './services';
+import { AuthService, JwtOtpService } from './services';
 import { ApiKeyStrategy, CookieStrategy, LocalStrategy } from './strategies';
 
-export const JwtAsyncModule = JwtModule.registerAsync({
-  useFactory: (config: ConfigType<typeof envConfig>) => {
-    return {
-      secret: config.auth.jwtSecret,
-      signOptions: { expiresIn: config.auth.authTokenDuration },
-    };
-  },
-  inject: [{ token: envConfig.KEY, optional: false }],
-});
-
 @Module({
-  imports: [UsersModule, PassportModule, JwtAsyncModule, MailingModule],
+  imports: [UsersModule, PassportModule, MailingModule, LoggerModule],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    CookieStrategy,
-    ApiKeyStrategy,
-    JwtRefreshService,
-    JwtOtpService,
-  ],
+  providers: [AuthService, LocalStrategy, CookieStrategy, ApiKeyStrategy, JwtOtpService],
   exports: [AuthService],
 })
 export class AuthModule {}

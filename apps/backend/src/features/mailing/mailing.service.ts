@@ -5,7 +5,7 @@ import { stringify } from 'qs';
 import envConfig from 'src/config/env.config';
 
 import { EmailTemplate, EmailTemplateValues } from './enums';
-import { EmailParams, WelcomeEmailParams } from './interfaces';
+import { EmailParams } from './interfaces';
 
 @Injectable()
 export abstract class MailingService {
@@ -27,12 +27,17 @@ export abstract class MailingService {
     });
   }
 
-  async sendWelcomeEmail(recipient: string, data: WelcomeEmailParams) {
-    await this.sendEmail(recipient, EmailTemplate.Welcome, data);
+  async sendConfirmationEmail(recipient: string, username: string, token: string) {
+    await this.sendEmail(recipient, EmailTemplate.ConfirmEmail, {
+      username,
+      confirmationLink: `${this.configuration.frontendHostUrl}/confirm-email?${stringify({
+        token,
+      })}`,
+    });
   }
 
   static getTemplateTitle: Record<EmailTemplateValues, string> = {
     [EmailTemplate.ForgotPassword]: 'Reset password',
-    [EmailTemplate.Welcome]: 'Welcome',
+    [EmailTemplate.ConfirmEmail]: 'Welcome',
   };
 }
