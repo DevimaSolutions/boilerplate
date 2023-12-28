@@ -37,8 +37,6 @@ export class UsersService {
       ...createUserDto,
       role,
       password: hashedPass,
-      // TODO: remove this line when email verification is implemented
-      isEmailVerified: true,
     });
 
     await this.usersRepository.save(entity);
@@ -48,7 +46,7 @@ export class UsersService {
   findBySessionId(sessionId: string) {
     const isUserId = uuidValidate(sessionId) && uuidVersion(sessionId) === 4;
     if (isUserId) {
-      return this.findOne(sessionId);
+      return this.findActive(sessionId);
     }
 
     const isGoogleAccountId = !isNaN(Number(sessionId));
@@ -76,10 +74,19 @@ export class UsersService {
     return entity;
   }
 
+  async findActive(userId: string) {
+    return this.findOne(userId, {
+      where: {
+        status: UserStatus.Active,
+        isEmailVerified: true,
+      },
+    });
+  }
+
   async findActiveByEmail(email: string) {
     const entity = await this.findByEmail(email);
 
-    if (entity.status !== UserStatus.Active) {
+    if (entity.status !== UserStatus.Active || !entity.isEmailVerified) {
       throw new NotFoundException();
     }
 

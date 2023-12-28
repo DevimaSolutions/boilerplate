@@ -3,6 +3,7 @@ import {
   ForbiddenException,
   Inject,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
@@ -11,7 +12,7 @@ import { decode } from 'next-auth/jwt';
 
 import envConfig from 'src/config/env.config';
 import { MailingService } from 'src/features/mailing';
-import { User, UsersService } from 'src/features/users';
+import { User, UsersRepository, UsersService } from 'src/features/users';
 
 import { GoogleAccountDto, SignUpDto } from '../dto';
 import { AzureAdAccountDto } from '../dto/azure-ad-account.dto';
@@ -26,8 +27,10 @@ export class AuthService {
     @Inject(envConfig.KEY)
     private config: ConfigType<typeof envConfig>,
     private usersService: UsersService,
+    private usersRepository: UsersRepository,
     private jwtOtpService: JwtOtpService,
     private mailingService: MailingService,
+    private logger: Logger,
   ) {}
 
   validateApiKey(apiKey: string) {
@@ -154,8 +157,11 @@ export class AuthService {
   }
 
   async createOtpToken(email: string): Promise<string> {
-    const userData = await this.usersService.findActiveByEmail(email);
+    const userData = await this.usersService.findByEmail(email);
 
+    if (userData.status === UserStatus.Blocked) {
+      throw new NotFoundException();
+    }
     return this.jwtOtpService.signAsync({ sub: userData.id });
   }
 
@@ -175,8 +181,12 @@ export class AuthService {
       role: UserRole.User,
     });
 
-    await this.mailingService.sendWelcomeEmail(user.email, { username: user.email });
-
+    const token = await this.createOtpToken(email);
+    void this.mailingService
+      .sendConfirmationEmail(user.email, user.email, token)
+      .catch((e: unknown) => {
+        this.logger.error(e, e instanceof Error ? e.stack : undefined, AuthService.name);
+      });
     return user;
   }
 
@@ -193,6 +203,13 @@ export class AuthService {
 
       throw e;
     }
+  }
+
+  async confirmEmail(token: string) {
+    const userId = await this.verifyOtpToken(token);
+
+    await this.usersRepository.update(userId, { isEmailVerified: true });
+    return this.usersService.findActive(userId);
   }
 
   async resetPassword(token: string, password: string) {

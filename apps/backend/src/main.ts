@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
 
@@ -7,6 +8,10 @@ import configureSwagger from './config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Create logger using factory defined in src/features/logger/logger.module.ts
+  app.useLogger(app.get(Logger));
+
   app.use(cookieParser());
 
   const { port, enableSwagger, allowedOrigins } = envConfig();

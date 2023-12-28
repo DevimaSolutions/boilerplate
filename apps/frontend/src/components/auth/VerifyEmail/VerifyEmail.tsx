@@ -2,10 +2,9 @@
 
 import { EnvelopeIcon } from '@heroicons/react/24/solid';
 
-import { useVerifyEmail } from './useVerifyEmail';
+import type { VerifyEmailProps } from './types';
 
-export function VerifyEmail() {
-  const { email } = useVerifyEmail();
+export function VerifyEmail({ email }: VerifyEmailProps) {
   return (
     <>
       <div className="h-[85px] w-[85px] rounded-full flex justify-center items-center self-center bg-accent">

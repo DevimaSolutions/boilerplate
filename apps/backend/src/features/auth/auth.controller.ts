@@ -16,8 +16,15 @@ import { UsersService } from '../users';
 
 import { Authorized } from './decorators';
 import { RequireApiKey } from './decorators/require-api-key.decorator';
-import { ForgotPasswordDto, ResetPasswordDto, SignInDto, SignUpDto, GoogleAccountDto } from './dto';
-import { AzureAdAccountDto } from './dto/azure-ad-account.dto';
+import {
+  ForgotPasswordDto,
+  ResetPasswordDto,
+  SignInDto,
+  SignUpDto,
+  GoogleAccountDto,
+  AzureAdAccountDto,
+  ConfirmEmailDto,
+} from './dto';
 import { LocalAuthGuard } from './guards';
 import { RequestWithUser } from './interfaces';
 import { AuthService } from './services';
@@ -27,6 +34,7 @@ import {
   resetPasswordSchema,
   googleAccountSchema,
   azureAdAccountSchema,
+  confirmEmailSchema,
 } from './validations';
 
 // Authorization is handled by NextAuth package in a frontend application
@@ -84,6 +92,15 @@ export class AuthController {
     @Body(new ZodValidationPipe(azureAdAccountSchema)) azureAdAccountDto: AzureAdAccountDto,
   ) {
     return this.authService.validateAzureAdAccount(azureAdAccountDto);
+  }
+
+  @RequireApiKey()
+  @ApiBadRequestResponse({ type: () => ValidationErrorDto })
+  @Post('confirm-email')
+  async confirmEmail(
+    @Body(new ZodValidationPipe(confirmEmailSchema)) confirmEmailDto: ConfirmEmailDto,
+  ) {
+    return this.authService.confirmEmail(confirmEmailDto.token);
   }
 
   @ApiOkResponse({ type: () => SuccessDto })

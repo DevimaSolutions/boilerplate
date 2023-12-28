@@ -15,7 +15,7 @@ export const useSignUp = () => {
       return;
     }
 
-    router.replace(`/verify-email?email=${values.email}`);
+    router.replace(`/verify-email?email=${encodeURIComponent(values.email)}`);
   };
   return { onSubmit };
 };

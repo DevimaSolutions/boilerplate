@@ -34,6 +34,25 @@ export const authOptions: AuthOptions = {
         return res.json();
       },
     }),
+    Credentials({
+      id: 'confirm-email',
+      name: 'Confirm email address',
+      credentials: {
+        token: {},
+      },
+      // Sign in user when email is confirmed using OTP token
+      async authorize(credentials) {
+        const res = await fetch(`${env.backendUrl}/authorization/confirm-email`, {
+          method: 'POST',
+          body: JSON.stringify(credentials),
+          headers: { 'Content-Type': 'application/json', 'x-api-key': env.apiKey },
+        });
+        if (!res.ok) {
+          return null;
+        }
+        return res.json();
+      },
+    }),
   ],
   callbacks: {
     async session({ session, token }) {
