@@ -3,7 +3,7 @@ import { signIn } from 'next-auth/react';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-import { verifyReCaptcha } from 'src/utils/recaptcha/verify-recaptcha';
+import { verifyRecaptcha } from 'src/utils/recaptcha/verify-recaptcha';
 
 import { signInErrorMessagesMap } from './constants';
 
@@ -27,7 +27,7 @@ export const useSignIn = () => {
     values: SignInFormValues,
     { setErrors }: FormikHelpers<SignInFormValues>,
   ) => {
-    const score = await verifyReCaptcha('singIn');
+    const score = await verifyRecaptcha('singIn');
     if (score <= 0.5) {
       setErrors({
         email: ' ',

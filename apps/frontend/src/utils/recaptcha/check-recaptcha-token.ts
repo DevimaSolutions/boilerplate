@@ -2,6 +2,8 @@
 
 import { envUtil } from '..';
 
+import type { RecaptchaResponse } from 'src/types/recaptcha.response';
+
 const env = envUtil.getEnv();
 
 export async function checkRecaptchaToken(token: string) {
@@ -11,5 +13,10 @@ export async function checkRecaptchaToken(token: string) {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: `secret=${env.reCaptcha.secretKey}&response=${token}`,
-  }).then((reCaptchaRes) => reCaptchaRes.json());
+  }).then(async (response) => {
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return response.json() as Promise<RecaptchaResponse>;
+  });
 }

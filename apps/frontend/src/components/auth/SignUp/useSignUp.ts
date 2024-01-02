@@ -2,7 +2,7 @@ import { authorizationApi } from 'api-client';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-import { verifyReCaptcha } from 'src/utils/recaptcha/verify-recaptcha';
+import { verifyRecaptcha } from 'src/utils/recaptcha/verify-recaptcha';
 
 import type { SignUpFormValues } from '../SignUpForm';
 import type { FormikHelpers } from 'formik';
@@ -14,7 +14,7 @@ export const useSignUp = () => {
     values: SignUpFormValues,
     { setErrors }: FormikHelpers<SignUpFormValues>,
   ) => {
-    const score = await verifyReCaptcha('singUp');
+    const score = await verifyRecaptcha('singUp');
     if (score <= 0.5) {
       setErrors({
         email: ' ',
