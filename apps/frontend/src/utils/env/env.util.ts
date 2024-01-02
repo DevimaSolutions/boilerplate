@@ -40,6 +40,10 @@ const mapEnv = () => {
       clientSecret: process.env.AZURE_AD_CLIENT_SECRET || '',
       tenantId: process.env.AZURE_AD_TENANT_ID || '',
     },
+    reCaptcha: {
+      siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '',
+      secretKey: process.env.RECAPTCHA_SECRET_KEY || '',
+    },
   };
 
   return Object.freeze(parsed);
