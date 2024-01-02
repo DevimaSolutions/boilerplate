@@ -1,9 +1,9 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-import { checkRecaptchaToken } from 'src/utils/auth/check-recaptcha-token';
+import { verifyReCaptcha } from 'src/utils/recaptcha/verify-recaptcha';
 
 import { signInErrorMessagesMap } from './constants';
 
@@ -16,20 +16,6 @@ export const useSignIn = () => {
   const redirectUri = searchParams.get('redirectUri');
   const router = useRouter();
 
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-  const handleReCaptchaVerify = useCallback(async () => {
-    window.grecaptcha.ready(async function () {
-      const token = await window.grecaptcha
-        .execute(recaptchaSiteKey, { action: 'submit' })
-        .then(function (token) {
-          return token;
-        });
-      const score = await checkRecaptchaToken(token);
-      return score;
-      //TODO: check score
-    });
-  }, [recaptchaSiteKey]);
-
   useEffect(() => {
     if (signInError) {
       const message = signInErrorMessagesMap[signInError];
@@ -41,9 +27,16 @@ export const useSignIn = () => {
     values: SignInFormValues,
     { setErrors }: FormikHelpers<SignInFormValues>,
   ) => {
-    await handleReCaptchaVerify();
+    const score = await verifyReCaptcha('singIn');
+    if (score <= 0.5) {
+      setErrors({
+        email: ' ',
+        password: 'Sorry, Google Recaptcha has detected you as a bot',
+      });
+      return;
+    }
     // Call NextAuth api route
-    /* const response = await signIn('credentials', {
+    const response = await signIn('credentials', {
       ...values,
       redirect: false,
     });
@@ -56,7 +49,7 @@ export const useSignIn = () => {
       return;
     }
     router.replace(redirectUri ?? '/');
-    router.refresh();*/
+    router.refresh();
   };
 
   const onGoogleSignIn = async () => {

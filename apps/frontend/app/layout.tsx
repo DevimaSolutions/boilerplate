@@ -1,6 +1,5 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
-import Script from 'next/script';
 
 import { envUtil } from 'src/utils';
 
@@ -19,12 +18,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
-      {/*TODO: dynamically import script*/}
-      <Script src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`} />
     </html>
   );
 }
