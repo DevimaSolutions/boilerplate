@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-import { verifyReCaptcha } from 'src/utils/recaptcha/verify-recaptcha';
+import { verifyRecaptcha } from 'src/utils/recaptcha/verify-recaptcha';
 
 import { resetPasswordErrorMessagesMap } from './constants';
 
@@ -25,7 +25,7 @@ export const useForgotPassword = () => {
     values: ForgotPasswordFormValues,
     { setErrors }: FormikHelpers<ForgotPasswordFormValues>,
   ) => {
-    const score = await verifyReCaptcha('forgotPassword');
+    const score = await verifyRecaptcha('forgotPassword');
     if (score <= 0.5) {
       setErrors({
         email: 'Sorry, Google Recaptcha has detected you as a bot',
