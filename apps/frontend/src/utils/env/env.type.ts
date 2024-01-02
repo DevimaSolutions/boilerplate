@@ -12,4 +12,8 @@ export interface Env {
     clientSecret: string;
     tenantId: string;
   };
+  reCaptcha: {
+    siteKey: string;
+    secretKey: string;
+  };
 }

@@ -1,6 +1,8 @@
 'use server';
 
-const recaptchaSecretKey = process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
+import { envUtil } from '..';
+
+const env = envUtil.getEnv();
 
 export async function checkRecaptchaToken(token: string) {
   return fetch('https://www.google.com/recaptcha/api/siteverify', {
@@ -8,6 +10,6 @@ export async function checkRecaptchaToken(token: string) {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: `secret=${recaptchaSecretKey}&response=${token}`,
+    body: `secret=${env.reCaptcha.secretKey}&response=${token}`,
   }).then((reCaptchaRes) => reCaptchaRes.json());
 }
