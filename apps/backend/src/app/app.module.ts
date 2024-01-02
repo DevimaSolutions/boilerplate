@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmModuleOptions } from 'src/config/db.config';
 import envConfig from 'src/config/env.config';
 import { AuthModule } from 'src/features/auth/auth.module';
+import { DummyDataModule } from 'src/features/dummy-data/dummy-data.module';
 import { FileUploadModule } from 'src/features/file-upload/file-upload.module';
 import { UsersModule } from 'src/features/users/users.module';
 
@@ -34,6 +35,7 @@ import { AppService } from './app.service';
     FileUploadModule.forRoot(),
     AuthModule,
     UsersModule,
+    DummyDataModule,
   ],
   controllers: [AppController],
   providers: [
