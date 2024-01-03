@@ -1,7 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { Authorized } from '../auth';
 import { ApiOkResponsePaginated } from '../common/decorators/api-ok-response-paginated.decorator';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { ZodValidationPipe } from '../common/pipes';
@@ -15,7 +14,6 @@ import { DummyDataService } from './dummy-data.service';
 export class DummyDataController {
   constructor(private dummyDataService: DummyDataService) {}
 
-  @Authorized()
   @Get()
   @ApiOkResponsePaginated(DummyDataDto)
   getData(@Query(new ZodValidationPipe(paginationQuerySchema)) query: PaginationQueryDto) {
