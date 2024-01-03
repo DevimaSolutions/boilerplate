@@ -1,0 +1,63 @@
+name: '(origin/main): CI deployment'
+
+on:
+  pull_request_target:
+    types:
+      - closed
+    branches:
+      - main
+  workflow_call:
+    secrets:
+      BACKEND_ENV:
+        description: Content of an apps/backend/.env file
+        required: false
+      FRONTEND_ENV:
+        description: Content of an apps/frontend/.env file
+        required: false
+      REMOTE_HOST:
+        description: IP address or hostname of a server where you want app to be deployed
+        required: true
+      REMOTE_USER:
+        description: user name used to connect to the server via SSH tunnel
+        required: true
+      SSH_PRIVATE_KEY:
+        description: PEM key used to connect to the server via SSH tunnel
+        required: true
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Setting up .env
+        run: |
+          echo "${{ secrets.BACKEND_ENV }}" > apps/backend/.env
+          echo "${{ secrets.FRONTEND_ENV }}" > apps/frontend/.env
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Setting up SSH key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+      - name: Deploy using Ansible Playbook
+        run: yarn deploy -- -- --private-key=private_key.pem --inventory=${{ secrets.REMOTE_HOST }}, --user=${{ secrets.REMOTE_USER }}

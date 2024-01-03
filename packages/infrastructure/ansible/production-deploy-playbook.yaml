@@ -1,0 +1,21 @@
+# Application is already built by this point
+# Since deploy action depends on build (See turbo.json)
+# TODO: finish playbook
+- name: Deploy app to production
+  hosts: 'all'
+  tasks:
+    - name: Ping hosts
+      ansible.builtin.ping:
+
+    - name: Copy build artifacts
+      # ignore apps/backend/src apps/backend/test packages/infrastructure apps/api-client/templates
+      ansible.builtin.debug:
+        msg: Hello world
+
+    - name: Apply migrations
+      ansible.builtin.debug:
+        msg: Hello world 2
+
+    - name: Reload PM2 apps
+      ansible.builtin.debug:
+        msg: Hello world 3

@@ -1,0 +1,40 @@
+# Pre install all required tools to make sure deployment go smoothly
+# TODO: read about setup module (rub automatically when using playbooks)
+# TODO: finish playbook
+- name: Prepare host for application deployment
+  hosts: 'all'
+  tasks:
+    - name: Ping hosts
+      ansible.builtin.ping:
+
+    - name: Install nvm
+      ansible.builtin.debug:
+        msg: Hello world 2
+
+    - name: Install node version from .nvmrc file
+      ansible.builtin.debug:
+        msg: Hello world 3
+
+    - name: Install pm2 service
+      ansible.builtin.debug:
+        msg: Hello world 4
+
+    - name: Configure pm2 service
+      ansible.builtin.debug:
+        msg: Hello world 5
+
+    - name: Install docker
+      ansible.builtin.debug:
+        msg: Hello world 6
+
+    - name: Run dockerized postgreSQL instance
+      ansible.builtin.debug:
+        msg: Hello world 7
+
+    - name: Install Nginx
+      ansible.builtin.debug:
+        msg: Hello world
+
+    - name: Setup Nginx site configs
+      ansible.builtin.debug:
+        msg: Hello world

@@ -11,7 +11,7 @@
     "backend": "*"
   },
   "scripts": {
-    "deploy": "echo 'This command will execute ansible playbook'",
+    "deploy": "ansible-playbook ansible/production-deploy-playbook.yaml",
     "docker:local": "docker compose --file docker-compose.dev.local.yml --env-file ../../apps/backend/.env -p \"postgres-mailhog-local\" up --build -d"
   },
   "lint-staged": {
