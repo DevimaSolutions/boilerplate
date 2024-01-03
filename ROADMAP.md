@@ -1,9 +1,7 @@
 ## V1
 
-- Updated profile image is not shown in a header until app reload
 - Add documentation to `api-client` package
 - Figure out how caching works in Next (for authorization and other routes) and if it works fine with api-client package
-- Add react-query examples
 - Test S3 service
 
 - Add readme for transactions usage

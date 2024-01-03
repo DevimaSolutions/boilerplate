@@ -3,7 +3,7 @@
 import { Field, Form, Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 
-import ImageFileCard from 'src/components/ImageFileCard';
+import ImageFileCard from 'src/components/cards/ImageFileCard';
 import CheckboxInput from 'src/components/inputs/CheckboxInput';
 import FileInput from 'src/components/inputs/FileInput';
 import TextInput from 'src/components/inputs/TextInput';
