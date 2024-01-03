@@ -1,0 +1,15 @@
+# Run this playbook to setup https connection for your services
+# TODO: finish playbook
+- name: Enable SSL connection for the host
+  hosts: 'all'
+  tasks:
+    - name: Ping hosts
+      ansible.builtin.ping:
+
+    - name: Install certbot
+      ansible.builtin.debug:
+        msg: Hello world
+
+    - name: Generate certificates
+      ansible.builtin.debug:
+        msg: Hello world 2

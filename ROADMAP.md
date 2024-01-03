@@ -5,8 +5,6 @@
 - Figure out how caching works in Next (for authorization and other routes) and if it works fine with api-client package
 - Add react-query examples
 - Test S3 service
-- Add global interceptor to add @ApiBadRequestResponse({ type: () => ValidationErrorDto })
-  to endpoints that has ZodValidationPipe assigned to params
 
 - Add readme for transactions usage
 - Add PM2 to both frontend and backend production deployment flows
