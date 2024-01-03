@@ -10,9 +10,9 @@ import type { UpdateAvatarInputProps } from './types';
 export default function UpdateAvatarInput({
   disabled,
   size = 50,
-  ...rest
+  imageUri,
 }: UpdateAvatarInputProps) {
-  const { imageUri, inputRef, handleInputClick, handleChange } = useUpdateAvatarInput({ ...rest });
+  const { inputRef, handleInputClick, handleChange } = useUpdateAvatarInput();
   return (
     <>
       <input
