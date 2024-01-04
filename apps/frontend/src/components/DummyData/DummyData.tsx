@@ -1,52 +1,49 @@
 'use client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { dummyDataApi } from 'api-client';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { BrowseProfileCard } from '../cards/BrowseProfileCard';
 
+import type { DummyDataDto } from 'api-client';
+
 export default function DummyData() {
-  //const { data } = await dummyDataApi.getData().throwOnError();
+  const limit = 10;
 
-  const observerTarget = useRef(null);
-
-  const fetchMore = async ({ offset }: { offset: number }) => {
-    const { data } = await dummyDataApi.getData({ offset }).throwOnError();
-    return data;
+  const fetchProfiles = async () => {
+    const { data } = await dummyDataApi.getData({ limit }).throwOnError();
+    return data as DummyDataDto[];
   };
-  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
+
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['profiles'],
-    queryFn: fetchMore,
+    queryFn: fetchProfiles,
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
-      const nextPage = lastPage.length === 10 ? allPages.length * 10 : undefined;
+      const nextPage = lastPage.length === limit ? allPages.length * limit : undefined;
       return nextPage;
     },
   });
+
   if (error) {
     throw error;
   }
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      async (entries) => {
-        if (entries[0].isIntersecting && hasNextPage) {
-          await fetchNextPage();
-        }
-      },
-      { threshold: 1 },
-    );
-
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
+    async function handleScroll() {
+      if (
+        window.innerHeight + document.documentElement.scrollTop ===
+          document.documentElement.offsetHeight &&
+        hasNextPage
+      ) {
+        await fetchNextPage();
       }
+    }
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, [observerTarget, fetchNextPage, hasNextPage]);
+  }, [hasNextPage, fetchNextPage]);
 
   return (
     <>
@@ -62,7 +59,6 @@ export default function DummyData() {
             <span className="loading loading-spinner loading-lg" />
           </div>
         ) : null}
-        <div ref={observerTarget} />
       </div>
     </>
   );

@@ -51,6 +51,7 @@ module.exports = withBundleAnalyzer({
         port: '',
         pathname: '/a/**',
       },
+      //for dummy data generated avatar usage
       {
         protocol: 'https',
         hostname: 'avatars.githubusercontent.com',
