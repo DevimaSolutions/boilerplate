@@ -16,7 +16,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <>
+    <div className="mt-20 w-full flex flex-col justify-center items-center">
       <div className="h-[85px] w-[85px] rounded-full flex justify-center items-center self-center bg-red-100">
         <ExclamationCircleIcon className="h-14 w-14 text-error" />
       </div>
@@ -25,9 +25,9 @@ export default function Error({
       </h2>
       <p className="w-full text-center mt-0">{error.message}</p>
       <button
-        className="flex w-50 justify-center btn btn-primary"
+        className="flex justify-center btn btn-primary"
         onClick={
-          // Attempt to recover by trying to re-render the profile route
+          // Attempt to recover by trying to re-render the route
           () => {
             reset();
           }
@@ -36,6 +36,6 @@ export default function Error({
       >
         Try again
       </button>
-    </>
+    </div>
   );
 }
