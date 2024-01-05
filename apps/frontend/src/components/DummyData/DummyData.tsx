@@ -2,6 +2,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { dummyDataApi } from 'api-client';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import useScrollbar from 'src/hooks/useScrollbar';
 
@@ -12,7 +13,7 @@ import type { DummyDataProps } from './types';
 export default function DummyData({ initialData }: DummyDataProps) {
   const limit = 10;
   //shifted because initial data is first 10 profiles
-  const [offset, setOffset] = useState(10);
+  const [offset, setOffset] = useState(initialData.length);
 
   const fetchProfiles = async () => {
     const { data } = await dummyDataApi.getData({ limit, offset }).throwOnError();
@@ -34,14 +35,14 @@ export default function DummyData({ initialData }: DummyDataProps) {
   });
 
   if (error) {
-    throw error;
+    toast.error(error.message);
   }
 
   const { scrollPercentage } = useScrollbar();
 
   useEffect(() => {
     const handleScroll = async () => {
-      if (scrollPercentage === 100 && hasNextPage) {
+      if (scrollPercentage >= 100 && hasNextPage) {
         await fetchNextPage();
       }
     };
@@ -53,7 +54,7 @@ export default function DummyData({ initialData }: DummyDataProps) {
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 w-full">
         Load dummy data:
       </h2>
-      <div className="w-full max-w-[1000px] space-y-5">
+      <div className="w-full max-w-[1000px] space-y-5 mb-4">
         {data.pages.map((page) =>
           page.map((profile) => <BrowseProfileCard key={profile.userId} profile={profile} />),
         )}
