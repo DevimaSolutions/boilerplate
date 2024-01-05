@@ -15,6 +15,7 @@ module.exports = {
     require.resolve('@vercel/style-guide/eslint/react'),
     require.resolve('@vercel/style-guide/eslint/next'),
     require.resolve('eslint-config-turbo'),
+    'plugin:@tanstack/eslint-plugin-query/recommended',
     'custom/base',
   ],
   globals: {
@@ -28,6 +29,7 @@ module.exports = {
     'turbo/no-undeclared-env-vars': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-misused-promises': 'off',
+    '@tanstack/query/stable-query-client': 'error',
     'unicorn/filename-case': [
       'error',
       {

@@ -1,49 +1,52 @@
 'use client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { dummyDataApi } from 'api-client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
+import useScrollbar from 'src/hooks/useScrollbar';
 
 import { BrowseProfileCard } from '../cards/BrowseProfileCard';
 
-import type { DummyDataDto } from 'api-client';
+import type { DummyDataProps } from './types';
 
-export default function DummyData() {
+export default function DummyData({ initialData }: DummyDataProps) {
   const limit = 10;
+  //shifted because initial data is first 10 profiles
+  const [offset, setOffset] = useState(10);
 
   const fetchProfiles = async () => {
-    const { data } = await dummyDataApi.getData({ limit }).throwOnError();
-    return data as DummyDataDto[];
+    const { data } = await dummyDataApi.getData({ limit, offset }).throwOnError();
+    setOffset((x) => x + limit);
+
+    return data;
   };
 
   const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['profiles'],
     queryFn: fetchProfiles,
+    staleTime: Infinity, //to prevent refetch initial data
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      const nextPage = lastPage.length === limit ? allPages.length * limit : undefined;
-      return nextPage;
+    initialData: () => {
+      return { pageParams: [null], pages: [initialData] };
     },
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.length === limit ? allPages.length * limit : undefined,
   });
 
   if (error) {
     throw error;
   }
 
+  const { scrollPercentage } = useScrollbar();
+
   useEffect(() => {
-    async function handleScroll() {
-      if (
-        window.innerHeight + document.documentElement.scrollTop ===
-          document.documentElement.offsetHeight &&
-        hasNextPage
-      ) {
+    const handleScroll = async () => {
+      if (scrollPercentage === 100 && hasNextPage) {
         await fetchNextPage();
       }
-    }
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
     };
-  }, [hasNextPage, fetchNextPage]);
+    void handleScroll();
+  }, [scrollPercentage, hasNextPage, fetchNextPage]);
 
   return (
     <>
@@ -51,7 +54,7 @@ export default function DummyData() {
         Load dummy data:
       </h2>
       <div className="w-full max-w-[1000px] space-y-5">
-        {data?.pages.map((page) =>
+        {data.pages.map((page) =>
           page.map((profile) => <BrowseProfileCard key={profile.userId} profile={profile} />),
         )}
         {isFetchingNextPage ? (
