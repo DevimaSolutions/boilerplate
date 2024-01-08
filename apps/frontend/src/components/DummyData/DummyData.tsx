@@ -12,7 +12,7 @@ import type { DummyDataProps } from './types';
 
 export default function DummyData({ initialData }: DummyDataProps) {
   const limit = 10;
-  //shifted because initial data is first 10 profiles
+  //shifted by the number of profiles already loaded
   const [offset, setOffset] = useState(initialData.length);
 
   const fetchProfiles = async () => {
