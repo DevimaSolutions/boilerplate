@@ -206,7 +206,7 @@ export class HttpClient<SecurityDataType = unknown> {
         let requestParams = this.mergeRequestParams(params, secureParams);
      
         //added cookies to server-side requests to be able to perform authorized requests
-        if(typeof window === 'undefined' ){
+        if(typeof window === 'undefined' && !!secure ){
             const { cookies } = await import('next/headers');
             const cookiesParams = {
             headers: {
