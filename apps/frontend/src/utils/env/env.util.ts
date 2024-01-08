@@ -42,7 +42,7 @@ const mapEnv = () => {
     },
     reCaptcha: {
       siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '',
-      secretKey: process.env.RECAPTCHA_SECRET_KEY || '',
+      secretKey: process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY || '',
     },
   };
 
