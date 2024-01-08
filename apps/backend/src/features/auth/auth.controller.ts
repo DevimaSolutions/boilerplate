@@ -109,7 +109,8 @@ export class AuthController {
   async forgotPassword(
     @Body(new ZodValidationPipe(forgotPasswordSchema)) passwordForgotDto: ForgotPasswordDto,
   ) {
-    return this.authService.sendForgotEmail(passwordForgotDto.email);
+    await this.authService.sendForgotEmail(passwordForgotDto.email);
+    return new SuccessDto();
   }
 
   @ApiOkResponse({ type: () => SuccessDto })
@@ -118,6 +119,7 @@ export class AuthController {
   async resetPassword(
     @Body(new ZodValidationPipe(resetPasswordSchema)) { token, password }: ResetPasswordDto,
   ) {
-    return this.authService.resetPassword(token, password);
+    await this.authService.resetPassword(token, password);
+    return new SuccessDto();
   }
 }
