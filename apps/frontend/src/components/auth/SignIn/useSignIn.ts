@@ -3,15 +3,12 @@ import { signIn } from 'next-auth/react';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-import { envUtil } from 'src/utils';
 import { verifyRecaptcha } from 'src/utils/recaptcha/verify-recaptcha';
 
 import { signInErrorMessagesMap } from './constants';
 
 import type { SignInFormValues } from '../SignInForm';
 import type { FormikHelpers } from 'formik';
-
-const env = envUtil.getEnv();
 
 export const useSignIn = () => {
   const searchParams = useSearchParams();
@@ -30,16 +27,15 @@ export const useSignIn = () => {
     values: SignInFormValues,
     { setErrors }: FormikHelpers<SignInFormValues>,
   ) => {
-    if (env.reCaptcha.secretKey && env.reCaptcha.siteKey) {
-      const score = await verifyRecaptcha('singIn');
-      if (score <= 0.5) {
-        setErrors({
-          email: ' ',
-          password: 'Sorry, Google Recaptcha has detected you as a bot',
-        });
-        return;
-      }
+    const { hasValidRecaptchaScore } = await verifyRecaptcha('singIn');
+    if (!hasValidRecaptchaScore) {
+      setErrors({
+        email: ' ',
+        password: 'Sorry, Google Recaptcha has detected you as a bot',
+      });
+      return;
     }
+
     // Call NextAuth api route
     const response = await signIn('credentials', {
       ...values,

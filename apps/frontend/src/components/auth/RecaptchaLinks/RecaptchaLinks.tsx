@@ -1,6 +1,14 @@
 import Link from 'next/link';
 
+import { envUtil } from 'src/utils';
+
+const env = envUtil.getEnv();
+
 export default function RecaptchaLinks() {
+  if (!env.reCaptcha.siteKey) {
+    return null;
+  }
+
   return (
     <small className="my-2 text-gray-500">
       This site is protected by reCAPTCHA and the Google{' '}

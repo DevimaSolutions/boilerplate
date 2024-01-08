@@ -10,7 +10,11 @@ const env = envUtil.getEnv();
 export async function verifyRecaptcha(action: string) {
   await ensureGoogleRecaptchaLoaded();
 
-  return new Promise<number>((res, rej) => {
+  if (!env.reCaptcha.siteKey) {
+    return Promise.resolve({ hasValidRecaptchaScore: true });
+  }
+
+  return new Promise<{ hasValidRecaptchaScore: boolean }>((res, rej) => {
     window.grecaptcha.ready(async () => {
       try {
         const token = await window.grecaptcha.execute(env.reCaptcha.siteKey, { action });
@@ -18,7 +22,7 @@ export async function verifyRecaptcha(action: string) {
         if (response.action !== action) {
           throw new Error('Incorrect action');
         }
-        res(response.score);
+        res({ hasValidRecaptchaScore: response.score >= 5 });
       } catch (error) {
         if (error instanceof Error) {
           toast.error(error.message);
