@@ -5,6 +5,8 @@ import { toFormikValidationSchema } from 'zod-formik-adapter';
 
 import TextInput from 'src/components/inputs/TextInput';
 
+import { RecaptchaLinks } from '../RecaptchaLinks';
+
 import { forgotPasswordSchema } from './schema';
 
 import type { ForgotPasswordFormProps } from './types';
@@ -37,6 +39,7 @@ export function ForgotPasswordForm({ onSubmit }: ForgotPasswordFormProps) {
           >
             Reset password
           </button>
+          <RecaptchaLinks />
         </Form>
       )}
     </Formik>
