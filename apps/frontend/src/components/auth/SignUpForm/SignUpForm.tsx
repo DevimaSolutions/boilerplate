@@ -4,6 +4,8 @@ import { toFormikValidationSchema } from 'zod-formik-adapter';
 import PasswordInput from 'src/components/inputs/PasswordInput';
 import TextInput from 'src/components/inputs/TextInput';
 
+import { RecaptchaLinks } from '../RecaptchaLinks';
+
 import { signUpSchema } from './schema';
 
 import type { SignUpFormProps } from './types';
@@ -43,6 +45,7 @@ export function SignUpForm({ onSubmit }: SignUpFormProps) {
           >
             Sign up
           </button>
+          <RecaptchaLinks />
         </Form>
       )}
     </Formik>

@@ -16,3 +16,6 @@ body {
 *:after {
   box-sizing: inherit;
 }
+.grecaptcha-badge {
+  visibility: hidden;
+}

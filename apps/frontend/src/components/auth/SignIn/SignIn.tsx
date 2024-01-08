@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { RecaptchaLinks } from '../RecaptchaLinks';
 import { SignInForm } from '../SignInForm';
 
 import { useSignIn } from './useSignIn';
@@ -16,6 +17,7 @@ export function SignIn() {
         Sign in to your account
       </h2>
       <SignInForm onSubmit={onSubmit} />
+      <RecaptchaLinks />
       <button
         className="flex w-full justify-center btn btn-neutral mt-4"
         onClick={onGoogleSignIn}
