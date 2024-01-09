@@ -4,32 +4,25 @@ const { requestBodyInfo, responseBodyInfo, specificArgNameResolver } = route;
 const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
 const { parameters, path, method, payload, query, formData, security, requestParams } = route.request;
 const { type, errorType, contentTypes } = route.response;
-
-const match = type.match(/&\s*{([\s\S]*)}/);
-
-if (match) {
-    const rightPart = match[1];
-
-    const fieldNamesMatch = rightPart.match(/(["']?\w+["']?\??)\s*:/g);
-    const fieldNames = fieldNamesMatch ? fieldNamesMatch.map(match => match.replace(/\s*:/, '').replace(/['"?]/g, '')) : [];
-    console.log(fieldNamesMatch)
-
-    if (fieldNames.length > 0) {
-
-        //const transformedString = `Omit<PaginationResponseDto, '${fieldNames.join("', '")}'> & {${rightPart}}`;
-        //console.log(transformedString);
-    } else {
-        console.log('No field names found in the right part.');
-    }
-} else {
-    console.log('No "&" found in the input string.');
-}
-
 const { HTTP_CLIENT, RESERVED_REQ_PARAMS_ARG_NAMES } = config.constants;
 const routeDocs = includeFile("./route-docs", { config, route, utils });
 const queryName = (query && query.name) || "query";
 const pathParams = _.values(parameters);
 const pathParamsNames = _.map(pathParams, "name");
+
+let modifiedType = type;
+const match = type.match(/(\w+)\s*&\s*{([\s\S]*)}/);
+if (match) {
+    const leftPart = match[1];
+    const rightPart = match[2];
+
+    const fieldNamesMatch = rightPart.match(/(["']?\w+['"]?\??)\s*:/g);
+    const fieldNames = fieldNamesMatch ? fieldNamesMatch.map(match => match.replace(/\s*:/, '').replace(/["''"?]/g, '')) : [];
+
+    if (fieldNames.length > 0) {
+        modifiedType = `Omit\<${leftPart}, \'${fieldNames.join("'| '")}\'> & {${rightPart}}`;
+    } 
+} 
 
 const isFetchTemplate = config.httpClientType === HTTP_CLIENT.FETCH;
 
@@ -91,10 +84,10 @@ const describeReturnType = () => {
 
     switch(config.httpClientType) {
         case HTTP_CLIENT.AXIOS: {
-          return `Promise<AxiosResponse<${type}>>`
+          return `Promise<AxiosResponse<${modifiedType}>>`
         }
         default: {
-          return `Promise<HttpResponse<${type}, ${errorType}>`
+          return `Promise<HttpResponse<${modifiedType}, ${errorType}>`
         }
     }
 }
@@ -109,7 +102,7 @@ const describeReturnType = () => {
 
  */
 <%~ route.routeName.usage %> = (<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
-    <%~ config.singleHttpClient ? 'this.http.request' : 'this.request' %><<%~ type %>, <%~ errorType %>>({
+    <%~ config.singleHttpClient ? 'this.http.request' : 'this.request' %><<%~ modifiedType %>, <%~ errorType %>>({
         path: `<%~ path %>`,
         method: '<%~ _.upperCase(method) %>',
         <%~ queryTmpl ? `query: ${queryTmpl},` : '' %>
