@@ -37,11 +37,11 @@ const useUpdateAvatarInput = () => {
         router.refresh();
       } catch (error) {
         if (error instanceof ZodError) {
-          toast(Array.isArray(error.issues) ? error.issues[0].message : error.message);
+          toast.error(Array.isArray(error.issues) ? error.issues[0].message : error.message);
           return;
         }
         if (error instanceof Error) {
-          toast(error.message);
+          toast.error(error.message);
           return;
         }
         throw error;
