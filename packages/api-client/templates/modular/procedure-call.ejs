@@ -11,15 +11,21 @@ const pathParams = _.values(parameters);
 const pathParamsNames = _.map(pathParams, "name");
 
 let modifiedType = type;
-const match = type.match(/(\w+)\s*&\s*{([\s\S]*)}/);
-if (match) {
-    const leftPart = match[1];
-    const rightPart = match[2];
 
-    const fieldNamesMatch = rightPart.match(/(["']?\w+['"]?\??)\s*:/g);
-    const fieldNames = fieldNamesMatch ? fieldNamesMatch.map(match => match.replace(/\s*:/, '').replace(/["''"?]/g, '')) : [];
+// Check if the type has generic parameters (& { ... })
+const typeHasGenericParameterMatch = type.match(/(\w+)\s*&\s*{([\s\S]*)}/);
 
+if (typeHasGenericParameterMatch) {
+
+    const leftPart = typeHasGenericParameterMatch[1];
+    const rightPart = typeHasGenericParameterMatch[2];
+    
+    // Split the right part by lines and extract the first word (field name) from each line
+    const fieldNames = rightPart.split('\n').map(line => line.split(':')[0].match(/\w+/g)?.[0]).filter(Boolean);
+
+    // If there are field names, modify the type
     if (fieldNames.length > 0) {
+        // Create the modified type by omitting specified field names
         modifiedType = `Omit\<${leftPart}, \'${fieldNames.join("'| '")}\'> & {${rightPart}}`;
     } 
 } 
