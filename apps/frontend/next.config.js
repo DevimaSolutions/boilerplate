@@ -40,18 +40,7 @@ const getCdnImagePattern = () => {
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   poweredByHeader: false,
-  rewrites: async () => {
-    return {
-      fallback: [
-        ...(backendProxyRewrites.fallback ? backendProxyRewrites.fallback : []),
-        {
-          source: '/robots.txt',
-          destination: '/robots',
-        },
-      ],
-    };
-  },
-
+  rewrites: async () => backendProxyRewrites,
   transpilePackages: ['api-client'],
   images: {
     remotePatterns: [
