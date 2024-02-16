@@ -45,7 +45,7 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.3.1",
     "next-auth": "^4.24.5",
-    "nodemailer": "^6.9.6",
+    "nodemailer": "^6.9.9",
     "passport": "^0.6.0",
     "passport-cookie": "^1.0.9",
     "passport-headerapikey": "^1.2.2",
