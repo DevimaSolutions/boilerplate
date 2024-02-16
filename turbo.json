@@ -34,9 +34,6 @@
       "cache": false,
       "persistent": true
     },
-    "deploy": {
-      "dependsOn": ["build", "test"]
-    },
     "docker:local": {
       "cache": false
     }
