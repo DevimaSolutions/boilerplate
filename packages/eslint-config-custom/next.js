@@ -30,6 +30,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-misused-promises': 'off',
     '@tanstack/query/stable-query-client': 'error',
+    'react/hook-use-state': 'off',
     'unicorn/filename-case': [
       'error',
       {
