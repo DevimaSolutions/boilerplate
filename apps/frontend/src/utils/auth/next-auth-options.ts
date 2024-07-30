@@ -8,6 +8,9 @@ import type { AuthOptions, DefaultUser } from 'next-auth';
 
 const env = envUtil.getEnv();
 
+// set cookies to top level domain so they are available for all subdomains
+const topLevelDomain = new URL(env.frontendUrl).hostname.split('.').slice(-2).join('.');
+
 export const authOptions: AuthOptions = {
   providers: [
     Google(env.google),
@@ -103,18 +106,21 @@ export const authOptions: AuthOptions = {
     sessionToken: {
       name: 'session-token',
       options: {
+        domain: topLevelDomain,
         path: '/',
       },
     },
     callbackUrl: {
       name: 'callback-url',
       options: {
+        domain: topLevelDomain,
         path: '/',
       },
     },
     csrfToken: {
       name: 'csrf-token',
       options: {
+        domain: topLevelDomain,
         path: '/',
       },
     },

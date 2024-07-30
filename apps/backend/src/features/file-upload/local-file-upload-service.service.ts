@@ -38,7 +38,7 @@ export class LocalFileUploadService extends FileUploadService {
 
     await fs.writeFile(filePath, file.buffer);
 
-    const uploadLocation = `${this.config.frontendHostUrl}${this.config.frontendProxyPath}${LocalFileUploadService.FILE_UPLOAD_PATH}/${fileKey}`;
+    const uploadLocation = `${this.config.backendHostUrl}${LocalFileUploadService.FILE_UPLOAD_PATH}/${fileKey}`;
     return uploadLocation;
   }
   async removeFile(fileKey: string) {

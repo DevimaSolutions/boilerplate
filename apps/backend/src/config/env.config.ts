@@ -23,7 +23,7 @@ const envConfig = registerAs('env', () => ({
   appName: process.env.APP_NAME || '',
   enableSwagger: mapEnvValues.bool(process.env.ENABLE_SWAGGER || ''),
   frontendHostUrl: process.env.FRONTEND_HOST_URL || '',
-  frontendProxyPath: process.env.FRONTEND_PROXY_PATH || '',
+  backendHostUrl: process.env.BACKEND_HOST_URL || '',
   allowedOrigins: mapEnvValues.array(process.env.ALLOWED_CORS_ORIGINS || ''),
   database: {
     host: process.env.DATABASE_HOST || '',

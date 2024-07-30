@@ -21,7 +21,7 @@ async function bootstrap() {
   }
 
   if (allowedOrigins.length > 0) {
-    app.enableCors({ origin: allowedOrigins });
+    app.enableCors({ origin: allowedOrigins, credentials: true });
   }
 
   await app.listen(port);

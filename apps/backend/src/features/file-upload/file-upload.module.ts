@@ -1,4 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 
 import envConfig from 'src/config/env.config';
 import { ServeLocalFilesController } from 'src/features/file-upload/serve-local-files.controller';
@@ -13,11 +14,16 @@ export interface FileUploadModuleOptions {
 
 @Module({})
 export class FileUploadModule {
-  private static ensureModuleOptions(options?: FileUploadModuleOptions) {
-    const awsConfig = envConfig().aws;
+  private static ensureModuleOptions(
+    options?: FileUploadModuleOptions,
+    config?: ConfigType<typeof envConfig>,
+  ) {
+    const awsConfig = config?.aws ?? envConfig().aws;
+
+    const shouldUseAwsStorage = process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_ACCESS_KEY_ID;
 
     const ensureOptions = {
-      type: awsConfig.secretAccessKey && awsConfig.accessKeyId ? 'aws' : 'local',
+      type: shouldUseAwsStorage ? 'aws' : 'local',
       ...options,
     };
 
@@ -53,7 +59,13 @@ export class FileUploadModule {
       providers: [
         {
           provide: FileUploadService,
-          useClass: ensureOptions.type === 'aws' ? S3FileUploadService : LocalFileUploadService,
+          inject: [envConfig.KEY],
+          useFactory: (config: ConfigType<typeof envConfig>) => {
+            const ensureOptions = FileUploadModule.ensureModuleOptions(options, config);
+            return ensureOptions.type === 'aws'
+              ? new S3FileUploadService(config)
+              : new LocalFileUploadService(config);
+          },
         },
       ],
       exports: [FileUploadService],

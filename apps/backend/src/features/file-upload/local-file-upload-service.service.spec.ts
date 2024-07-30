@@ -15,7 +15,7 @@ describe('LocalFileUploadServiceService', () => {
           provide: envConfig.KEY,
           useValue: {
             frontendHostUrl: 'http://localhost:3000',
-            frontendProxyPath: '/api',
+            backendHostUrl: 'http://localhost:3001',
           },
         },
       ],

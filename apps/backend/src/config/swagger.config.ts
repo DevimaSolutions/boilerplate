@@ -7,12 +7,11 @@ import envConfig from './env.config';
 import type { INestApplication } from '@nestjs/common';
 
 export const getSwaggerDocsUrl = () => {
-  const { frontendHostUrl, frontendProxyPath, enableSwagger } = envConfig();
+  const { enableSwagger } = envConfig();
 
   const areDocsEnabled = enableSwagger;
-  const docsBaseUrl = frontendProxyPath ? `${frontendHostUrl}${frontendProxyPath}` : '';
 
-  return areDocsEnabled ? `${docsBaseUrl}/docs` : '';
+  return areDocsEnabled ? '/docs' : '';
 };
 const updateSwaggerSpecFile = async (document: OpenAPIObject) => {
   // This is a relative path from the `backend` project root
@@ -27,7 +26,7 @@ const updateSwaggerSpecFile = async (document: OpenAPIObject) => {
 };
 
 const configureSwagger = (app: INestApplication) => {
-  const { appName, frontendHostUrl, frontendProxyPath } = envConfig();
+  const { appName, frontendHostUrl, backendHostUrl } = envConfig();
 
   const builder = new DocumentBuilder()
     .setTitle(appName)
@@ -58,9 +57,7 @@ const configureSwagger = (app: INestApplication) => {
       'x-api-key',
     );
 
-  if (frontendProxyPath) {
-    builder.addServer(`${frontendHostUrl}${frontendProxyPath}`);
-  }
+  builder.addServer(backendHostUrl);
 
   const config = builder.build();
   const document = SwaggerModule.createDocument(app, config);
