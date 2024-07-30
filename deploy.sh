@@ -54,7 +54,7 @@ yarn build
 
 mkdir -p apps/frontend/.next/standalone/apps/frontend/.next/static
 mkdir -p apps/frontend/.next/standalone/apps/frontend/public
-cp -a apps/frontend/.next/static/ apps/frontend/.next/standalone/apps/frontend/.next/static/
+cp -a apps/frontend/.next/static/. apps/frontend/.next/standalone/apps/frontend/.next/static/
 cp -a apps/frontend/public/. apps/frontend/.next/standalone/apps/frontend/public/
 
 echo "Apply pending migrations"
