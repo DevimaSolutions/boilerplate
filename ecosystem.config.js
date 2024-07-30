@@ -2,13 +2,21 @@ require('dotenv').config({ path: 'apps/frontend/.env' });
 
 const appName = process.env.NEXT_PUBLIC_APP_NAME?.toLowerCase() ?? 'app';
 
+if (!process.env.NVM_DIR) {
+  throw new Error("NVM_DIR env variable not found!")
+}
+if (!process.version) {
+  throw new Error("Running unknown node version!")
+}
+const interpreterPath = `${process.env.NVM_DIR}/versions/node/${process.version}/bin/node`
+
 module.exports = {
   apps: [
     {
       name: `${appName} backend`,
       cwd: './apps/backend',
       script: 'dist/main.js',
-      interpreter: '/root/.nvm/versions/node/v20.11.0/bin/node',
+      interpreter: interpreterPath,
       instances: '1',
       exec_mode: 'cluster',
       env: {
@@ -23,7 +31,7 @@ module.exports = {
     {
       name: `${appName} frontend`,
       script: 'server.js',
-      interpreter: '/root/.nvm/versions/node/v20.11.0/bin/node',
+      interpreter: interpreterPath,
       cwd: './apps/frontend/.next/standalone/apps/frontend',
       instances: '1',
       exec_mode: 'cluster',
