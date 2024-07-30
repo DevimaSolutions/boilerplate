@@ -26,10 +26,7 @@ const mapEnv = () => {
     appName: process.env.NEXT_PUBLIC_APP_NAME || '',
     apiKey: process.env.API_KEY || '',
     // use proxy path if set otherwise use absolute backend url
-    backendUrl:
-      (process.env.NEXT_PUBLIC_BACKEND_PROXY_PATH
-        ? process.env.NEXT_PUBLIC_FRONTEND_URL + process.env.NEXT_PUBLIC_BACKEND_PROXY_PATH
-        : process.env.NEXT_PUBLIC_BACKEND_URL) || '',
+    backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL || '',
     frontendUrl: process.env.NEXT_PUBLIC_FRONTEND_URL || '',
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID || '',

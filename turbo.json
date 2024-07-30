@@ -19,6 +19,7 @@
     "frontend#build:tsc-only": {
       "dependsOn": ["api-client#gen:api-client"]
     },
+    "migration:run": {},
     "lint": {},
     "test": {
       "dependsOn": ["^test"],

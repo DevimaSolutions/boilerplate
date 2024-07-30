@@ -17,6 +17,8 @@ NUMBER_OF_RELEASES_TO_KEEP="4" # keep latest 3 releases
 echo "Jump to app folder"
 cd $CODE_FOLDER
 
+nvm use
+
 echo "Update app from Git"
 git pull
 git status
@@ -39,7 +41,7 @@ echo "Creating build (ID:$NEW_BUILD_ID)"
 mkdir -p $BUILD_FOLDER/release-$NEW_BUILD_ID
 
 echo "Copying source code"
-cp -a $CODE_FOLDER/ $BUILD_FOLDER/release-$NEW_BUILD_ID/
+cp -a $CODE_FOLDER/. $BUILD_FOLDER/release-$NEW_BUILD_ID/
 
 cd $BUILD_FOLDER/release-$NEW_BUILD_ID
 
@@ -49,6 +51,11 @@ yarn
 
 echo "Build your app"
 yarn build
+
+mkdir -p apps/frontend/.next/standalone/apps/frontend/.next/static
+mkdir -p apps/frontend/.next/standalone/apps/frontend/public
+cp -a apps/frontend/.next/static/ apps/frontend/.next/standalone/apps/frontend/.next/static/
+cp -a apps/frontend/public/. apps/frontend/.next/standalone/apps/frontend/public/
 
 echo "Apply pending migrations"
 yarn migration:run
@@ -61,6 +68,7 @@ ln -sf $BUILD_FOLDER/release-$NEW_BUILD_ID/ $BUILD_FOLDER/release-current
 cd $BUILD_FOLDER/release-current
 
 echo "Reload start PM2 instances with 0 downtime"
+pm2 delete ecosystem.config.js
 pm2 reload ecosystem.config.js
 
 echo "Save PM2 state"

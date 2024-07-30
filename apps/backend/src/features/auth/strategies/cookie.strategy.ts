@@ -16,7 +16,6 @@ export class CookieStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       cookieName: 'session-token',
-      signed: config.frontendHostUrl.startsWith('https'),
     });
   }
 

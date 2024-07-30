@@ -14,6 +14,7 @@
     "deploy": "turbo run deploy",
     "build:tsc-only": "turbo run build:tsc-only",
     "docker:local": "turbo run docker:local",
+    "migration:run": "turbo run migration:run",
     "gen:api-client": "turbo run gen:api-client",
     "pre-commit": "yarn gen:api-client && lint-staged",
     "commitlint": "commitlint --edit"
