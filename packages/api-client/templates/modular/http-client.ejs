@@ -125,28 +125,25 @@ export class HttpClient<SecurityDataType = unknown> {
         return queryString ? `?${queryString}` : "";
     }
 
+    private buildFormData(formData: FormData, data: any, parentKey = ''): void {
+        if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File) && !(data instanceof Blob)) {
+            Object.keys(data).forEach(key => {
+                this.buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+            });
+        } else {
+            const value = data == null ? '' : data;
+            formData.append(parentKey, value);
+        }
+    }
+
     private contentFormatters: Record<ContentType, (input: any) => any> = {
         [ContentType.Json]: (input:any) => input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
         [ContentType.Text]: (input:any) => input !== null && typeof input !== "string" ? JSON.stringify(input) : input,
-        [ContentType.FormData]: (input: any) =>
-            Object.keys(input || {}).reduce((formData, key) => {
-                const property = input[key];
-                Array.isArray(property)?
-                property.forEach((item) => formData.append(key, item instanceof Blob
-                ? item
-                : typeof item === 'object' && item !== null
-                ? JSON.stringify(item)
-                : `${item}`))
-                : formData.append(
-                  key,
-                  property instanceof Blob
-                    ? property
-                    : typeof property === 'object' && property !== null
-                    ? JSON.stringify(property)
-                    : `${property}`,
-                );
-                return formData;
-            }, new FormData()),
+        [ContentType.FormData]: (input: any) => {
+            const formData = new FormData();
+            this.buildFormData(formData, input);
+            return formData;
+        },
         [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
     }
 
